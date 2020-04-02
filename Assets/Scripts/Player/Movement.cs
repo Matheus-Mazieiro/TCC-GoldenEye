@@ -4,23 +4,32 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    [Header("Movement")]
     float horizontal, vertical;
     [SerializeField] float speed;
     [SerializeField] float jump;
     Rigidbody myRb;
 
+    [Header("Run")]
     [Range(1f, 5f)]
     [SerializeField] float runModifier = 2;
     [SerializeField] KeyCode runKey = KeyCode.LeftControl;
 
+    [Header("Crouch")]
     [Range(0f, 1f)]
     [SerializeField] float crouchModifier = .5f;
     [SerializeField] KeyCode crouchKey = KeyCode.LeftShift;
     [SerializeField] Mesh ellipse;
     Mesh capsule;
-
     CapsuleCollider standCollider;
     SphereCollider crouchCollider;
+
+    [Header("Interact")]
+    [Range(0f, 1f)]
+    [SerializeField] float pushModifier = .2f;
+    [SerializeField] KeyCode interactKey = KeyCode.LeftAlt;
+    [HideInInspector] public GameObject box = null;
+    [HideInInspector] public Handle handle = null;
 
     // Start is called before the first frame update
     void Start()
@@ -70,8 +79,27 @@ public class Movement : MonoBehaviour
             speed /= crouchModifier;
         }
 
-        //Empurrar
-
+        //Interagir
+        if (Input.GetKeyDown(interactKey))
+        {
+            if (box)
+            {
+                speed *= pushModifier;
+                box.transform.parent = this.transform;
+            } else if (handle)
+            {
+                handle.action.Invoke();
+                handle = null;
+            }
+        }
+        if (Input.GetKeyUp(interactKey))
+        {
+            if (box)
+            {
+                speed /= pushModifier;
+                box.transform.parent = null;
+            }
+        }
     }
 
     private void FixedUpdate()

@@ -21,7 +21,7 @@ public class Bridge : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "Player")
+        if(other.gameObject.layer == 9)
         {
             /*if (increase)
                 bridgeMesh.localScale = Vector3.one;
