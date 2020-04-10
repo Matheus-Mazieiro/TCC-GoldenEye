@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    [Header("Movement")]
     float horizontal, vertical;
     [SerializeField] float speed;
     [SerializeField] float jump;
     Rigidbody myRb;
 
+    [Header("Run")]
     [Range(1f, 5f)]
     [SerializeField] float runModifier = 2;
     [SerializeField] KeyCode runKey = KeyCode.LeftControl;
+    bool isInGround;
 
+    [Header("Crouch")]
     [Range(0f, 1f)]
     [SerializeField] float crouchModifier = .5f;
     [SerializeField] KeyCode crouchKey = KeyCode.LeftShift;
     [SerializeField] Mesh ellipse;
     Mesh capsule;
-
     CapsuleCollider standCollider;
     SphereCollider crouchCollider;
+
+    [Header("Interact")]
+    [Range(0f, 1f)]
+    [SerializeField] float pushModifier = .2f;
+    [SerializeField] KeyCode interactKey = KeyCode.LeftAlt;
+    /*[HideInInspector]*/ public GameObject box = null;
+    [HideInInspector] public Handle handle = null;
 
     // Start is called before the first frame update
     void Start()
@@ -38,17 +48,26 @@ public class Movement : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        //Jump
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f))
+        {
+            isInGround = true;
+        }
+        else isInGround = false;
+        if (isInGround && Input.GetKeyDown(KeyCode.Space))
+        {
             myRb.AddForce(Vector3.up * jump, ForceMode.Impulse);
+        }
 
-        //Correr
+        //Run
         if (Input.GetKeyDown(runKey))
             speed *= runModifier;
         if (Input.GetKeyUp(runKey))
             speed /= runModifier;
 
 
-        //Agachar
+        //Crouch
         if (Input.GetKeyDown(crouchKey))
         {
             GetComponent<MeshFilter>().mesh = ellipse;
@@ -65,13 +84,35 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyUp(crouchKey))
         {
             GetComponent<MeshFilter>().mesh = capsule;
-            crouchCollider.enabled = true;
-            standCollider.enabled = false;
+            crouchCollider.enabled = false;
+            standCollider.enabled = true;
             speed /= crouchModifier;
         }
 
-        //Empurrar
+        //Interact
+        if (Input.GetKeyDown(interactKey))
+        {
+            if (box)
+            {
+                speed *= pushModifier;
+                box.transform.parent = this.transform;
+            } else if (handle)
+            {
+                handle.action.Invoke();
+                handle = null;
+            }
+        }
+        if (Input.GetKeyUp(interactKey))
+        {
+            if (box)
+            {
+                speed /= pushModifier;
+                box.transform.parent = null;
+            }
+        }
 
+        //Box
+        //if(holdingBox)
     }
 
     private void FixedUpdate()
