@@ -139,12 +139,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  jump: 3.5
+  jump: 5.5
   runModifier: 2
   runKey: 306
   crouchModifier: 0.2
   crouchKey: 304
   ellipse: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   pushModifier: 0.2
-  pushKey: 308
+  interactKey: 101
   box: {fileID: 0}
+  handle: {fileID: 0}

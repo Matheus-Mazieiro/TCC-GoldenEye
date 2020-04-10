@@ -16,10 +16,11 @@ public class Box : MonoBehaviour
     {
         if (other.gameObject.layer == 9)
         {
-            if (other.GetComponent<Movement>().box == GetComponent<Rigidbody>())
-            {
+            //if (other.GetComponent<Movement>().box == GetComponent<Rigidbody>())
+            //{
+            //   Debug.Log("pipipi");
                 other.GetComponent<Movement>().box = null;
-            }
+            //}
         }
     }
 }
