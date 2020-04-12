@@ -6,7 +6,7 @@ public class Box : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 9)
+        if (other.gameObject.layer == 9)
         {
             other.GetComponent<Movement>().box = gameObject;
         }
@@ -19,7 +19,8 @@ public class Box : MonoBehaviour
             //if (other.GetComponent<Movement>().box == GetComponent<Rigidbody>())
             //{
             //   Debug.Log("pipipi");
-                other.GetComponent<Movement>().box = null;
+            other.GetComponent<Movement>().box = null;
+            transform.parent = null;
             //}
         }
     }
