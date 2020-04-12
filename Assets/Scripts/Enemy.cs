@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform[] myTargets;
     [SerializeField] float distanceTrashhold;
     [SerializeField] float speed;
+    [Range(1, 15)]
+    [SerializeField] float chaseSpeedMultiplier = 4;
+    private bool m_hasChangedSpeed = false;
     [SerializeField] GameObject player;
     [Range(0, 180)]
     [SerializeField] float viewOpening = 45;
@@ -34,22 +37,39 @@ public class Enemy : MonoBehaviour
             if (Physics.Raycast(myRb.position, player.transform.position - myRb.position, out hit))
             {
                 if (hit.collider.gameObject.layer == 9)
+                {
+                    Debug.DrawLine(transform.position, hit.collider.transform.position, Color.green, 10000000f);
                     Debug.Log("Te vi");
+                    if (!m_hasChangedSpeed)
+                    {
+                        speed *= chaseSpeedMultiplier;
+                        m_hasChangedSpeed = true;
+                    }
+                    myTargets[myPoint] = player.transform;
+                }
             }
         }
 
-        myRb.velocity = new Vector3(myRb.position.x - myTargets[myPoint].position.x, myRb.velocity.y, myRb.position.z - myTargets[myPoint].position.z).normalized * -speed;
+        myRb.velocity = new Vector3(myRb.position.x - myTargets[myPoint].position.x, myRb.velocity.y - Physics.gravity.y * myRb.mass, myRb.position.z - myTargets[myPoint].position.z).normalized * -speed;
 
         if (Vector3.Distance(new Vector3(myRb.position.x, 0, myRb.position.z), new Vector3(myTargets[myPoint].position.x, 0 ,myTargets[myPoint].position.z)) <= distanceTrashhold)
         {
-            myPoint++;
-            if (myPoint >= myTargets.Length)
-                myPoint = 0;
+            if (myTargets[myPoint] != player.transform)
+            {
+                myPoint++;
+                if (myPoint >= myTargets.Length)
+                    myPoint = 0;
+            }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject.layer == 9)
+        {
+            Debug.Log("perdeu");
+            Destroy(collision.gameObject);
+        }
         if (collision.gameObject.layer == 11)
         {
             Destroy(this.gameObject);

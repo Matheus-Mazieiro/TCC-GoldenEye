@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    AudioManager myAudioManager;
+
     [Header("Movement")]
     float horizontal, vertical;
     [SerializeField] float speed;
+    private float m_speed;
     [SerializeField] float jump;
     Rigidbody myRb;
 
@@ -24,17 +27,22 @@ public class Movement : MonoBehaviour
     Mesh capsule;
     CapsuleCollider standCollider;
     SphereCollider crouchCollider;
+    private bool m_isCrouching;
 
     [Header("Interact")]
     [Range(0f, 1f)]
     [SerializeField] float pushModifier = .2f;
     [SerializeField] KeyCode interactKey = KeyCode.LeftAlt;
-    /*[HideInInspector]*/ public GameObject box = null;
+    private bool m_isHolding;
+    [HideInInspector] public GameObject box = null;
     [HideInInspector] public Handle handle = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
+        myAudioManager = GetComponent<AudioManager>();
+        m_speed = speed;
         myRb = GetComponent<Rigidbody>();
         capsule = GetComponent<MeshFilter>().mesh;
         standCollider = GetComponent<CapsuleCollider>();
@@ -52,24 +60,38 @@ public class Movement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f))
         {
+            myRb.mass = 1;
             isInGround = true;
         }
-        else isInGround = false;
+        else
+        {
+            isInGround = false;
+            if (myRb.velocity.y <= 0)
+                myRb.velocity = new Vector3(myRb.velocity.x, myRb.velocity.y * 1.07f, myRb.velocity.z);
+        }
         if (isInGround && Input.GetKeyDown(KeyCode.Space))
         {
             myRb.AddForce(Vector3.up * jump, ForceMode.Impulse);
         }
 
         //Run
-        if (Input.GetKeyDown(runKey))
-            speed *= runModifier;
-        if (Input.GetKeyUp(runKey))
-            speed /= runModifier;
+        if (!m_isHolding && !m_isCrouching)
+        {
+            if (Input.GetKeyDown(runKey))
+            {
+                speed = m_speed * runModifier;
+            }
+            if (Input.GetKeyUp(runKey))
+            {
+                speed = m_speed;// / runModifier;
+            }
+        }
 
 
         //Crouch
         if (Input.GetKeyDown(crouchKey))
         {
+            m_isCrouching = true;
             GetComponent<MeshFilter>().mesh = ellipse;
             crouchCollider.enabled = true;
             standCollider.enabled = false;
@@ -79,14 +101,15 @@ public class Movement : MonoBehaviour
                 vertices[i] += new Vector3(0, -.5f, 0);
             }
             GetComponent<MeshFilter>().mesh.vertices = vertices;
-            speed *= crouchModifier;
+            speed = m_speed * crouchModifier;
         }
         if (Input.GetKeyUp(crouchKey))
         {
+            m_isCrouching = false;
             GetComponent<MeshFilter>().mesh = capsule;
             crouchCollider.enabled = false;
             standCollider.enabled = true;
-            speed /= crouchModifier;
+            speed = m_speed;// / crouchModifier;
         }
 
         //Interact
@@ -94,7 +117,8 @@ public class Movement : MonoBehaviour
         {
             if (box)
             {
-                speed *= pushModifier;
+                m_isHolding = true;
+                speed = m_speed * pushModifier;
                 box.transform.parent = this.transform;
             } else if (handle)
             {
@@ -106,7 +130,8 @@ public class Movement : MonoBehaviour
         {
             if (box)
             {
-                speed /= pushModifier;
+                m_isHolding = false;
+                speed = m_speed;// / pushModifier;
                 box.transform.parent = null;
             }
         }
