@@ -8,13 +8,10 @@ public class Movement : MonoBehaviour
 
     [Header("Movement")]
     float horizontal, vertical;
-<<<<<<< HEAD
-    float speed;
-    [SerializeField] float walkingSpeed;
-=======
+
     [SerializeField] float speed;
     private float m_speed;
->>>>>>> 3866019e87f561a4587b2487db1a5ccd379c8223
+
     [SerializeField] float jump;
     Rigidbody myRb;
 
@@ -37,15 +34,10 @@ public class Movement : MonoBehaviour
     [Header("Interact")]
     [Range(0f, 1f)]
     [SerializeField] float pushModifier = .2f;
-<<<<<<< HEAD
+
     [SerializeField] KeyCode interactKey = KeyCode.E;
-    /*[HideInInspector]*/
-    public GameObject box = null;
-=======
-    [SerializeField] KeyCode interactKey = KeyCode.LeftAlt;
     private bool m_isHolding;
     [HideInInspector] public GameObject box = null;
->>>>>>> 3866019e87f561a4587b2487db1a5ccd379c8223
     [HideInInspector] public Handle handle = null;
 
     public GameObject interactMessage;
@@ -61,7 +53,6 @@ public class Movement : MonoBehaviour
         standCollider = GetComponent<CapsuleCollider>();
         crouchCollider = GetComponent<SphereCollider>();
         crouchCollider.enabled = false;
-        speed = walkingSpeed;
     }
 
     // Update is called once per frame
@@ -76,7 +67,6 @@ public class Movement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f))
         {
-<<<<<<< HEAD
             if (!hit.collider.CompareTag("Player")) isInGround = true;
             else isInGround = false;
         }
@@ -84,7 +74,7 @@ public class Movement : MonoBehaviour
         else isInGround = false;
 
         if (isInGround && Input.GetKeyDown(KeyCode.Space) && !interacting)
-=======
+        {
             myRb.mass = 1;
             isInGround = true;
         }
@@ -95,18 +85,11 @@ public class Movement : MonoBehaviour
                 myRb.velocity = new Vector3(myRb.velocity.x, myRb.velocity.y * 1.07f, myRb.velocity.z);
         }
         if (isInGround && Input.GetKeyDown(KeyCode.Space))
->>>>>>> 3866019e87f561a4587b2487db1a5ccd379c8223
         {
             myRb.AddForce(Vector3.up * jump, ForceMode.Impulse);
         }
 
         //Run
-<<<<<<< HEAD
-        if (isInGround && Input.GetKeyDown(runKey) && !interacting)
-            speed = walkingSpeed * runModifier;
-        if (isInGround && Input.GetKeyUp(runKey) && !interacting)
-            speed = walkingSpeed;
-=======
         if (!m_isHolding && !m_isCrouching)
         {
             if (Input.GetKeyDown(runKey))
@@ -118,8 +101,6 @@ public class Movement : MonoBehaviour
                 speed = m_speed;// / runModifier;
             }
         }
-
->>>>>>> 3866019e87f561a4587b2487db1a5ccd379c8223
 
         //Crouch
         if (Input.GetKeyDown(crouchKey) && !interacting)
@@ -134,11 +115,8 @@ public class Movement : MonoBehaviour
                 vertices[i] += new Vector3(0, -.5f, 0);
             }
             GetComponent<MeshFilter>().mesh.vertices = vertices;
-<<<<<<< HEAD
-            speed = walkingSpeed * crouchModifier;
-=======
+
             speed = m_speed * crouchModifier;
->>>>>>> 3866019e87f561a4587b2487db1a5ccd379c8223
         }
         if (Input.GetKeyUp(crouchKey) && !interacting)
         {
@@ -146,11 +124,8 @@ public class Movement : MonoBehaviour
             GetComponent<MeshFilter>().mesh = capsule;
             crouchCollider.enabled = false;
             standCollider.enabled = true;
-<<<<<<< HEAD
-            speed = walkingSpeed;
-=======
+
             speed = m_speed;// / crouchModifier;
->>>>>>> 3866019e87f561a4587b2487db1a5ccd379c8223
         }
 
         //Interact
@@ -160,12 +135,8 @@ public class Movement : MonoBehaviour
 
             if (box)
             {
-<<<<<<< HEAD
-                speed = walkingSpeed * pushModifier;
-=======
                 m_isHolding = true;
                 speed = m_speed * pushModifier;
->>>>>>> 3866019e87f561a4587b2487db1a5ccd379c8223
                 box.transform.parent = this.transform;
             }
             else if (handle)
@@ -178,12 +149,8 @@ public class Movement : MonoBehaviour
         {
             if (box)
             {
-<<<<<<< HEAD
-                speed = walkingSpeed;
-=======
                 m_isHolding = false;
                 speed = m_speed;// / pushModifier;
->>>>>>> 3866019e87f561a4587b2487db1a5ccd379c8223
                 box.transform.parent = null;
             }
         }
