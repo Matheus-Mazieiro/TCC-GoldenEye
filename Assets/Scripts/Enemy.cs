@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        myRb.velocity = new Vector3(myRb.position.x - myTargets[myPoint].position.x, myRb.velocity.y - Physics.gravity.y * myRb.mass, myRb.position.z - myTargets[myPoint].position.z).normalized * -speed;
+        myRb.velocity = new Vector3(myRb.position.x - myTargets[myPoint].position.x, myRb.velocity.y/* - Physics.gravity.y * myRb.mass*/, myRb.position.z - myTargets[myPoint].position.z).normalized * -speed;
 
         if (Vector3.Distance(new Vector3(myRb.position.x, 0, myRb.position.z), new Vector3(myTargets[myPoint].position.x, 0 ,myTargets[myPoint].position.z)) <= distanceTrashhold)
         {
@@ -69,6 +69,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("perdeu");
             Destroy(collision.gameObject);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         if (collision.gameObject.layer == 11)
         {

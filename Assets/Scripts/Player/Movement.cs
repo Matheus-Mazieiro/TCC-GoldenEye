@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
     [Header("Movement")]
     float horizontal, vertical;
     [SerializeField] float speed;
+    private float m_speed;
     [SerializeField] float jump;
     Rigidbody myRb;
 
@@ -24,22 +25,33 @@ public class Movement : MonoBehaviour
     Mesh capsule;
     CapsuleCollider standCollider;
     SphereCollider crouchCollider;
+    private bool m_isCrouching = false;
+
 
     [Header("Interact")]
     [Range(0f, 1f)]
     [SerializeField] float pushModifier = .2f;
     [SerializeField] KeyCode interactKey = KeyCode.LeftAlt;
-    /*[HideInInspector]*/ public GameObject box = null;
+    [HideInInspector] public GameObject box = null;
     [HideInInspector] public Handle handle = null;
+    private bool m_isInteracting = false;
+
+    //Pause - TEMP
+    [Header("Pause")]
+    [SerializeField] GameObject pause;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_speed = speed;
         myRb = GetComponent<Rigidbody>();
         capsule = GetComponent<MeshFilter>().mesh;
         standCollider = GetComponent<CapsuleCollider>();
         crouchCollider = GetComponent<SphereCollider>();
         crouchCollider.enabled = false;
+
+        //Pause - TEMP
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -48,9 +60,16 @@ public class Movement : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
+        //Pause - TEMP
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+
         //Jump
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f) 
+            && hit.collider.gameObject.layer != 9)
         {
             isInGround = true;
         }
@@ -61,15 +80,19 @@ public class Movement : MonoBehaviour
         }
 
         //Run
-        if (Input.GetKeyDown(runKey))
-            speed *= runModifier;
-        if (Input.GetKeyUp(runKey))
-            speed /= runModifier;
+        if (!m_isInteracting && !m_isCrouching)
+        {
+            if (Input.GetKeyDown(runKey))
+                speed = m_speed * runModifier;
+            if (Input.GetKeyUp(runKey))
+                speed = m_speed;
+        }
 
 
         //Crouch
         if (Input.GetKeyDown(crouchKey))
         {
+            m_isCrouching = true;
             GetComponent<MeshFilter>().mesh = ellipse;
             crouchCollider.enabled = true;
             standCollider.enabled = false;
@@ -79,22 +102,35 @@ public class Movement : MonoBehaviour
                 vertices[i] += new Vector3(0, -.5f, 0);
             }
             GetComponent<MeshFilter>().mesh.vertices = vertices;
-            speed *= crouchModifier;
+            speed = m_speed * crouchModifier;
         }
         if (Input.GetKeyUp(crouchKey))
         {
+            m_isCrouching = false;
             GetComponent<MeshFilter>().mesh = capsule;
             crouchCollider.enabled = false;
             standCollider.enabled = true;
-            speed /= crouchModifier;
+            speed = m_speed;
         }
 
         //Interact
         if (Input.GetKeyDown(interactKey))
         {
-            if (box)
+            if (!m_isCrouching && box)
             {
-                speed *= pushModifier;
+                Collider[] overlapColliders = Physics.OverlapSphere(myRb.position, 0.45f);
+                foreach (Collider col in overlapColliders)
+                {
+                    Debug.Log(col + "|" + box);
+                    if (col.gameObject == box)
+                    {
+                        float x = (myRb.position.x - box.transform.position.x) * .1f;
+                        float z = (myRb.position.z - box.transform.position.z) * .1f;
+                        myRb.position = new Vector3(myRb.position.x + x, myRb.position.y, myRb.position.z + z);
+                    }
+                }
+                m_isInteracting = true;
+                speed = m_speed * pushModifier;
                 box.transform.parent = this.transform;
             } else if (handle)
             {
@@ -106,17 +142,34 @@ public class Movement : MonoBehaviour
         {
             if (box)
             {
-                speed /= pushModifier;
+                m_isInteracting = false;
+                speed = m_speed;
                 box.transform.parent = null;
             }
         }
-
-        //Box
-        //if(holdingBox)
     }
 
     private void FixedUpdate()
     {
         myRb.velocity = new Vector3(horizontal * speed, myRb.velocity.y, vertical * speed);
+    }
+
+    //Pause - TEMP
+    public void Pause()
+    {
+        pause.SetActive(true);
+        Cursor.visible = true;
+        Time.timeScale = 0;
+    }
+    public void UnPause()
+    {
+        pause.SetActive(false);
+        Cursor.visible = false;
+        Time.timeScale = 1;
+    }
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }

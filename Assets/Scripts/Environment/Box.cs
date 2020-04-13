@@ -19,7 +19,8 @@ public class Box : MonoBehaviour
             //if (other.GetComponent<Movement>().box == GetComponent<Rigidbody>())
             //{
             //   Debug.Log("pipipi");
-                other.GetComponent<Movement>().box = null;
+            other.GetComponent<Movement>().box = null;
+            transform.parent = null;
             //}
         }
     }
