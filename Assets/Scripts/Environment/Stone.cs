@@ -16,12 +16,6 @@ public class Stone : MonoBehaviour
         parentRb = GetComponentInParent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         if (parentRb.constraints != RigidbodyConstraints.FreezeAll)
@@ -40,6 +34,7 @@ public class Stone : MonoBehaviour
         if(other.gameObject.layer == 10)
         {
             parentRb.constraints = RigidbodyConstraints.None;
+            GetComponent<BoxCollider>().enabled = false;
             enemy = other.transform;
         }
     }

@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] float chaseSpeedMultiplier = 4;
     private bool m_hasChangedSpeed = false;
     [SerializeField] GameObject player;
+    [SerializeField] bool followPlayer = true;
     [Range(0, 180)]
     [SerializeField] float viewOpening = 45;
     [Range(0, 100)]
@@ -31,27 +32,33 @@ public class Enemy : MonoBehaviour
         Vector2 playerPos = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.z - transform.position.z);
         Vector2 myPos = myRb.velocity;
 
-        if (Vector3.Angle(playerPos, myPos) <= viewOpening)
+        if(followPlayer)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(myRb.position, player.transform.position - myRb.position, out hit))
+            if (Vector3.Angle(playerPos, myPos) <= viewOpening)
             {
-                if (hit.collider.gameObject.layer == 9)
+                RaycastHit hit;
+                if (Physics.Raycast(myRb.position, player.transform.position - myRb.position, out hit))
                 {
-                    Debug.DrawLine(transform.position, hit.collider.transform.position, Color.green, 10000000f);
-                    Debug.Log("Te vi");
-                    if (!m_hasChangedSpeed)
+                    if (hit.collider.gameObject.layer == 9)
                     {
-                        speed *= chaseSpeedMultiplier;
-                        m_hasChangedSpeed = true;
+                        Debug.DrawLine(transform.position, hit.collider.transform.position, Color.green, 10000000f);
+                        Debug.Log("Te vi");
+                        if (!m_hasChangedSpeed)
+                        {
+                            speed *= chaseSpeedMultiplier;
+                            m_hasChangedSpeed = true;
+                        }
+                        myTargets[myPoint] = player.transform;
                     }
-                    myTargets[myPoint] = player.transform;
                 }
             }
         }
 
-        myRb.velocity = new Vector3(myRb.position.x - myTargets[myPoint].position.x, myRb.velocity.y/* - Physics.gravity.y * myRb.mass*/, myRb.position.z - myTargets[myPoint].position.z).normalized * -speed;
-
+        myRb.AddForce(new Vector3(myRb.position.x - myTargets[myPoint].position.x, 0, myRb.position.z - myTargets[myPoint].position.z).normalized * -1, ForceMode.Impulse);
+        float x = myRb.velocity.x;
+        float z = myRb.velocity.z;
+        Vector2 xz = new Vector2(x, z).normalized * speed;
+        myRb.velocity = new Vector3(xz.x, myRb.velocity.y, xz.y);
         if (Vector3.Distance(new Vector3(myRb.position.x, 0, myRb.position.z), new Vector3(myTargets[myPoint].position.x, 0 ,myTargets[myPoint].position.z)) <= distanceTrashhold)
         {
             if (myTargets[myPoint] != player.transform)
@@ -67,12 +74,12 @@ public class Enemy : MonoBehaviour
     {
         if(collision.gameObject.layer == 9)
         {
-            Debug.Log("perdeu");
             Destroy(collision.gameObject);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
         }
         if (collision.gameObject.layer == 11)
         {
+            collision.gameObject.layer = 0;
             Destroy(this.gameObject);
         }
     }
