@@ -1482,11 +1482,11 @@ MonoBehaviour:
     E -> Interagir
 
 
-    L. Shift -> Agachar
+    L. Shift -> Correr
 
 
     L.
-    Ctrl -> Correr'
+    Ctrl -> Agachar'
 --- !u!222 &1058685912
 CanvasRenderer:
   m_ObjectHideFlags: 0

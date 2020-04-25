@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
                 {
                     if (hit.collider.gameObject.layer == 9)
                     {
-                        Debug.DrawLine(transform.position, hit.collider.transform.position, Color.green, 10000000f);
+                        Debug.DrawLine(transform.position, hit.collider.transform.position, Color.green, 100f);
                         Debug.Log("Te vi");
                         if (!m_hasChangedSpeed)
                         {

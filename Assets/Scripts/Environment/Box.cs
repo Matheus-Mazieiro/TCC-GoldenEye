@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
+    public float distance = .85f;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 9)
@@ -12,16 +14,24 @@ public class Box : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        RaycastHit hit;
+        //RaycastHit hit2;
+        if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, distance))
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * 10);
+        }//else if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit2, .7f))
+        //{
+        //    transform.Translate(Vector3.down * Time.deltaTime * -1);
+        //}
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 9)
         {
-            //if (other.GetComponent<Movement>().box == GetComponent<Rigidbody>())
-            //{
-            //   Debug.Log("pipipi");
             other.GetComponent<Movement>().box = null;
-            transform.parent = null;
-            //}
         }
     }
 }

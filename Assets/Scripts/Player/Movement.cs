@@ -36,6 +36,9 @@ public class Movement : MonoBehaviour
     [HideInInspector] public Handle handle = null;
     private bool m_isInteracting = false;
 
+    AudioManager myAudioManager;
+    int audioKit = 0;
+
     //Pause - TEMP
     [Header("Pause")]
     [SerializeField] GameObject pause;
@@ -49,6 +52,7 @@ public class Movement : MonoBehaviour
         standCollider = GetComponent<CapsuleCollider>();
         crouchCollider = GetComponent<SphereCollider>();
         crouchCollider.enabled = false;
+        myAudioManager = GetComponent<AudioManager>();
 
         //Pause - TEMP
         Cursor.visible = false;
@@ -68,12 +72,12 @@ public class Movement : MonoBehaviour
 
         //Jump
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f) 
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f)
             && hit.collider.gameObject.layer != 9)
         {
             isInGround = true;
         }
-        else isInGround = false;
+        else StartCoroutine(CoyoteEffect());//isInGround = false;
         if (isInGround && Input.GetKeyDown(KeyCode.Space))
         {
             myRb.AddForce(Vector3.up * jump, ForceMode.Impulse);
@@ -83,15 +87,22 @@ public class Movement : MonoBehaviour
         if (!m_isInteracting && !m_isCrouching)
         {
             if (Input.GetKeyDown(runKey))
+            {
                 speed = m_speed * runModifier;
+                audioKit = 1;
+            }
             if (Input.GetKeyUp(runKey))
+            {
+                audioKit = 0;
                 speed = m_speed;
+            }
         }
 
 
         //Crouch
         if (Input.GetKeyDown(crouchKey))
         {
+            audioKit = 2;
             m_isCrouching = true;
             GetComponent<MeshFilter>().mesh = ellipse;
             crouchCollider.enabled = true;
@@ -106,6 +117,7 @@ public class Movement : MonoBehaviour
         }
         if (Input.GetKeyUp(crouchKey))
         {
+            audioKit = 0;
             m_isCrouching = false;
             GetComponent<MeshFilter>().mesh = capsule;
             crouchCollider.enabled = false;
@@ -118,21 +130,14 @@ public class Movement : MonoBehaviour
         {
             if (!m_isCrouching && box)
             {
-                Collider[] overlapColliders = Physics.OverlapSphere(myRb.position, 0.45f);
-                foreach (Collider col in overlapColliders)
-                {
-                    Debug.Log(col + "|" + box);
-                    if (col.gameObject == box)
-                    {
-                        float x = (myRb.position.x - box.transform.position.x) * .1f;
-                        float z = (myRb.position.z - box.transform.position.z) * .1f;
-                        myRb.position = new Vector3(myRb.position.x + x, myRb.position.y, myRb.position.z + z);
-                    }
-                }
+                audioKit = 3;
+                box.layer = 9;
+
                 m_isInteracting = true;
                 speed = m_speed * pushModifier;
                 box.transform.parent = this.transform;
-            } else if (handle)
+            }
+            else if (handle)
             {
                 handle.action.Invoke();
                 handle = null;
@@ -140,18 +145,47 @@ public class Movement : MonoBehaviour
         }
         if (Input.GetKeyUp(interactKey))
         {
-            if (box)
+            audioKit = 0;
+            box.layer = 0;
+
+            m_isInteracting = false;
+            speed = m_speed;
+
+
+            foreach (Transform box in transform)
             {
-                m_isInteracting = false;
-                speed = m_speed;
-                box.transform.parent = null;
+                foreach (BoxCollider item in box.GetComponents<BoxCollider>())
+                {
+                    if (!item.isTrigger)
+                        item.enabled = true;
+                }
+
+                box.transform.parent = transform.parent;
             }
         }
+
+
+
+        //if (horizontal != 0 || vertical != 0)
+        //    myAudioManager.PlayAudio(audioKit, false, true);
+        //else myAudioManager.StopAudio();
     }
 
     private void FixedUpdate()
     {
         myRb.velocity = new Vector3(horizontal * speed, myRb.velocity.y, vertical * speed);
+    }
+
+    //Efeito coiote
+    IEnumerator CoyoteEffect()
+    {
+        yield return new WaitForSeconds(.1f);
+        RaycastHit hit;
+        if ((Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f)
+            && hit.collider.gameObject.layer != 9) == false)
+        {
+            isInGround = false;
+        }
     }
 
     //Pause - TEMP
@@ -171,5 +205,10 @@ public class Movement : MonoBehaviour
     {
         Time.timeScale = 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    public void SetParentNull()
+    {
+        transform.parent = null;
     }
 }

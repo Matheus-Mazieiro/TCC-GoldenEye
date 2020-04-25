@@ -24,12 +24,18 @@ public class AudioManager : MonoBehaviour
     /// Select a random audio from aray and play it
     /// </summary>
     /// <param name="audioKit">From wich aray should random</param>
-    /// <param name="looping">is a looping audio?</param>
-    public void PlayAudio(int audioKit, bool looping)
+    /// <param name="looping">Is a looping audio?</param>
+    /// <param name="waitCurrentAudioEnds">Should wait current audio end?</param>
+    public void PlayAudio(int audioKit, bool looping, bool waitCurrentAudioEnds)
     {
-        myAudioSource.clip = audios[audioKit].audios[Random.Range(0, audios.Length)];
+        int random = Random.Range(0, audios.Length);
+        Debug.Log(audios[audioKit].audios[random]);
+        //myAudioSource.clip = audios[audioKit].audios[random];
         myAudioSource.loop = looping;
-        myAudioSource.Play();
+        if(!waitCurrentAudioEnds)
+            myAudioSource.Play();
+        else if (!myAudioSource.isPlaying)
+            myAudioSource.Play();
     }
 
     public void PlayOnlyOneTime(int audioKit)

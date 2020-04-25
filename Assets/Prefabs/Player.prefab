@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2754512586739633384}
   - component: {fileID: 2754512586739633389}
   - component: {fileID: 2754512586739633390}
+  - component: {fileID: 74988017}
+  - component: {fileID: 74988016}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -138,14 +140,139 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de9e8b2591d512440b445890d3fa8801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 5
   jump: 5.5
   runModifier: 2
-  runKey: 306
-  crouchModifier: 0.2
-  crouchKey: 304
+  runKey: 304
+  crouchModifier: 0.75
+  crouchKey: 306
   ellipse: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  pushModifier: 0.2
+  pushModifier: 0.75
   interactKey: 101
   box: {fileID: 0}
   handle: {fileID: 0}
+  pause: {fileID: 0}
+--- !u!82 &74988017
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2754512586739633391}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: c171ad2bf2da07e48bf9519dc45a9c9a,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &74988016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2754512586739633391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0a24825c3f1f94c9dd05ae488fb6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerSFX: {fileID: 0}
+  audios:
+  - audios:
+    - {fileID: 8300000, guid: 2f6a81c3ff746d544ae6f039f5b0bfbb, type: 3}
+    - {fileID: 8300000, guid: ba13df06e354fd44a876d29778c86da3, type: 3}
+  - audios:
+    - {fileID: 8300000, guid: 084fa83384720ad48aa1770f904dd5c3, type: 3}
+    - {fileID: 8300000, guid: eded494b4e9761148b0f14a710e09bc8, type: 3}
+  - audios:
+    - {fileID: 8300000, guid: 303b85be6ac59b64aa6e374b276a7a3d, type: 3}
+    - {fileID: 8300000, guid: 57ce5bcc050040f49ad4700a4aef41f3, type: 3}
+    - {fileID: 8300000, guid: 681119ff30876364f8cd212a43c19ace, type: 3}
+  - audios:
+    - {fileID: 8300000, guid: 0eb2c2d0143052743b6159e30332b5f5, type: 3}
+    - {fileID: 8300000, guid: 2510e3c296613b2468c7a3dcaff863ac, type: 3}
