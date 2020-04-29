@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class EnemyView : MonoBehaviour
 {
-    public MeshFilter meshFilter;
-
-    [SerializeField] float maxAngle, maxDistance;
-    [SerializeField] int rayCount, findEdgeIteration;
+    [SerializeField] MeshFilter meshFilter;
 
     Enemy enemy;
     Transform _transform;
@@ -17,12 +14,15 @@ public class EnemyView : MonoBehaviour
 
     void Awake()
     {
+        if (!meshFilter) meshFilter = GetComponent<MeshFilter>();
         enemy = GetComponentInParent<Enemy>();
+
         _transform = transform;
+        info = new RaycastHitInfo(enemy.GetMaxDistance(), gameObject.layer);
+
         fieldOfViewMesh = new Mesh();
         fieldOfViewMesh.name = "Field of View Mesh";
         meshFilter.mesh = fieldOfViewMesh;
-        info = new RaycastHitInfo(maxDistance, gameObject.layer);
     }
 
     void LateUpdate()
@@ -32,16 +32,16 @@ public class EnemyView : MonoBehaviour
 
     void DrawFieldOfView()
     {
-        float stepAngleSize = maxAngle * 2 / rayCount;
+        float stepAngleSize = enemy.GetMaxAngle() * 2 / enemy.GetRayCount();
 
         HashSet<Vector3> vertices = new HashSet<Vector3>();
         vertices.Add(Vector3.zero);
 
         info.SetBasics(_transform.position, _transform.up, _transform.forward);
 
-        for (int i = 0; i <= rayCount; i++)
+        for (int i = 0; i <= enemy.GetRayCount(); i++)
         {
-            float angle = stepAngleSize * i - maxAngle;
+            float angle = stepAngleSize * i - enemy.GetMaxAngle();
 
             info.RayCast(angle);
 
@@ -49,17 +49,18 @@ public class EnemyView : MonoBehaviour
             {
                 if (!info.CompareWithLastHit())
                 {
-                    Vector3[] edges = info.FindEdges(findEdgeIteration, stepAngleSize, "Player", out bool tagHit);
+                    Vector3[] edges = info.FindEdges(enemy.GetEdgeIteration(), stepAngleSize, "Player", out bool tagHit);
 
                     if (i == 1) edges[0] = info.LastHitPoint();
-                    else if (i == rayCount) edges[1] = info.HitPoint();
+                    else if (i == enemy.GetRayCount()) edges[1] = info.HitPoint();
 
                     if (edges[0] != Vector3.zero) vertices.Add(_transform.InverseTransformPoint(edges[0]));
                     if (edges[1] != Vector3.zero) vertices.Add(_transform.InverseTransformPoint(edges[1]));
 
                     if (tagHit)
                     {
-                        print("hit");
+                        enemy.SetState(Enemy.State.CHASE);
+                        enemy.SetPlayer(info.TagHitTransform());
                     }
                 }
 
@@ -97,6 +98,7 @@ public class RaycastHitInfo
     float maxDistance;
     Vector3 up, forward, position, direction, lastPosition, lastDirection;
     RaycastHit hit, lastHit;
+    Transform tagHitTransform;
 
     public RaycastHitInfo(float _maxDistance, int layer)
     {
@@ -145,38 +147,28 @@ public class RaycastHitInfo
         return lastPosition + maxDistance * lastDirection;
     }
 
-    public Vector3 HitVertex()
-    {
-        return hit.point;
-        //return hit.distance * direction;
-    }
+    public Transform TagHitTransform() => tagHitTransform;
 
-    public Vector3 MaxVertex()
-    {
-        return position + maxDistance * direction;
-        //return maxDistance * direction;
-    }
+    public bool CompareWithLastHit() => CompareColliders(hit.collider, lastHit.collider);
 
-    public Vector3 Vertex()
-    {
-        if (hit.distance > 0) return HitVertex();
-
-        return MaxVertex();
-    }
-
-    public bool CompareWithLastHit()
-    {
-        return CompareColliders(hit.collider, lastHit.collider);
-    }
-
-    public bool CompareColliders(Collider collider1, Collider collider2)
-    {
-        return (collider1 && collider2 && collider1.gameObject == collider2.gameObject) || (!collider1 && !collider2);
-    }
+    public bool CompareColliders(Collider collider1, Collider collider2) =>
+        (collider1 && collider2 && collider1.gameObject == collider2.gameObject) || (!collider1 && !collider2);
 
     public Vector3[] FindEdges(int findEdgeIteration, float startAngle, string tag, out bool tagHit)
     {
         tagHit = false;
+
+        if (lastHit.collider && lastHit.collider.CompareTag(tag))
+        {
+            tagHit = true;
+            tagHitTransform = lastHit.collider.transform;
+        }
+
+        if (hit.collider && hit.collider.CompareTag(tag))
+        {
+            tagHit = true;
+            tagHitTransform = hit.collider.transform;
+        }
 
         Vector3[] edges = new Vector3[2];
 
@@ -197,6 +189,7 @@ public class RaycastHitInfo
                 if (_hit.collider.CompareTag(tag))
                 {
                     tagHit = true;
+                    tagHitTransform = _hit.collider.transform;
                 }
             }
 

@@ -4,23 +4,24 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    [SerializeField] Transform[] navPoints;
-    [SerializeField] float distanceTreshold, chaseSpeedMultiplier;
-    [SerializeField] GameObject player;
-
     Enemy enemy;
     int myNavPoint = 0;
     NavMeshAgent navAgent;
+    Transform[] navPoints;
 
-    // Start is called before the first frame update
     void Awake()
     {
         enemy = GetComponent<Enemy>();
-        navAgent = GetComponent<NavMeshAgent>();
-        SetShorterPathIndex();
-        navAgent.autoBraking = false;
+        navPoints = enemy.GetNavPoints();
 
-        StartCoroutine(Path(2));
+        navAgent = GetComponent<NavMeshAgent>();
+        navAgent.autoBraking = false;
+        navAgent.stoppingDistance = enemy.GetDistanceTreshold();
+        navAgent.speed = enemy.GetSpeed();
+
+        SetShorterPathIndex();
+        StartCoroutine(Path());
+        StartCoroutine(Chase());
     }
 
     void FixedUpdate()
@@ -28,45 +29,25 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == 9)
-        {
-            Destroy(collision.gameObject);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
-        }
-        if (collision.gameObject.layer == 11)
-        {
-            collision.gameObject.layer = 0;
-            Destroy(this.gameObject);
-        }
-    }
-
-    IEnumerator Path(float delay)
-    {
-        while (true)
-        {
-            if (!navAgent.pathPending && navAgent.remainingDistance < distanceTreshold && !navAgent.isStopped)
-            {
-                navAgent.isStopped = true;
-                yield return new WaitForSeconds(delay);
-
-                GotoNextNavPoint();
-            }
-
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
-    void GotoNextNavPoint()
+    void GotoNextNavPoint(bool random)
     {
         if (navPoints.Length == 0) return;
 
         navAgent.SetDestination(navPoints[myNavPoint].position);
-
         navAgent.isStopped = false;
 
-        myNavPoint = (myNavPoint + 1) % navPoints.Length;
+        enemy.SetState(Enemy.State.PATH);
+
+        if (random)
+        {
+            int randomInt = Mathf.RoundToInt(UnityEngine.Random.Range(0, navPoints.Length - 1));
+
+            while (randomInt == myNavPoint) randomInt = Mathf.RoundToInt(UnityEngine.Random.Range(0, navPoints.Length - 1));
+
+            myNavPoint = randomInt;
+        }
+
+        else myNavPoint = (myNavPoint + 1) % navPoints.Length;
     }
 
     void SetShorterPathIndex()
@@ -103,5 +84,52 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         return distance;
+    }
+
+    IEnumerator Path()
+    {
+        float wait = 0.5f;
+
+        while (true)
+        {
+            if (enemy.CompareState(Enemy.State.CHASE))
+            {
+                yield return new WaitForSeconds(wait);
+                continue;
+            }
+
+            navAgent.speed = enemy.GetSpeed();
+
+            if (!navAgent.pathPending && navAgent.remainingDistance < enemy.GetDistanceTreshold() && !navAgent.isStopped)
+            {
+                navAgent.isStopped = true;
+                enemy.SetState(Enemy.State.SEARCH);
+                yield return new WaitForSeconds(enemy.GetSearchDelay());
+
+                GotoNextNavPoint(random: true);
+            }
+
+            yield return new WaitForSeconds(wait);
+        }
+    }
+
+    IEnumerator Chase()
+    {
+        while (true)
+        {
+            if (!enemy.CompareState(Enemy.State.CHASE))
+            {
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
+
+            if (enemy.player)
+            {
+                navAgent.speed = enemy.GetSpeed() * enemy.GetChaseSpeedMultiplier();
+                navAgent.SetDestination(enemy.player.position);
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
     }
 }
