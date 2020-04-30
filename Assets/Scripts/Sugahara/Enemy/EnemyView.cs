@@ -23,11 +23,39 @@ public class EnemyView : MonoBehaviour
         fieldOfViewMesh = new Mesh();
         fieldOfViewMesh.name = "Field of View Mesh";
         meshFilter.mesh = fieldOfViewMesh;
+
+        StartCoroutine(LazyUpdate());
+    }
+
+    IEnumerator LazyUpdate()
+    {
+        LayerMask layerMask = ~LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
+
+        while (true)
+        {
+            TrackPlayer(layerMask);
+
+            yield return new WaitForSeconds(1);
+        }
     }
 
     void LateUpdate()
     {
         DrawFieldOfView();
+    }
+
+    void TrackPlayer(LayerMask layerMask)
+    {
+        if (!enemy.player) return;
+
+        Vector3 direction = enemy.player.position - _transform.position;
+        float angle = Vector3.Angle(_transform.forward, direction);
+        float distance = Vector3.Distance(_transform.position, enemy.player.position);
+
+        if (angle <= enemy.GetMaxAngle() && distance <= enemy.GetMaxDistance())
+            if (Physics.Raycast(_transform.position, direction, out RaycastHit hit, enemy.GetMaxDistance(), layerMask))
+                if (hit.collider.CompareTag(enemy.playerTag))
+                    enemy.SetState(Enemy.State.CHASE);
     }
 
     void DrawFieldOfView()
@@ -49,7 +77,7 @@ public class EnemyView : MonoBehaviour
             {
                 if (!info.CompareWithLastHit())
                 {
-                    Vector3[] edges = info.FindEdges(enemy.GetEdgeIteration(), stepAngleSize, "Player", out bool tagHit);
+                    Vector3[] edges = info.FindEdges(enemy.GetEdgeIteration(), stepAngleSize, enemy.playerTag, out bool tagHit);
 
                     if (i == 1) edges[0] = info.LastHitPoint();
                     else if (i == enemy.GetRayCount()) edges[1] = info.HitPoint();
@@ -57,11 +85,7 @@ public class EnemyView : MonoBehaviour
                     if (edges[0] != Vector3.zero) vertices.Add(_transform.InverseTransformPoint(edges[0]));
                     if (edges[1] != Vector3.zero) vertices.Add(_transform.InverseTransformPoint(edges[1]));
 
-                    if (tagHit)
-                    {
-                        enemy.SetState(Enemy.State.CHASE);
-                        enemy.SetPlayer(info.TagHitTransform());
-                    }
+                    if (tagHit) enemy.SetState(Enemy.State.CHASE);
                 }
 
                 else
@@ -150,6 +174,8 @@ public class RaycastHitInfo
     public Transform TagHitTransform() => tagHitTransform;
 
     public bool CompareWithLastHit() => CompareColliders(hit.collider, lastHit.collider);
+
+    public bool CompareHitTag(string tag) => hit.collider.CompareTag(tag);
 
     public bool CompareColliders(Collider collider1, Collider collider2) =>
         (collider1 && collider2 && collider1.gameObject == collider2.gameObject) || (!collider1 && !collider2);

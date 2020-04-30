@@ -179,14 +179,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e80b3f9fabceab43ae42753432d6b10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navPoints: []
+  navPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  randomizeNavPoints: 1
   distanceTreshold: 0.5
   speed: 3.5
   chaseSpeedMultiplier: 1.2
   searchDelay: 2
-  maxAngle: 45
-  maxDistance: 7
-  rayCount: 10
+  maxAngle: 60
+  maxDistance: 15
+  rayCount: 16
   edgeIteration: 4
 --- !u!114 &6571892570167784500
 MonoBehaviour:

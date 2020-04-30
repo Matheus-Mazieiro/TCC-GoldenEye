@@ -29,7 +29,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
 
-    void GotoNextNavPoint(bool random)
+    void GotoNextNavPoint()
     {
         if (navPoints.Length == 0) return;
 
@@ -38,7 +38,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         enemy.SetState(Enemy.State.PATH);
 
-        if (random)
+        if (enemy.GetRandomizeNavPoints())
         {
             int randomInt = Mathf.RoundToInt(UnityEngine.Random.Range(0, navPoints.Length - 1));
 
@@ -106,7 +106,7 @@ public class EnemyBehaviour : MonoBehaviour
                 enemy.SetState(Enemy.State.SEARCH);
                 yield return new WaitForSeconds(enemy.GetSearchDelay());
 
-                GotoNextNavPoint(random: true);
+                GotoNextNavPoint();
             }
 
             yield return new WaitForSeconds(wait);
