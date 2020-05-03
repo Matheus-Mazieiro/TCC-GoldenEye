@@ -35,6 +35,7 @@ public class Movement : MonoBehaviour
     [HideInInspector] public GameObject box = null;
     [HideInInspector] public Handle handle = null;
     private bool m_isInteracting = false;
+    [HideInInspector] public Transform elevator = null;
 
     AudioManager myAudioManager;
     int audioKit = 0;
@@ -61,6 +62,9 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
@@ -136,6 +140,7 @@ public class Movement : MonoBehaviour
                 m_isInteracting = true;
                 speed = m_speed * pushModifier;
                 box.transform.parent = this.transform;
+                //box.transform.SetParent(this.transform);
             }
             else if (handle)
             {
@@ -159,16 +164,12 @@ public class Movement : MonoBehaviour
                     if (!item.isTrigger)
                         item.enabled = true;
                 }
-
-                box.transform.parent = transform.parent;
+                if (elevator)
+                    box.transform.parent = elevator;
+                else box.transform.parent = null;
             }
+
         }
-
-
-
-        //if (horizontal != 0 || vertical != 0)
-        //    myAudioManager.PlayAudio(audioKit, false, true);
-        //else myAudioManager.StopAudio();
     }
 
     private void FixedUpdate()

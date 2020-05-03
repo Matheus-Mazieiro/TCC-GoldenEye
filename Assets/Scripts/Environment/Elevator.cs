@@ -14,6 +14,19 @@ public class Elevator : MonoBehaviour
         initPos = transform.position;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 9)
+            collision.gameObject.GetComponent<Movement>().elevator = transform;
+        //collision.transform.SetParent(transform);
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == 9)
+            collision.gameObject.GetComponent<Movement>().elevator = null;
+        //collision.transform.SetParent(null);
+    }
+
     public void GOUp(bool subir)
     {
         transform.DOMove(initPos + moveTo * (subir ? 1 : 0), duration, false);

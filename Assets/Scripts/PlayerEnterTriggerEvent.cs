@@ -9,7 +9,7 @@ public class PlayerEnterTriggerEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 9)
+        if (other.gameObject.layer == 9 && other.CompareTag("Player"))
             action.Invoke();
     }
 
