@@ -4,8 +4,9 @@ using System.Linq;
 
 public class SoundController : Singleton<SoundController>
 {
-    AudioSource sfxSource;
-    AudioSource musicSource;
+    AudioSource sfxOneShotSource, sfxContinuousSource, musicSource;
+
+    float lastMusicVolume, lastSFXVolume;
 
     Dictionary<string, AudioClip> buffer;
 
@@ -25,23 +26,54 @@ public class SoundController : Singleton<SoundController>
             musicSource.loop = true;
         }
 
-        if (sfxSource == null)
+        if (sfxOneShotSource == null)
         {
-            sfxSource = gameObject.AddComponent<AudioSource>();
-            sfxSource.playOnAwake = false;
-            sfxSource.loop = false;
+            sfxOneShotSource = gameObject.AddComponent<AudioSource>();
+            sfxOneShotSource.playOnAwake = false;
+            sfxOneShotSource.loop = false;
+        }
+
+        if (sfxContinuousSource == null)
+        {
+            sfxContinuousSource = gameObject.AddComponent<AudioSource>();
+            sfxContinuousSource.playOnAwake = false;
+            sfxContinuousSource.loop = true;
         }
     }
 
     private void LoadPlayerPrefs()
     {
-        sfxSource.volume = PlayerPrefs.GetInt("sfxVolume", 100);
-        musicSource.volume = PlayerPrefs.GetInt("musicVolume", 100);
+        lastSFXVolume = PlayerPrefs.GetInt("sfxVolume", 100);
+        lastMusicVolume = PlayerPrefs.GetInt("musicVolume", 100);
+
+        sfxOneShotSource.volume = lastSFXVolume;
+        sfxContinuousSource.volume = lastSFXVolume;
+        musicSource.volume = lastMusicVolume;
     }
 
     private void CreateBuffer()
     {
-        if (buffer == null) buffer = new Dictionary<string, AudioClip>();
+        if (buffer == null)
+        {
+            buffer = new Dictionary<string, AudioClip>();
+
+            
+        }
+    }
+
+    public void AddToBuffer(string fileName)
+    {
+        if (buffer != null)
+        {
+            buffer.Add(fileName, Resources.Load<AudioClip>(fileName));
+        }
+    }
+
+    public void ChangeMusicVolume(int volume)
+    {
+        musicSource.volume = volume;
+        lastMusicVolume = volume;
+        PlayerPrefs.SetInt("musicVolume", volume);
     }
 
     public void MuteMusic()
@@ -52,26 +84,49 @@ public class SoundController : Singleton<SoundController>
 
     public void UnMuteMusic()
     {
-        musicSource.volume = 100;
-        PlayerPrefs.SetInt("musicVolume", 100);
+        if (lastMusicVolume == 0) lastMusicVolume = 100;
+
+        musicSource.volume = lastMusicVolume;
+        PlayerPrefs.SetInt("musicVolume", Mathf.RoundToInt(lastMusicVolume));
+    }
+
+    public void ChangeSFXVolume(int volume)
+    {
+        sfxOneShotSource.volume = volume;
+        sfxContinuousSource.volume = volume;
+        lastSFXVolume = volume;
+        PlayerPrefs.SetInt("sfxVolume", volume);
     }
 
     public void MuteSFX()
     {
-        sfxSource.volume = 0;
+        sfxOneShotSource.volume = 0;
+        sfxContinuousSource.volume = 0;
         PlayerPrefs.SetInt("sfxVolume", 0);
     }
 
     public void UnMuteSFX()
     {
-        sfxSource.volume = 100;
-        PlayerPrefs.SetInt("sfxVolume", 100);
+        if (lastSFXVolume == 0) lastSFXVolume = 100;
+
+        sfxOneShotSource.volume = lastSFXVolume;
+        sfxContinuousSource.volume = lastSFXVolume;
+        PlayerPrefs.SetInt("sfxVolume", Mathf.RoundToInt(lastSFXVolume));
     }
 
     public void PlaySingleSFX(AudioClip clip)
     {
-        sfxSource.clip = clip;
-        sfxSource.Play();
+        sfxOneShotSource.clip = clip;
+        sfxOneShotSource.Play();
+    }
+
+    public void PlaySFXContinuously(AudioClip clip)
+    {
+        if (sfxContinuousSource.clip == clip && sfxContinuousSource.isPlaying) return;
+
+        sfxContinuousSource.Stop();
+        sfxContinuousSource.clip = clip;
+        sfxContinuousSource.Play();
     }
 
     public void PlayMusic(AudioClip clip)
@@ -92,8 +147,19 @@ public class SoundController : Singleton<SoundController>
 
     public void PlaySingleSFXByFileName(string fileName, bool buffering)
     {
-        sfxSource.clip = CreateAudioClip(fileName, buffering);
-        sfxSource.Play();
+        sfxOneShotSource.clip = CreateAudioClip(fileName, buffering);
+        sfxOneShotSource.Play();
+    }
+
+    public void PlaySFXContinuouslyByFileName(string fileName, bool buffering)
+    {
+        AudioClip clip = CreateAudioClip(fileName, buffering);
+
+        if (sfxContinuousSource.clip == clip && sfxContinuousSource.isPlaying) return;
+
+        sfxContinuousSource.Stop();
+        sfxContinuousSource.clip = clip;
+        sfxContinuousSource.Play();
     }
 
     public void PlayMusicByFileName(string fileName, bool buffering)

@@ -16,7 +16,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         navAgent = GetComponent<NavMeshAgent>();
         navAgent.autoBraking = false;
-        navAgent.stoppingDistance = enemy.GetDistanceTreshold();
+        navAgent.stoppingDistance = enemy.GetDistanceThreshold();
         navAgent.speed = enemy.GetSpeed();
 
         SetShorterPathIndex();
@@ -100,7 +100,7 @@ public class EnemyBehaviour : MonoBehaviour
 
             navAgent.speed = enemy.GetSpeed();
 
-            if (!navAgent.pathPending && navAgent.remainingDistance < enemy.GetDistanceTreshold() && !navAgent.isStopped)
+            if (!navAgent.pathPending && navAgent.remainingDistance < enemy.GetDistanceThreshold() && !navAgent.isStopped)
             {
                 navAgent.isStopped = true;
                 enemy.SetState(Enemy.State.SEARCH);
