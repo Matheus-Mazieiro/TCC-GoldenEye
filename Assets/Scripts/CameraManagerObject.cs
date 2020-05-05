@@ -7,23 +7,25 @@ public class CameraManagerObject : MonoBehaviour
 {
     CinemachineVirtualCamera mainCamera;
     CinemachineVirtualCamera myCamera;
+    CinemachineBrain cameraBrain;
 
     private void Start()
     {
+        cameraBrain = GameObject.Find("Main Camera").GetComponent<CinemachineBrain>();
         mainCamera = GameObject.Find("Camera").GetComponent<CinemachineVirtualCamera>();
         myCamera = GetComponent<CinemachineVirtualCamera>();
     }
 
     public void ChangeCamera()
     {
-        myCamera.Priority = 11;
+        //myCamera.Priority = 11;
     }
 
     public void RezetCamera()
     {
-        foreach (CinemachineVirtualCamera item in GameObject.FindObjectsOfType<CinemachineVirtualCamera>())
-        {
-            item.Priority = 9;
-        }
+        //foreach (CinemachineVirtualCamera item in GameObject.FindObjectsOfType<CinemachineVirtualCamera>())
+        //{
+        //    item.Priority = 9;
+        //}
     }
 }

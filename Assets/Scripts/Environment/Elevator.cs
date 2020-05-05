@@ -31,4 +31,8 @@ public class Elevator : MonoBehaviour
     {
         transform.DOMove(initPos + moveTo * (subir ? 1 : 0), duration, false);
     }
+    public void MoveGameObject(Transform whoMoves)
+    {
+        whoMoves.DOMove(whoMoves.position + moveTo, duration);
+    }
 }
