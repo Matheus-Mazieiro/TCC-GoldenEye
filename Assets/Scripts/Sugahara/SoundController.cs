@@ -63,10 +63,7 @@ public class SoundController : Singleton<SoundController>
 
     public void AddToBuffer(string fileName)
     {
-        if (buffer != null)
-        {
-            buffer.Add(fileName, Resources.Load<AudioClip>(fileName));
-        }
+        if (buffer != null && !buffer.TryGetValue(fileName, out AudioClip clip)) buffer.Add(fileName, Resources.Load<AudioClip>(fileName));
     }
 
     public void ChangeMusicVolume(int volume)
@@ -178,6 +175,23 @@ public class SoundController : Singleton<SoundController>
         musicSource.Stop();
         musicSource.clip = clip;
         musicSource.Play();
+    }
+
+    public void PlayOnSourceByFileName(AudioSource source, string fileName, bool buffering)
+    {
+        source.clip = CreateAudioClip(fileName, buffering);
+        source.Play();
+    }
+
+    public void PlayOnSourceContinuouslyByFileName(AudioSource source, string fileName, bool buffering)
+    {
+        AudioClip clip = CreateAudioClip(fileName, buffering);
+
+        if (source.clip == clip && source.isPlaying) return;
+
+        source.Stop();
+        source.clip = clip;
+        source.Play();
     }
 
     private AudioClip CreateAudioClip(string fileName, bool buffering)

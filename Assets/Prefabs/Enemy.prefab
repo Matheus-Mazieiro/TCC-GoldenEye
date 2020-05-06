@@ -184,17 +184,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   randomizeNavPoints: 1
   distanceThreshold: 0.5
   speed: 3.5
   chaseSpeedMultiplier: 1.2
   searchDelay: 2
-  maxAngle: 60
-  maxDistance: 15
-  rayCount: 16
+  maxAngle: 45
+  maxDistance: 10
+  rayCount: 12
   edgeIteration: 4
 --- !u!114 &6571892570167784500
 MonoBehaviour:
