@@ -8,6 +8,7 @@ public class EnemyBehaviour : MonoBehaviour
     int myNavPoint = 0;
     NavMeshAgent navAgent;
     Transform[] navPoints;
+    bool increasingIndex = true;
 
     void Awake()
     {
@@ -45,6 +46,24 @@ public class EnemyBehaviour : MonoBehaviour
             while (randomInt == myNavPoint) randomInt = Mathf.RoundToInt(UnityEngine.Random.Range(0, navPoints.Length - 1));
 
             myNavPoint = randomInt;
+        }
+
+        else if (enemy.TurnBack())
+        {
+            if (increasingIndex) myNavPoint++;
+            else myNavPoint--;
+
+            if (myNavPoint >= navPoints.Length)
+            {
+                myNavPoint = navPoints.Length - 2;
+                increasingIndex = false;
+            }
+
+            else if (myNavPoint < 0)
+            {
+                myNavPoint = 0;
+                increasingIndex = true;
+            }
         }
 
         else myNavPoint = (myNavPoint + 1) % navPoints.Length;
@@ -92,7 +111,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         while (true)
         {
-            if (enemy.CompareState(Enemy.State.CHASE))
+            if (enemy.CompareState(Enemy.State.CHASE) || enemy.IsDistracted())
             {
                 yield return new WaitForSeconds(wait);
                 continue;
@@ -102,9 +121,12 @@ public class EnemyBehaviour : MonoBehaviour
 
             if (!navAgent.pathPending && navAgent.remainingDistance < enemy.GetDistanceThreshold() && !navAgent.isStopped)
             {
-                navAgent.isStopped = true;
-                enemy.SetState(Enemy.State.SEARCH);
-                yield return new WaitForSeconds(enemy.GetSearchDelay());
+                if (enemy.GetSearchDelay() > 0)
+                {
+                    navAgent.isStopped = true;
+                    enemy.SetState(Enemy.State.SEARCH);
+                    yield return new WaitForSeconds(enemy.GetSearchDelay());
+                }
 
                 GotoNextNavPoint();
             }
@@ -117,7 +139,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         while (true)
         {
-            if (!enemy.CompareState(Enemy.State.CHASE))
+            if (!enemy.CompareState(Enemy.State.CHASE) || enemy.IsDistracted())
             {
                 yield return new WaitForSeconds(1f);
                 continue;

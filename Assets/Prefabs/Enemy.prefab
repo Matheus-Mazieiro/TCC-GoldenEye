@@ -179,12 +179,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e80b3f9fabceab43ae42753432d6b10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  navPoints: []
   randomizeNavPoints: 1
+  awakeChasing: 0
+  distracted: 0
+  turnBack: 0
   distanceThreshold: 0.5
   speed: 3.5
   chaseSpeedMultiplier: 1.2
@@ -193,6 +192,7 @@ MonoBehaviour:
   maxDistance: 10
   rayCount: 12
   edgeIteration: 4
+  maxAudioDistance: 0
 --- !u!114 &6571892570167784500
 MonoBehaviour:
   m_ObjectHideFlags: 0

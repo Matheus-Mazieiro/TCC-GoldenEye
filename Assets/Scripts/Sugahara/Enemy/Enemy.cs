@@ -9,12 +9,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform[] navPoints;
     [SerializeField] bool randomizeNavPoints;
     [SerializeField] bool awakeChasing;
+    [SerializeField] bool distracted;
+    [SerializeField] bool turnBack;
     [SerializeField] float distanceThreshold, speed, chaseSpeedMultiplier, searchDelay;
 
     [Header("Field of View")]
     [SerializeField] float maxAngle;
     [SerializeField] float maxDistance;
     [SerializeField] int rayCount, edgeIteration;
+
+    [Header("Audio")]
+    [SerializeField] float maxAudioDistance;
 
     public enum State { PATH, CHASE, SEARCH, STONE, STONED, PENDULUM, PENDULUMD }
     public State state { get; private set; }
@@ -84,7 +89,7 @@ public class Enemy : MonoBehaviour
         sfxSingle = gameObject.AddComponent<AudioSource>();
         sfxSingle.playOnAwake = false;
         sfxSingle.loop = false;
-        sfxSingle.maxDistance = 50;
+        sfxSingle.maxDistance = maxAudioDistance;
         sfxSingle.spatialBlend = 1;
         sfxSingle.rolloffMode = AudioRolloffMode.Linear;
         sfxSingle.priority = 64;
@@ -92,7 +97,7 @@ public class Enemy : MonoBehaviour
         sfxLoop = gameObject.AddComponent<AudioSource>();
         sfxLoop.playOnAwake = false;
         sfxLoop.loop = true;
-        sfxLoop.maxDistance = 50;
+        sfxLoop.maxDistance = maxAudioDistance;
         sfxLoop.spatialBlend = 1;
         sfxLoop.rolloffMode = AudioRolloffMode.Linear;
         sfxLoop.priority = 64;
@@ -136,9 +141,18 @@ public class Enemy : MonoBehaviour
     public float GetMaxDistance() => maxDistance;
     public int GetRayCount() => rayCount;
     public int GetEdgeIteration() => edgeIteration;
+    public bool IsDistracted() => distracted;
+    public bool TurnBack() => turnBack;
 
     public void SetState(State _state) => state = _state;
-    //public void SetPlayer(Transform _player) => player = _player;
+    public void DrawAttention(int delay) => StartCoroutine(RemoveDistracted(delay));
 
     public bool CompareState(State _state) => state == _state;
+
+    IEnumerator RemoveDistracted(int delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        distracted = false;
+    }
 }
