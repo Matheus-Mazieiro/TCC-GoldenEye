@@ -6,6 +6,7 @@ public class Movement : MonoBehaviour
 {
     [Header("Movement")]
     float horizontal, vertical;
+    float _horizontalRaw, _verticalRaw;
     [SerializeField] float speed;
     private float m_speed;
     [SerializeField] float jump;
@@ -44,6 +45,15 @@ public class Movement : MonoBehaviour
     [Header("Pause")]
     [SerializeField] GameObject pause;
 
+//#if UNITY_ENGINE
+    private void Awake()
+    {
+        PlayerData data = SaveSystem.LoadPlayer();
+        if(data != null)
+            transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+    }
+//#endif
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +67,9 @@ public class Movement : MonoBehaviour
 
         //Pause - TEMP
         Cursor.visible = false;
+
+        StartCoroutine(AutoSaver());
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -67,6 +80,8 @@ public class Movement : MonoBehaviour
 
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+        _horizontalRaw = Input.GetAxisRaw("Horizontal");
+        _verticalRaw = Input.GetAxisRaw("Vertical");
 
         //Pause - TEMP
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -159,14 +174,17 @@ public class Movement : MonoBehaviour
 
             foreach (Transform box in transform)
             {
-                foreach (BoxCollider item in box.GetComponents<BoxCollider>())
+                if (!box.CompareTag("Player"))
                 {
-                    if (!item.isTrigger)
-                        item.enabled = true;
+                    foreach (BoxCollider item in box.GetComponents<BoxCollider>())
+                    {
+                        if (!item.isTrigger)
+                            item.enabled = true;
+                    }
+                    if (elevator)
+                        box.transform.parent = elevator;
+                    else box.transform.parent = null;
                 }
-                if (elevator)
-                    box.transform.parent = elevator;
-                else box.transform.parent = null;
             }
 
         }
@@ -175,6 +193,8 @@ public class Movement : MonoBehaviour
     private void FixedUpdate()
     {
         myRb.velocity = new Vector3(horizontal * speed, myRb.velocity.y, vertical * speed);
+        if(_horizontalRaw != 0 || _verticalRaw != 0)
+            transform.GetChild(0).LookAt(new Vector3(myRb.velocity.x + myRb.position.x, myRb.position.y - 1, myRb.velocity.z + myRb.position.z));
     }
 
     //Efeito coiote
@@ -211,5 +231,26 @@ public class Movement : MonoBehaviour
     public void SetParentNull()
     {
         transform.parent = null;
+    }
+
+    //AutoSave
+    public IEnumerator AutoSaver()
+    {
+        while (true)
+        {
+            if (isInGround)
+            {
+                SaveSystem.SavePlayer(transform);
+                Debug.Log("Game saved");
+            }
+
+            yield return new WaitForSeconds (3f);
+        }
+    }
+
+    //Telepor player
+    public void TeleportPlayerTo(Transform target)
+    {
+        myRb.position = target.position;
     }
 }
