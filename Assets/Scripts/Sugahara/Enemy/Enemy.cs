@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
@@ -80,6 +81,11 @@ public class Enemy : MonoBehaviour
         {
             state = State.CHASE;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player")) SceneManager.LoadScene(1);
     }
 
     private void BufferSounds()
