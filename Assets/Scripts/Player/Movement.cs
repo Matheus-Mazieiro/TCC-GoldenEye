@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Movement : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class Movement : MonoBehaviour
     [SerializeField] float speed;
     private float m_speed;
     [SerializeField] float jump;
-    Rigidbody myRb;
+    CharacterController myCC;
+    Vector3 direction = Vector3.zero;
+    [SerializeField] float gravity;
 
     [Header("Run")]
     [Range(1f, 5f)]
@@ -45,30 +48,26 @@ public class Movement : MonoBehaviour
     [Header("Pause")]
     [SerializeField] GameObject pause;
 
-//#if UNITY_ENGINE
+#if UNITY_ENGINE
     private void Awake()
     {
         PlayerData data = SaveSystem.LoadPlayer();
         if(data != null)
             transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
     }
-//#endif
+#endif
 
     // Start is called before the first frame update
     void Start()
     {
         m_speed = speed;
-        myRb = GetComponent<Rigidbody>();
-        capsule = GetComponent<MeshFilter>().mesh;
-        standCollider = GetComponent<CapsuleCollider>();
-        crouchCollider = GetComponent<SphereCollider>();
-        crouchCollider.enabled = false;
+        myCC = GetComponent<CharacterController>();
         myAudioManager = GetComponent<AudioManager>();
 
         //Pause - TEMP
         Cursor.visible = false;
 
-        StartCoroutine(AutoSaver());
+        //StartCoroutine(AutoSaver());
         Time.timeScale = 1;
     }
 
@@ -90,17 +89,14 @@ public class Movement : MonoBehaviour
         }
 
         //Jump
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f)
-            && hit.collider.gameObject.layer != 9)
+        if (myCC.isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            isInGround = true;
+            direction.y = jump;
         }
-        else StartCoroutine(CoyoteEffect());//isInGround = false;
-        if (isInGround && Input.GetKeyDown(KeyCode.Space))
-        {
-            myRb.AddForce(Vector3.up * jump, ForceMode.Impulse);
-        }
+        direction.x = horizontal * speed;
+        direction.y -= gravity * Time.deltaTime;
+        direction.y = Mathf.Max(direction.y, -10);
+        direction.z = vertical * speed;
 
         //Run
         if (!m_isInteracting && !m_isCrouching)
@@ -123,24 +119,16 @@ public class Movement : MonoBehaviour
         {
             audioKit = 2;
             m_isCrouching = true;
-            GetComponent<MeshFilter>().mesh = ellipse;
-            crouchCollider.enabled = true;
-            standCollider.enabled = false;
-            Vector3[] vertices = GetComponent<MeshFilter>().mesh.vertices;
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                vertices[i] += new Vector3(0, -.5f, 0);
-            }
-            GetComponent<MeshFilter>().mesh.vertices = vertices;
+            myCC.height = 1;
+            myCC.center = new Vector3(myCC.center.x, myCC.center.y - .5f, myCC.center.z);
             speed = m_speed * crouchModifier;
         }
         if (Input.GetKeyUp(crouchKey))
         {
             audioKit = 0;
             m_isCrouching = false;
-            GetComponent<MeshFilter>().mesh = capsule;
-            crouchCollider.enabled = false;
-            standCollider.enabled = true;
+            myCC.height = 2;
+            myCC.center = new Vector3(myCC.center.x, myCC.center.y + .5f, myCC.center.z);
             speed = m_speed;
         }
 
@@ -155,7 +143,6 @@ public class Movement : MonoBehaviour
                 m_isInteracting = true;
                 speed = m_speed * pushModifier;
                 box.transform.parent = this.transform;
-                //box.transform.SetParent(this.transform);
             }
             else if (handle)
             {
@@ -188,25 +175,10 @@ public class Movement : MonoBehaviour
             }
 
         }
-    }
 
-    private void FixedUpdate()
-    {
-        myRb.velocity = new Vector3(horizontal * speed, myRb.velocity.y, vertical * speed);
+        myCC.Move(direction * Time.deltaTime);
         if(_horizontalRaw != 0 || _verticalRaw != 0)
-            transform.GetChild(0).LookAt(new Vector3(myRb.velocity.x + myRb.position.x, myRb.position.y - 1, myRb.velocity.z + myRb.position.z));
-    }
-
-    //Efeito coiote
-    IEnumerator CoyoteEffect()
-    {
-        yield return new WaitForSeconds(.1f);
-        RaycastHit hit;
-        if ((Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.05f)
-            && hit.collider.gameObject.layer != 9) == false)
-        {
-            isInGround = false;
-        }
+            transform.GetChild(0).LookAt(new Vector3(myCC.velocity.x + transform.position.x, transform.position.y - 1, myCC.velocity.z + transform.position.z));
     }
 
     //Pause - TEMP
@@ -247,10 +219,21 @@ public class Movement : MonoBehaviour
             yield return new WaitForSeconds (3f);
         }
     }
+    public void SaveGame()
+    {
+        SaveSystem.SavePlayer(transform);
+    }
 
     //Telepor player
     public void TeleportPlayerTo(Transform target)
     {
-        myRb.position = target.position;
+        Debug.Log("Teleportou");
+
+        Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Priority = 9;
+        GameObject.Find("Camera").GetComponent<CinemachineVirtualCamera>().Priority = 10;
+
+        myCC.enabled = false;
+        transform.position = target.position;
+        myCC.enabled = true;
     }
 }
