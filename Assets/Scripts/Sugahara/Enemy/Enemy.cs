@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] float maxAudioDistance;
+    [SerializeField] int stepSoundType;
 
     public enum State { PATH, CHASE, SEARCH, STONE, STONED, PENDULUM, PENDULUMD }
     public State state { get; private set; }
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour
     public string playerTag { get; private set; }
 
     bool firstTimeSeeing = true;
+    string stepSoundPath = "Sounds/J2/passos inimigo/inimigo andando";
 
     SoundController soundController;
     AudioSource sfxSingle;
@@ -45,11 +47,14 @@ public class Enemy : MonoBehaviour
         playerTag = "Player";
 
         BufferSounds();
+
+        if (stepSoundType == 1) stepSoundPath = "Sounds/J2/passos inimigo/inimigo andando";
+        else if (stepSoundType == 2) stepSoundPath = "Sounds/J2/passos inimigo/inimigo andando";
     }
 
     private void Update()
     {
-        if (state == State.PATH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, "Sounds/J2/passos inimigo/inimigo andando", true);
+        if (state == State.PATH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, stepSoundPath, true);
 
         else if (state == State.CHASE)
         {
@@ -108,33 +113,11 @@ public class Enemy : MonoBehaviour
         sfxLoop.rolloffMode = AudioRolloffMode.Linear;
         sfxLoop.priority = 64;
 
-        soundController.AddToBuffer("Sounds/J2/Grito inimigo/grito inimigo");
         soundController.AddToBuffer("Sounds/J2/passos inimigo/inimigo andando");
+        soundController.AddToBuffer("Sounds/J2/Grito inimigo/grito inimigo");
         soundController.AddToBuffer("Sounds/J2/Procurando em Gavetas/procurando");
         soundController.AddToBuffer("Sounds/J2/Batendo no inimigo (cenário)/batendo inimigo");
         soundController.AddToBuffer("Sounds/J2/inimigo sendo acertado (Pêndulo)/Cópia de inimigo acertado 1");
-
-        //Mover estes sons pro Script do Jogador
-        soundController.AddToBuffer("Sounds/J2/Alavanca/alavanca");
-        soundController.AddToBuffer("Sounds/J2/Caixa-Objeto caindo/caixa caindo");
-        soundController.AddToBuffer("Sounds/J2/Chão quebrando/-chao quebrando");
-        soundController.AddToBuffer("Sounds/J2/Goteira/goteira");
-        soundController.AddToBuffer("Sounds/J2/Movendo Caixa-Objeto/movendo");
-        soundController.AddToBuffer("Sounds/J2/movimentação PJ (provisória)/PJ agachado 3");
-        soundController.AddToBuffer("Sounds/J2/movimentação PJ (provisória)/PJ Andando 2");
-        soundController.AddToBuffer("Sounds/J2/movimentação PJ (provisória)/PJ correndo 1");
-        soundController.AddToBuffer("Sounds/J2/mão sendo construída/mao");
-        soundController.AddToBuffer("Sounds/J2/música medo/musica medo exploração");
-        soundController.AddToBuffer("Sounds/J2/música medo/musica medo perigo");
-        soundController.AddToBuffer("Sounds/J2/música medo/musica medo perseguição");
-        soundController.AddToBuffer("Sounds/J2/Pedras Rolando-Soltando/pedra rolando");
-        soundController.AddToBuffer("Sounds/J2/Pulo Pj (provisório)/pulo 1");
-        soundController.AddToBuffer("Sounds/J2/Pulo Pj (provisório)/pulo 2");
-        soundController.AddToBuffer("Sounds/J2/Sofrimento e Choro/choro");
-        soundController.AddToBuffer("Sounds/J2/Sofrimento e Choro/sofrimento 1");
-        soundController.AddToBuffer("Sounds/J2/Sofrimento e Choro/sofrimento 2");
-        soundController.AddToBuffer("Sounds/J2/Som Ambiente caverna/som caverna 1");
-        soundController.AddToBuffer("Sounds/J2/Som Ambiente caverna/som caverna 2");
     }
 
     public Transform[] GetNavPoints() => navPoints;

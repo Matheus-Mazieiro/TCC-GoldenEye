@@ -48,6 +48,8 @@ public class Movement : MonoBehaviour
     [Header("Pause")]
     [SerializeField] GameObject pause;
 
+    PlayerSoundConfig soundConfig;
+
 #if UNITY_ENGINE
     private void Awake()
     {
