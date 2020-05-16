@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float runModifier = 2;
     [SerializeField] KeyCode runKey = KeyCode.LeftControl;
     bool isInGround;
+    [HideInInspector] public bool m_isRunning;
 
     [Header("Crouch")]
     [Range(0f, 1f)]
@@ -29,7 +30,7 @@ public class Movement : MonoBehaviour
     Mesh capsule;
     CapsuleCollider standCollider;
     SphereCollider crouchCollider;
-    private bool m_isCrouching = false;
+    [HideInInspector] public bool m_isCrouching = false;
 
 
     [Header("Interact")]
@@ -94,6 +95,7 @@ public class Movement : MonoBehaviour
         if (myCC.isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             direction.y = jump;
+            GetComponent<AnimController>().SetJumpTrigger();
         }
         direction.x = horizontal * speed;
         direction.y -= gravity * Time.deltaTime;
@@ -107,11 +109,13 @@ public class Movement : MonoBehaviour
             {
                 speed = m_speed * runModifier;
                 audioKit = 1;
+                m_isRunning = true;
             }
             if (Input.GetKeyUp(runKey))
             {
                 audioKit = 0;
                 speed = m_speed;
+                m_isRunning = false;
             }
         }
 
