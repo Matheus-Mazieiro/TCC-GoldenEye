@@ -14,6 +14,9 @@ public class Movement : MonoBehaviour
     CharacterController myCC;
     Vector3 direction = Vector3.zero;
     [SerializeField] float gravity;
+    //DieInAir
+    [SerializeField] float timeToDie;
+    float m_timeToDie;
 
     [Header("Run")]
     [Range(1f, 5f)]
@@ -66,12 +69,10 @@ public class Movement : MonoBehaviour
         m_speed = speed;
         myCC = GetComponent<CharacterController>();
         myAudioManager = GetComponent<AudioManager>();
+        m_timeToDie = timeToDie;
 
         //Pause - TEMP
         Cursor.visible = false;
-
-        //StartCoroutine(AutoSaver());
-        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -102,6 +103,20 @@ public class Movement : MonoBehaviour
         direction.y = Mathf.Max(direction.y, -10);
         direction.z = vertical * speed;
 
+        //DieInAir
+        if (!myCC.isGrounded)
+        {
+            m_timeToDie -= Time.deltaTime;
+            if(m_timeToDie <= 0)
+            {
+                GameObject.FindObjectOfType<SceneFunctions>().GoToScene(1);
+            }
+        }
+        else
+        {
+            m_timeToDie = timeToDie;
+        }
+
         //Run
         if (!m_isInteracting && !m_isCrouching)
         {
@@ -125,7 +140,7 @@ public class Movement : MonoBehaviour
         {
             audioKit = 2;
             m_isCrouching = true;
-            myCC.height = 1;
+            myCC.height = .5f;
             myCC.center = new Vector3(myCC.center.x, myCC.center.y - .5f, myCC.center.z);
             speed = m_speed * crouchModifier;
         }
