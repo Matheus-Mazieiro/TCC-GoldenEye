@@ -14,6 +14,13 @@ public class CameraManagerObject : MonoBehaviour
         cameraBrain = GameObject.Find("Main Camera").GetComponent<CinemachineBrain>();
         mainCamera = GameObject.Find("Camera").GetComponent<CinemachineVirtualCamera>();
         myCamera = GetComponent<CinemachineVirtualCamera>();
+
+        foreach (CinemachineVirtualCamera item in GameObject.FindObjectsOfType<CinemachineVirtualCamera>())
+        {
+            item.Priority = 9;
+        }
+        mainCamera.Priority = 11;
+        Debug.Log(mainCamera.name);
     }
 
     public void ChangeCamera()

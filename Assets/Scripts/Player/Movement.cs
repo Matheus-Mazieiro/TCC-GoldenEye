@@ -54,14 +54,14 @@ public class Movement : MonoBehaviour
 
     PlayerSoundConfig soundConfig;
 
-#if UNITY_ENGINE
+//#if UNITY_ENGINE
     private void Awake()
     {
         PlayerData data = SaveSystem.LoadPlayer();
         if(data != null)
             transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
     }
-#endif
+//#endif
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +73,8 @@ public class Movement : MonoBehaviour
 
         //Pause - TEMP
         Cursor.visible = false;
+
+        StartCoroutine(AutoSaver());
     }
 
     // Update is called once per frame
