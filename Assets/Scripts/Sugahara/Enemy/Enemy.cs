@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        playerSound.PlayMusicaExploracao();
+        playerSound.SetNormal();
 
         if (state == State.PATH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, stepSoundPath, true);
 
@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour
 
             firstTimeSeeing = false;
 
-            playerSound.PlayMusicaPerseguicao();
+            playerSound.SetPerseguicao();
         }
 
         else if (state == State.SEARCH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, "Sounds/J2/Procurando em Gavetas/procurando", true);
@@ -87,9 +87,9 @@ public class Enemy : MonoBehaviour
             state = State.PENDULUMD;
         }
 
-        else if (Vector3.Distance(transform.position, player.position) < 20)
+        if (Vector3.Distance(transform.position, player.position) < 30)
         {
-            playerSound.PlayMusicaPerigo();
+            playerSound.SetPerigo();
         }
     }
 
@@ -148,6 +148,7 @@ public class Enemy : MonoBehaviour
 
     public void SetState(State _state) => state = _state;
     public void DrawAttention(int delay) => StartCoroutine(RemoveDistracted(delay));
+    public void Distract(int delay) => StartCoroutine(ApplyDistracted(delay));
 
     public bool CompareState(State _state) => state == _state;
 
@@ -156,5 +157,14 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         distracted = false;
+    }
+
+    IEnumerator ApplyDistracted(int delay)
+    {
+        playerSound.SetNormal();
+
+        yield return new WaitForSeconds(delay);
+
+        distracted = true;
     }
 }

@@ -6,17 +6,32 @@ public class PlayerSoundConfig : MonoBehaviour
 {
     SoundController soundController;
 
+    enum SoundState { NORMAL, PERIGO, PERSEGUICAO }
+    SoundState state = SoundState.NORMAL;
+
     void Awake()
     {
         BufferSounds();
 
         PlayMusicaExploracao();
+        //PlayMusicaPerigo();
+        //PlayMusicaPerseguicao();
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        
+        switch (state)
+        {
+            case SoundState.NORMAL:
+                PlayMusicaExploracao();
+                break;
+            case SoundState.PERIGO:
+                PlayMusicaPerigo();
+                break;
+            case SoundState.PERSEGUICAO:
+                PlayMusicaPerseguicao();
+                break;
+        }
     }
 
     private void BufferSounds()
@@ -61,4 +76,8 @@ public class PlayerSoundConfig : MonoBehaviour
     public void PlayDerrubarEstatua(AudioSource source) => soundController.PlayOnSourceByFileName(source, "Sounds/J2/Estatua/estatua quebrando", true);
     public void PlayPedrasRolando(AudioSource source) => soundController.PlayOnSourceByFileName(source, "Sounds/J2/Pedras/pedras rolando (animaçao)", true);
     public void PlaySomDeAcao(AudioSource source) => soundController.PlayOnSourceByFileName(source, "Sounds/J2/Agharta/Som de acao", true);
+
+    public void SetNormal() => state = SoundState.NORMAL;
+    public void SetPerigo() => state = SoundState.PERIGO;
+    public void SetPerseguicao() => state = SoundState.PERSEGUICAO;
 }

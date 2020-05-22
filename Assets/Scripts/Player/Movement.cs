@@ -199,7 +199,6 @@ public class Movement : MonoBehaviour
                     else box.transform.parent = null;
                 }
             }
-
         }
 
         myCC.Move(direction * Time.deltaTime);
