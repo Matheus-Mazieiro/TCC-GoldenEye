@@ -36,6 +36,9 @@ public class PlayerSoundConfig : MonoBehaviour
         soundController.AddToBuffer("Sounds/J2/Pedras/pedras rolando (animaçao)");
 
         //Nao implementados
+        soundController.AddToBuffer("Sounds/J2/Agharta/Som de acao");
+        soundController.AddToBuffer("Sounds/J2/Som Ambiente caverna/som caverna 1");
+        soundController.AddToBuffer("Sounds/J2/Som Ambiente caverna/som caverna 2");
         soundController.AddToBuffer("Sounds/J2/Pedras Rolando-Soltando/pedra rolando");
         soundController.AddToBuffer("Sounds/J2/Sofrimento e Choro/choro");
         soundController.AddToBuffer("Sounds/J2/Sofrimento e Choro/sofrimento 1");
@@ -57,4 +60,5 @@ public class PlayerSoundConfig : MonoBehaviour
 
     public void PlayDerrubarEstatua(AudioSource source) => soundController.PlayOnSourceByFileName(source, "Sounds/J2/Estatua/estatua quebrando", true);
     public void PlayPedrasRolando(AudioSource source) => soundController.PlayOnSourceByFileName(source, "Sounds/J2/Pedras/pedras rolando (animaçao)", true);
+    public void PlaySomDeAcao(AudioSource source) => soundController.PlayOnSourceByFileName(source, "Sounds/J2/Agharta/Som de acao", true);
 }
