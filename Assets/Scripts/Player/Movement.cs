@@ -58,8 +58,10 @@ public class Movement : MonoBehaviour
     private void Awake()
     {
         PlayerData data = SaveSystem.LoadPlayer();
-        if(data != null)
+        if (data != null)
             transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+
+        soundConfig = GetComponent<PlayerSoundConfig>();
     }
 //#endif
 
@@ -98,6 +100,7 @@ public class Movement : MonoBehaviour
         if (myCC.isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             direction.y = jump;
+            soundConfig.PlayPJPulo();
             GetComponent<AnimController>().SetJumpTrigger();
         }
         direction.x = horizontal * speed;
@@ -202,6 +205,11 @@ public class Movement : MonoBehaviour
         myCC.Move(direction * Time.deltaTime);
         if(_horizontalRaw != 0 || _verticalRaw != 0)
             transform.GetChild(0).LookAt(new Vector3(myCC.velocity.x + transform.position.x, transform.position.y - 1, myCC.velocity.z + transform.position.z));
+
+        if (m_isCrouching) soundConfig.PlayPJAgachado();
+        else if (m_isRunning) soundConfig.PlayPJCorrendo();
+        else if (horizontal + vertical != 0 && myCC.isGrounded) soundConfig.PlayPJAndando();
+        else soundConfig.StopSFX();
     }
 
     //Pause - TEMP

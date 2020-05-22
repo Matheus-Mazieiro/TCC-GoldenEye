@@ -194,6 +194,31 @@ public class SoundController : Singleton<SoundController>
         source.Play();
     }
 
+    public void StopSFX()
+    {
+        sfxOneShotSource.Stop();
+        sfxContinuousSource.Stop();
+    }
+
+    public void StopSFXExcept(string exceptionFileName)
+    {
+        AudioClip clip = CreateAudioClip(exceptionFileName, false);
+
+        if (sfxOneShotSource.clip != clip) sfxOneShotSource.Stop();
+        if (sfxContinuousSource.clip != clip) sfxContinuousSource.Stop();
+    }
+
+    public bool IsPlayingClipByFileName(string fileName)
+    {
+        AudioClip clip = CreateAudioClip(fileName, false);
+
+        if (sfxOneShotSource.clip == clip && sfxOneShotSource.isPlaying) return true;
+        else if (sfxContinuousSource.clip == clip && sfxContinuousSource.isPlaying) return true;
+        else if (musicSource.clip == clip && musicSource.isPlaying) return true;
+
+        return false;
+    }
+
     private AudioClip CreateAudioClip(string fileName, bool buffering)
     {
         AudioClip clip;

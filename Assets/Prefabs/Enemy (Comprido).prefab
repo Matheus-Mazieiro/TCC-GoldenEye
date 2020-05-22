@@ -114,6 +114,10 @@ PrefabInstance:
       propertyPath: chaseSpeedMultiplier
       value: 1.4
       objectReference: {fileID: 0}
+    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
+      propertyPath: stepSoundType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5204947595275184372, guid: d9b671174d3e913418f7f8cd458023ec,
         type: 3}
       propertyPath: m_LocalPosition.x

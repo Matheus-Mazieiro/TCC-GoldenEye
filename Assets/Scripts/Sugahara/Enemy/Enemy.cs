@@ -35,8 +35,12 @@ public class Enemy : MonoBehaviour
     AudioSource sfxSingle;
     AudioSource sfxLoop;
 
+    PlayerSoundConfig playerSound;
+
     private void Awake()
     {
+        playerSound = FindObjectOfType<PlayerSoundConfig>();
+
         Movement _player = FindObjectOfType<Movement>();
         if (_player) player = _player.transform;
 
@@ -48,12 +52,14 @@ public class Enemy : MonoBehaviour
 
         BufferSounds();
 
-        if (stepSoundType == 1) stepSoundPath = "Sounds/J2/passos inimigo/inimigo andando";
-        else if (stepSoundType == 2) stepSoundPath = "Sounds/J2/passos inimigo/inimigo andando";
+        if (stepSoundType == 1) stepSoundPath = "Sounds/J2/passos inimigo/inimigo 1 andando";
+        else if (stepSoundType == 2) stepSoundPath = "Sounds/J2/passos inimigo/inimigo 2 andando";
     }
 
     private void Update()
     {
+        playerSound.PlayMusicaExploracao();
+
         if (state == State.PATH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, stepSoundPath, true);
 
         else if (state == State.CHASE)
@@ -61,6 +67,8 @@ public class Enemy : MonoBehaviour
             if (firstTimeSeeing) soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/Grito inimigo/grito inimigo", true);
 
             firstTimeSeeing = false;
+
+            playerSound.PlayMusicaPerseguicao();
         }
 
         else if (state == State.SEARCH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, "Sounds/J2/Procurando em Gavetas/procurando", true);
@@ -77,6 +85,11 @@ public class Enemy : MonoBehaviour
             soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/inimigo sendo acertado (Pêndulo)/Cópia de inimigo acertado 1", true);
 
             state = State.PENDULUMD;
+        }
+
+        else if (Vector3.Distance(transform.position, player.position) < 20)
+        {
+            playerSound.PlayMusicaPerigo();
         }
     }
 

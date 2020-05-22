@@ -9,6 +9,8 @@ public class PlayerSoundConfig : MonoBehaviour
     void Awake()
     {
         BufferSounds();
+
+        PlayMusicaExploracao();
     }
 
     // Update is called once per frame
@@ -24,29 +26,35 @@ public class PlayerSoundConfig : MonoBehaviour
         //Implementados
         soundController.AddToBuffer("Sounds/J2/Alavanca/alavanca");
         soundController.AddToBuffer("Sounds/J2/Chao quebrando/chao quebrando");
-
-        //Nao implementados
-        soundController.AddToBuffer("Sounds/J2/Caixa-Objeto caindo/caixa caindo");
-        soundController.AddToBuffer("Sounds/J2/Goteira/goteira");
-        soundController.AddToBuffer("Sounds/J2/Movendo Caixa-Objeto/movendo");
-        soundController.AddToBuffer("Sounds/J2/movimentação PJ (provisória)/PJ agachado 3");
-        soundController.AddToBuffer("Sounds/J2/movimentação PJ (provisória)/PJ Andando 2");
-        soundController.AddToBuffer("Sounds/J2/movimentação PJ (provisória)/PJ correndo 1");
-        soundController.AddToBuffer("Sounds/J2/mão sendo construída/mao");
+        soundController.AddToBuffer("Sounds/J2/Movimentacao PJ/PJ andando");
+        soundController.AddToBuffer("Sounds/J2/Movimentacao PJ/PJ agachado");
+        soundController.AddToBuffer("Sounds/J2/Movimentacao PJ/PJ correndo");
+        soundController.AddToBuffer("Sounds/J2/Movimentacao PJ/PJ pulo");
         soundController.AddToBuffer("Sounds/J2/música medo/musica medo exploração");
         soundController.AddToBuffer("Sounds/J2/música medo/musica medo perigo");
         soundController.AddToBuffer("Sounds/J2/música medo/musica medo perseguição");
+        soundController.AddToBuffer("Sounds/J2/Pedras/pedras rolando (animaçao)");
+
+        //Nao implementados
         soundController.AddToBuffer("Sounds/J2/Pedras Rolando-Soltando/pedra rolando");
-        soundController.AddToBuffer("Sounds/J2/Pulo Pj (provisório)/pulo 1");
-        soundController.AddToBuffer("Sounds/J2/Pulo Pj (provisório)/pulo 2");
         soundController.AddToBuffer("Sounds/J2/Sofrimento e Choro/choro");
         soundController.AddToBuffer("Sounds/J2/Sofrimento e Choro/sofrimento 1");
         soundController.AddToBuffer("Sounds/J2/Sofrimento e Choro/sofrimento 2");
-        soundController.AddToBuffer("Sounds/J2/Som Ambiente caverna/som caverna 1");
-        soundController.AddToBuffer("Sounds/J2/Som Ambiente caverna/som caverna 2");
     }
 
     public void PlayAlavanca() => soundController.PlaySingleSFXByFileName("Sounds/J2/Alavanca/alavanca", true);
-
     public void PlayChaoQuebrando() => soundController.PlaySingleSFXByFileName("Sounds/J2/Chao quebrando/chao quebrando", true);
+    public void PlayPJAndando() => soundController.PlaySFXContinuouslyByFileName("Sounds/J2/Movimentacao PJ/PJ andando", true);
+    public void PlayPJAgachado() => soundController.PlaySFXContinuouslyByFileName("Sounds/J2/Movimentacao PJ/PJ agachado", true);
+    public void PlayPJCorrendo() => soundController.PlaySFXContinuouslyByFileName("Sounds/J2/Movimentacao PJ/PJ correndo", true);
+    public void PlayPJPulo() => soundController.PlaySingleSFXByFileName("Sounds/J2/Movimentacao PJ/PJ pulo", true);
+    public bool IsPlayingPJPulo() => soundController.IsPlayingClipByFileName("Sounds/J2/Movimentacao PJ/PJ pulo");
+    public void StopSFX() => soundController.StopSFXExcept("Sounds/J2/Movimentacao PJ/PJ pulo");
+
+    public void PlayMusicaExploracao() => soundController.PlayMusicContinuouslyByFileName("Sounds/J2/música medo/musica medo exploração", true);
+    public void PlayMusicaPerigo() => soundController.PlayMusicContinuouslyByFileName("Sounds/J2/música medo/musica medo perigo", true);
+    public void PlayMusicaPerseguicao() => soundController.PlayMusicContinuouslyByFileName("Sounds/J2/música medo/musica medo perseguição", true);
+
+    public void PlayDerrubarEstatua(AudioSource source) => soundController.PlayOnSourceByFileName(source, "Sounds/J2/Estatua/estatua quebrando", true);
+    public void PlayPedrasRolando(AudioSource source) => soundController.PlayOnSourceByFileName(source, "Sounds/J2/Pedras/pedras rolando (animaçao)", true);
 }
