@@ -1,0 +1,7 @@
+
+** A resolução das telas é de 1080p.
+
+** As telas ainda não possuem fundo, a parte com fundo preto é com opacidade baixa.
+
+** A versão utilizada das fontes é a "normal", sem negrito (ela não possui assentuação).
+
