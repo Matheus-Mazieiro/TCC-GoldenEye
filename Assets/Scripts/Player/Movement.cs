@@ -76,7 +76,7 @@ public class Movement : MonoBehaviour
         //Pause - TEMP
         Cursor.visible = false;
 
-        StartCoroutine(AutoSaver());
+        //StartCoroutine(AutoSaver());
     }
 
     // Update is called once per frame
@@ -161,7 +161,7 @@ public class Movement : MonoBehaviour
         //Interact
         if (Input.GetKeyDown(interactKey))
         {
-            if (!m_isCrouching && box)
+            /*if (!m_isCrouching && box)
             {
                 audioKit = 3;
                 box.layer = 9;
@@ -170,13 +170,13 @@ public class Movement : MonoBehaviour
                 speed = m_speed * pushModifier;
                 box.transform.parent = this.transform;
             }
-            else if (handle)
+            else*/ if (handle)
             {
                 handle.action.Invoke();
                 handle = null;
             }
         }
-        if (Input.GetKeyUp(interactKey))
+        /*if (Input.GetKeyUp(interactKey))
         {
             audioKit = 0;
             box.layer = 0;
@@ -199,7 +199,7 @@ public class Movement : MonoBehaviour
                     else box.transform.parent = null;
                 }
             }
-        }
+        }*/
 
         myCC.Move(direction * Time.deltaTime);
         if(_horizontalRaw != 0 || _verticalRaw != 0)

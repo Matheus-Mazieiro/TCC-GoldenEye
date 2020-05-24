@@ -12,7 +12,8 @@ public class SceneFunctions : MonoBehaviour
             Cursor.visible = true;
         if(Camera.main.GetComponent<CinemachineBrain>())
         {
-            Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Priority = 9;
+            if(Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera != null)
+                Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Priority = 9;
             GameObject.Find("Camera").GetComponent<CinemachineVirtualCamera>().Priority = 10;
         }
     }

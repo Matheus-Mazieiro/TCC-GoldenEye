@@ -20,7 +20,6 @@ public class CameraManagerObject : MonoBehaviour
             item.Priority = 9;
         }
         mainCamera.Priority = 11;
-        Debug.Log(mainCamera.name);
     }
 
     public void ChangeCamera()
