@@ -63,7 +63,8 @@ public class SoundController : Singleton<SoundController>
 
     public void AddToBuffer(string fileName)
     {
-        if (buffer != null && !buffer.TryGetValue(fileName, out AudioClip clip)) buffer.Add(fileName, Resources.Load<AudioClip>(fileName));
+        if (buffer != null && !buffer.TryGetValue(fileName, out AudioClip clip))
+            buffer.Add(fileName, Resources.Load<AudioClip>(fileName));
     }
 
     public void ChangeMusicVolume(int volume)
