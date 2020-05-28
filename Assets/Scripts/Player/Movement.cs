@@ -54,7 +54,7 @@ public class Movement : MonoBehaviour
 
     PlayerSoundConfig soundConfig;
 
-//#if UNITY_ENGINE
+#if UNITY_WSA
     private void Awake()
     {
         PlayerData data = SaveSystem.LoadPlayer();
@@ -63,7 +63,7 @@ public class Movement : MonoBehaviour
 
         soundConfig = GetComponent<PlayerSoundConfig>();
     }
-//#endif
+#endif
 
     // Start is called before the first frame update
     void Start()

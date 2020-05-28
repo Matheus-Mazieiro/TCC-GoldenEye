@@ -1,0 +1,16 @@
+inimigo 01 Walk and Run : 1 - 120 (walk)
+                          140 - 259 (Run)
+
+Inimigo 01 Looking with variation : 1 - 120 (looking)
+                                    124 - 183 (Variation Looking Left)
+
+Inimigo 02 Walk and Run : 1- 120 (Walk)
+                          130 - 220 (Run)
+
+Inimigo 02 Looking with variation : 1 - 120 (looking)
+                                    133 - 332 (looking Right)
+                                    335 - 394 (Looking Left)
+
+
+Inimigo 03 Walk and Run : 1- 120 (Walk)
+                          130 - 249 (Run)

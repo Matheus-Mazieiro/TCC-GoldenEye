@@ -37,6 +37,10 @@ public class Enemy : MonoBehaviour
 
     PlayerSoundConfig playerSound;
 
+    [Header("Animation")]
+    [SerializeField] Transform animator;
+
+
     private void Awake()
     {
         playerSound = FindObjectOfType<PlayerSoundConfig>();
@@ -90,6 +94,37 @@ public class Enemy : MonoBehaviour
         if (Vector3.Distance(transform.position, player.position) < 30)
         {
             playerSound.SetPerigo();
+        }
+
+        //Animation
+        if (animator)
+        {
+            Debug.Log(state);
+
+            if (state == State.PATH)
+            {
+                if (animator.GetChild(0).gameObject.activeInHierarchy == false)
+                {
+                    animator.GetChild(0).gameObject.SetActive(true);
+                    animator.GetChild(1).gameObject.SetActive(false);
+                    animator.GetChild(2).gameObject.SetActive(false);
+                }
+            }
+            else if (state == State.CHASE)
+            {
+                if (animator.GetChild(1).gameObject.activeInHierarchy == false)
+                {
+                    animator.GetChild(0).gameObject.SetActive(false);
+                    animator.GetChild(1).gameObject.SetActive(true);
+                    animator.GetChild(2).gameObject.SetActive(false);
+                }
+            }
+            else if (animator.GetChild(2).gameObject.activeInHierarchy == false)
+            {
+                animator.GetChild(0).gameObject.SetActive(false);
+                animator.GetChild(1).gameObject.SetActive(false);
+                animator.GetChild(2).gameObject.SetActive(true);
+            }
         }
     }
 
