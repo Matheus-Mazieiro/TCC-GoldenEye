@@ -1,22 +1,12 @@
 fileFormatVersion: 2
-guid: 018bbf0b12a13d04fa312ddbcbba364f
+guid: 68425c0539576cf428bd27eeb1c60aef
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
     second: Take 001
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mao_PedrasMaoMat
-    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mao_PedrasMaoMat2
-    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -47,7 +37,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 100
+    globalScale: 75
     meshCompression: 0
     addColliders: 1
     useSRGBMaterialColor: 1
@@ -93,7 +83,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 100
+    globalScale: 75
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
