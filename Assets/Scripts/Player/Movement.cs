@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float speed;
     private float m_speed;
     [SerializeField] float jump;
-    public CharacterController myCC;
+    CharacterController myCC;
     Vector3 direction = Vector3.zero;
     [SerializeField] float gravity;
     //DieInAir
@@ -258,17 +258,13 @@ public class Movement : MonoBehaviour
     //Telepor player
     public void TeleportPlayerTo(Transform target)
     {
+        Debug.Log("Teleportou");
+
         Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Priority = 9;
         GameObject.Find("Camera").GetComponent<CinemachineVirtualCamera>().Priority = 10;
 
         myCC.enabled = false;
         transform.position = target.position;
         myCC.enabled = true;
-    }
-
-    public void EnableMov(bool state)
-    {
-        myCC.enabled = state;
-        this.enabled = state;
     }
 }

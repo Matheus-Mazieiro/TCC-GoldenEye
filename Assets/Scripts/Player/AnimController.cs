@@ -20,25 +20,13 @@ public class AnimController : MonoBehaviour
     void Update()
     {
         Vector2 velocity = new Vector2(myCC.velocity.x, myCC.velocity.z);
-        if (myCC.enabled)
-        {
-            anim.SetFloat("velocity", velocity.magnitude);
+        anim.SetFloat("velocity", velocity.magnitude);
 
-            anim.SetBool("agachar", player.m_isCrouching);
+        anim.SetBool("agachar", player.m_isCrouching);
 
-            anim.SetBool("correr", player.m_isRunning);
+        anim.SetBool("correr", player.m_isRunning);
 
-            anim.SetBool("chao", myCC.isGrounded);
-        }else
-        {
-            anim.SetFloat("velocity", 0);
-
-            anim.SetBool("agachar", false);
-
-            anim.SetBool("correr", false);
-
-            anim.SetBool("chao", true);
-        }
+        anim.SetBool("chao", myCC.isGrounded);
     }
 
     public void SetJumpTrigger()
