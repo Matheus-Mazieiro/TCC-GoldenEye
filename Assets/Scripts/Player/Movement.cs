@@ -61,7 +61,6 @@ public class Movement : MonoBehaviour
         if (data != null)
             transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
 
-        soundConfig = GetComponent<PlayerSoundConfig>();
     }
 #endif
 
@@ -77,6 +76,8 @@ public class Movement : MonoBehaviour
         Cursor.visible = false;
 
         //StartCoroutine(AutoSaver());
+        soundConfig = GetComponent<PlayerSoundConfig>();
+
     }
 
     // Update is called once per frame

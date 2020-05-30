@@ -3,7 +3,82 @@ guid: 1e0f4da5027653e40b4d1965b5da5cf7
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Casa1_m
+    second: {fileID: 2100000, guid: 4be05e1ab853a6541820419ea4a85b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Casa3_m
+    second: {fileID: 2100000, guid: 4be05e1ab853a6541820419ea4a85b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Casa4_m
+    second: {fileID: 2100000, guid: 4be05e1ab853a6541820419ea4a85b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Casa_2_m
+    second: {fileID: 2100000, guid: 4be05e1ab853a6541820419ea4a85b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Casa_m
+    second: {fileID: 2100000, guid: 4be05e1ab853a6541820419ea4a85b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Destro\xE7o_parede_m"
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M1_Montanha_abaixo_ponte
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M1_ParedeCaverna
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ParedeInternaCavernaVazia_m
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ParteInternaCaverna_m
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pedra_montanha_ponte
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pedra_montanha_ponte2
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PilarMat
+    second: {fileID: 2100000, guid: f2615d52b9eac0349bb1227f938086b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TetoCaverna_m
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ponte_fundo
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -80,7 +155,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.75
+    globalScale: 75
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

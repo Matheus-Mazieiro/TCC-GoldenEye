@@ -3,7 +3,22 @@ guid: a0aac0df3e406d44798e81cd7b7fbbdd
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ParedeForaMat
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PontePedraMat
+    second: {fileID: 2100000, guid: 4be05e1ab853a6541820419ea4a85b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert11
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

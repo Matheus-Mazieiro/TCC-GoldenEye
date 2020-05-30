@@ -6,7 +6,12 @@ ModelImporter:
   - first:
       74: 1827226128182048838
     second: Take 001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mao_PedrasMaoMat
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

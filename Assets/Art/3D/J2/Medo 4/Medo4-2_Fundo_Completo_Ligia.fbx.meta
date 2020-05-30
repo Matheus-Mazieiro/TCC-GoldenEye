@@ -3,7 +3,52 @@ guid: 5aa3aa2c75e9c7a43837d4412d22e6ec
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EstruturaFundoCaverna_m
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ParedeCavFundo2_m
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ParedeCavFundo3_m
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ParedeForaMat
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TetoCaverna_m
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cachoeira1
+    second: {fileID: 2100000, guid: 9d451f5727d2f56449a8898c8e8ba5d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert12
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert13
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert2
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -80,7 +125,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.75
+    globalScale: 75
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

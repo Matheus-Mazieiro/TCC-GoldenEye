@@ -3,7 +3,112 @@ guid: c9f537ddd9a9de342bb15e6106e18f4a
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AguaMat
+    second: {fileID: 2100000, guid: 9d451f5727d2f56449a8898c8e8ba5d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Base2ChaoMat
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Base2PedrasMat
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BaseArcosMat
+    second: {fileID: 2100000, guid: 2059ea1f34050164e838f7de9dc13626, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BaseChaoMat
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CaixaMat
+    second: {fileID: 2100000, guid: 8b6d4f9a46c92854db0d172dde76870d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CanosMat
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CarrinhoEstruturaMat
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FioMat
+    second: {fileID: 2100000, guid: 8b6d4f9a46c92854db0d172dde76870d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GradesMat
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ParedeForaMat
+    second: {fileID: 2100000, guid: 7d3c5e938639d5f4d9ccf740193418b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PedrasFinalMat
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PedrasPuloMat
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PreMedo4Terreno
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RoldanaMat
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SuporteTopoArcoMat
+    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SuporteTopoChaoMat
+    second: {fileID: 2100000, guid: b1f0a7c9203856d49b21045506c5e530, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TabladoMat
+    second: {fileID: 2100000, guid: 8b6d4f9a46c92854db0d172dde76870d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TopoArcoMat
+    second: {fileID: 2100000, guid: 36ad9d95a4bbd51408196dc3a3199841, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TopoChaoMat
+    second: {fileID: 2100000, guid: 4be05e1ab853a6541820419ea4a85b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: d05f846a7d5078d4b8214b4c7d3847b5, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
