@@ -29,7 +29,8 @@ public class Enemy : MonoBehaviour
     public string playerTag { get; private set; }
 
     bool firstTimeSeeing = true;
-    string stepSoundPath = "Sounds/J2/passos inimigo/inimigo andando";
+    string stepSoundPath = "Sounds/J2/passos inimigo/inimigo 1 andando";
+    string runningSoundPath = "Sounds/J2/passos inimigo/inimigo 1 correndo (baixinho)";
 
     SoundController soundController;
     AudioSource sfxSingle;
@@ -56,13 +57,28 @@ public class Enemy : MonoBehaviour
 
         BufferSounds();
 
-        if (stepSoundType == 1) stepSoundPath = "Sounds/J2/passos inimigo/inimigo 1 andando";
-        else if (stepSoundType == 2) stepSoundPath = "Sounds/J2/passos inimigo/inimigo 2 andando";
+        if (stepSoundType == 1)
+        {
+            stepSoundPath = "Sounds/J2/passos inimigo/inimigo 1 andando";
+            runningSoundPath = "Sounds/J2/passos inimigo/inimigo 1 correndo (baixinho)";
+        }
+
+        else if (stepSoundType == 2)
+        {
+            stepSoundPath = "Sounds/J2/passos inimigo/inimigo 2 andando";
+            runningSoundPath = "Sounds/J2/passos inimigo/inimigo 2 correndo (alto)";
+        }
+        
+        else if (stepSoundType == 3)
+        {
+            stepSoundPath = "Sounds/J2/passos inimigo/inimigo 3 andando (bruta monte)";
+            runningSoundPath = "Sounds/J2/passos inimigo/inimigo 2 correndo (alto)";
+        }
     }
 
     private void Update()
     {
-        playerSound.SetNormal();
+        if (!playerSound.IsCaverna()) playerSound.SetNormal();
 
         if (state == State.PATH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, stepSoundPath, true);
 
@@ -71,6 +87,8 @@ public class Enemy : MonoBehaviour
             if (firstTimeSeeing) soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/Grito inimigo/grito inimigo", true);
 
             firstTimeSeeing = false;
+
+            soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, runningSoundPath, true);
 
             playerSound.SetPerseguicao();
         }
@@ -95,7 +113,7 @@ public class Enemy : MonoBehaviour
         {
             playerSound.SetPerigo();
         }
-        
+
         //Animation
         if (animator)
         {
@@ -125,7 +143,7 @@ public class Enemy : MonoBehaviour
                 animator.GetChild(1).gameObject.SetActive(false);
                 animator.GetChild(2).gameObject.SetActive(true);
             }
-        }    
+        }
     }
 
     private void OnEnable()

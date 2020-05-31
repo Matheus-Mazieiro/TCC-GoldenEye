@@ -113,7 +113,7 @@ public class Movement : MonoBehaviour
         if (!myCC.isGrounded)
         {
             m_timeToDie -= Time.deltaTime;
-            if(m_timeToDie <= 0)
+            if (m_timeToDie <= 0)
             {
                 GameObject.FindObjectOfType<SceneFunctions>().GoToScene(1);
             }
@@ -171,7 +171,8 @@ public class Movement : MonoBehaviour
                 speed = m_speed * pushModifier;
                 box.transform.parent = this.transform;
             }
-            else*/ if (handle)
+            else*/
+            if (handle)
             {
                 handle.action.Invoke();
                 handle = null;
@@ -203,12 +204,21 @@ public class Movement : MonoBehaviour
         }*/
 
         myCC.Move(direction * Time.deltaTime);
-        if(_horizontalRaw != 0 || _verticalRaw != 0)
+        if (_horizontalRaw != 0 || _verticalRaw != 0)
             transform.GetChild(0).LookAt(new Vector3(myCC.velocity.x + transform.position.x, transform.position.y - 1, myCC.velocity.z + transform.position.z));
 
-        if (m_isCrouching) soundConfig.PlayPJAgachado();
+        if (m_isCrouching)
+        {
+            if (myCC.velocity.x != 0 || myCC.velocity.z != 0) soundConfig.PlayPJAgachado();
+            else soundConfig.PlayPJIdleAgachado();
+        }
         else if (m_isRunning) soundConfig.PlayPJCorrendo();
-        else if (horizontal + vertical != 0 && myCC.isGrounded) soundConfig.PlayPJAndando();
+        else if (myCC.isGrounded)
+        {
+            if (myCC.velocity.x != 0 || myCC.velocity.z != 0) soundConfig.PlayPJAndando();
+
+            else soundConfig.PlayPJIdle();
+        }
         else soundConfig.StopSFX();
     }
 
