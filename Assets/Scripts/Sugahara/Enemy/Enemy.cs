@@ -95,7 +95,7 @@ public class Enemy : MonoBehaviour
         {
             playerSound.SetPerigo();
         }
-
+        
         //Animation
         if (animator)
         {
@@ -125,7 +125,7 @@ public class Enemy : MonoBehaviour
                 animator.GetChild(1).gameObject.SetActive(false);
                 animator.GetChild(2).gameObject.SetActive(true);
             }
-        }
+        }    
     }
 
     private void OnEnable()

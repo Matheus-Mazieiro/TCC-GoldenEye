@@ -25,11 +25,6 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(Chase());
     }
 
-    void FixedUpdate()
-    {
-
-    }
-
     void GotoNextNavPoint()
     {
         if (navPoints.Length == 0) return;
