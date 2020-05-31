@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float speed;
     private float m_speed;
     [SerializeField] float jump;
-    CharacterController myCC;
+    public CharacterController myCC;
     Vector3 direction = Vector3.zero;
     [SerializeField] float gravity;
     //DieInAir
