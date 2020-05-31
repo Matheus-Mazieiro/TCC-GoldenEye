@@ -97,14 +97,14 @@ public class Enemy : MonoBehaviour
 
         else if (state == State.STONE)
         {
-            soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/Batendo no inimigo (cenário)/batendo inimigo", true);
+            soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/Batendo no inimigo (cenario)/batendo inimigo", true);
 
             state = State.STONED;
         }
 
         else if (state == State.PENDULUM)
         {
-            soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/inimigo sendo acertado (Pêndulo)/Cópia de inimigo acertado 1", true);
+            soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/inimigo sendo acertado (Pendulo)/Copia de inimigo acertado 1", true);
 
             state = State.PENDULUMD;
         }
@@ -157,6 +157,13 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player")) SceneManager.LoadScene(1);
+
+        else if (collision.gameObject.CompareTag("Obstacle")) Distract(0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Obstacle")) Distract(0);
     }
 
     private void BufferSounds()
@@ -182,8 +189,8 @@ public class Enemy : MonoBehaviour
         soundController.AddToBuffer("Sounds/J2/passos inimigo/inimigo andando");
         soundController.AddToBuffer("Sounds/J2/Grito inimigo/grito inimigo");
         soundController.AddToBuffer("Sounds/J2/Procurando em Gavetas/procurando");
-        soundController.AddToBuffer("Sounds/J2/Batendo no inimigo (cenário)/batendo inimigo");
-        soundController.AddToBuffer("Sounds/J2/inimigo sendo acertado (Pêndulo)/Cópia de inimigo acertado 1");
+        soundController.AddToBuffer("Sounds/J2/Batendo no inimigo (cenario)/batendo inimigo");
+        soundController.AddToBuffer("Sounds/J2/inimigo sendo acertado (Pendulo)/Copia de inimigo acertado 1");
     }
 
     public Transform[] GetNavPoints() => navPoints;
@@ -214,10 +221,13 @@ public class Enemy : MonoBehaviour
 
     IEnumerator ApplyDistracted(int delay)
     {
+        awakeChasing = false;
         playerSound.SetNormal();
 
         yield return new WaitForSeconds(delay);
 
+        state = State.PATH;
         distracted = true;
+        //player = null;
     }
 }

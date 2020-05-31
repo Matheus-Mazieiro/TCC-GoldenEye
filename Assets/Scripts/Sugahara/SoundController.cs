@@ -56,8 +56,6 @@ public class SoundController : Singleton<SoundController>
         if (buffer == null)
         {
             buffer = new Dictionary<string, AudioClip>();
-
-            
         }
     }
 

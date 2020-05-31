@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Caverna
+  - Obstacle
   layers:
   - Default
   - TransparentFX

@@ -106,12 +106,21 @@ public class EnemyBehaviour : MonoBehaviour
 
         while (true)
         {
-            if (enemy.CompareState(Enemy.State.CHASE) || enemy.IsDistracted())
+            if (enemy.IsDistracted())
             {
+                navAgent.isStopped = true;
+                yield return new WaitForSeconds(1);
+                continue;
+            }
+
+            else if (enemy.CompareState(Enemy.State.CHASE))
+            {
+                navAgent.isStopped = false;
                 yield return new WaitForSeconds(wait);
                 continue;
             }
 
+            navAgent.isStopped = false;
             navAgent.speed = enemy.GetSpeed();
 
             if (!navAgent.pathPending && navAgent.remainingDistance < enemy.GetDistanceThreshold() && !navAgent.isStopped)
@@ -134,14 +143,23 @@ public class EnemyBehaviour : MonoBehaviour
     {
         while (true)
         {
-            if (!enemy.CompareState(Enemy.State.CHASE) || enemy.IsDistracted())
+            if (enemy.IsDistracted())
             {
+                navAgent.isStopped = true;
+                yield return new WaitForSeconds(1);
+                continue;
+            }
+
+            else if (!enemy.CompareState(Enemy.State.CHASE))
+            {
+                navAgent.isStopped = false;
                 yield return new WaitForSeconds(1f);
                 continue;
             }
 
             if (enemy.player)
             {
+                navAgent.isStopped = false;
                 navAgent.speed = enemy.GetSpeed() * enemy.GetChaseSpeedMultiplier();
                 navAgent.SetDestination(enemy.player.position);
             }
