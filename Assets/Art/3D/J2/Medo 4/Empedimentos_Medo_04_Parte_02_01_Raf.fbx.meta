@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: ParedeForaMat1
-    second: {fileID: 2100000, guid: 4c8514d0d00376c4f94de68aa659040c, type: 2}
+    second: {fileID: 2100000, guid: c9959300b093f01489e015f78bd31735, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

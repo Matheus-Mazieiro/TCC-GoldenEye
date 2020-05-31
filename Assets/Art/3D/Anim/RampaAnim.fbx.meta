@@ -11,7 +11,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: RampaMovelMat
-    second: {fileID: 2100000, guid: 4be05e1ab853a6541820419ea4a85b6b, type: 2}
+    second: {fileID: 2100000, guid: e2118914a6b2cce4f8f20655368e2a58, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
