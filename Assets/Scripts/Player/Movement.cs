@@ -54,7 +54,6 @@ public class Movement : MonoBehaviour
 
     PlayerSoundConfig soundConfig;
 
-#if UNITY_WSA
     private void Awake()
     {
         PlayerData data = SaveSystem.LoadPlayer();
@@ -62,7 +61,6 @@ public class Movement : MonoBehaviour
             transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
 
     }
-#endif
 
     // Start is called before the first frame update
     void Start()
