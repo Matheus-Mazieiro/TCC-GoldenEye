@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{a0640962-4ccd-4786-af8c-03846feb412f}">
+		<property name="assetPath">
+			<value>PJ correndo 1 editado.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.81599999999999995</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{369d28f4-c9e5-4409-8ab6-d992d653238a}</destination>
+		</relationship>
+	</object>
+</objects>

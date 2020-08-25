@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{9c381f79-596e-441f-aa0e-f4713ef388e4}">
+		<property name="assetPath">
+			<value>PJ Andando 2 editado.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.032</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{369d28f4-c9e5-4409-8ab6-d992d653238a}</destination>
+		</relationship>
+	</object>
+</objects>
