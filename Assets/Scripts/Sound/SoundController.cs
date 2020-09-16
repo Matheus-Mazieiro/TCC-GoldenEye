@@ -1,12 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Audio;
+using System.Collections;
 
 public class SoundController : Singleton<SoundController>
 {
-    AudioSource sfxOneShotSource, sfxContinuousSource, musicSource;
+    AudioMixer mixer;
+
+    AudioSource sfxOneShotSource, sfxContinuousSource;
+
+    AudioSource[] musicSource;
 
     float lastMusicVolume, lastSFXVolume;
+
+    int activeMusicSource = 0;
 
     Dictionary<string, AudioClip> buffer;
 
@@ -19,11 +27,28 @@ public class SoundController : Singleton<SoundController>
 
     private void CreateAudioSources()
     {
-        if (musicSource == null)
+        mixer = Resources.Load<AudioMixer>("Sounds/StandardMixer");
+
+        //AudioMixerGroup masterGroup = mixer.FindMatchingGroups("Master").FirstOrDefault();
+        AudioMixerGroup musicGroup = mixer.FindMatchingGroups("Music").FirstOrDefault();
+        AudioMixerGroup sfxGroup = mixer.FindMatchingGroups("SFX").FirstOrDefault();
+
+        if (musicSource == null) musicSource = new AudioSource[2];
+
+        if (musicSource[0] == null)
         {
-            musicSource = gameObject.AddComponent<AudioSource>();
-            musicSource.playOnAwake = false;
-            musicSource.loop = true;
+            musicSource[0] = gameObject.AddComponent<AudioSource>();
+            musicSource[0].playOnAwake = false;
+            musicSource[0].loop = true;
+            musicSource[0].outputAudioMixerGroup = musicGroup;
+        }
+
+        if (musicSource[1] == null)
+        {
+            musicSource[1] = gameObject.AddComponent<AudioSource>();
+            musicSource[1].playOnAwake = false;
+            musicSource[1].loop = true;
+            musicSource[1].outputAudioMixerGroup = musicGroup;
         }
 
         if (sfxOneShotSource == null)
@@ -31,6 +56,7 @@ public class SoundController : Singleton<SoundController>
             sfxOneShotSource = gameObject.AddComponent<AudioSource>();
             sfxOneShotSource.playOnAwake = false;
             sfxOneShotSource.loop = false;
+            sfxOneShotSource.outputAudioMixerGroup = sfxGroup;
         }
 
         if (sfxContinuousSource == null)
@@ -38,17 +64,17 @@ public class SoundController : Singleton<SoundController>
             sfxContinuousSource = gameObject.AddComponent<AudioSource>();
             sfxContinuousSource.playOnAwake = false;
             sfxContinuousSource.loop = true;
+            sfxContinuousSource.outputAudioMixerGroup = sfxGroup;
         }
     }
 
     private void LoadPlayerPrefs()
     {
-        lastSFXVolume = PlayerPrefs.GetInt("sfxVolume", 100);
-        lastMusicVolume = PlayerPrefs.GetInt("musicVolume", 100);
+        lastSFXVolume = PlayerPrefs.GetInt("sfxVolume", 0);
+        lastMusicVolume = PlayerPrefs.GetInt("musicVolume", 0);
 
-        sfxOneShotSource.volume = lastSFXVolume;
-        sfxContinuousSource.volume = lastSFXVolume;
-        musicSource.volume = lastMusicVolume;
+        mixer.SetFloat("SFXVolume", lastSFXVolume);
+        mixer.SetFloat("MusicVolume", lastMusicVolume);
     }
 
     private void CreateBuffer()
@@ -65,48 +91,62 @@ public class SoundController : Singleton<SoundController>
             buffer.Add(fileName, Resources.Load<AudioClip>(fileName));
     }
 
+    public void MuteAll()
+    {
+        mixer.SetFloat("MasterVolume", -80);
+    }
+
+    public void LowerAll()
+    {
+        mixer.SetFloat("MasterVolume", -20);
+    }
+
+    public void UnMuteAll()
+    {
+        mixer.SetFloat("MasterVolume", 0);
+    }
+
     public void ChangeMusicVolume(int volume)
     {
-        musicSource.volume = volume;
+        volume = Mathf.Clamp(volume, -80, 0);
+        mixer.SetFloat("MusicVolume", volume);
         lastMusicVolume = volume;
         PlayerPrefs.SetInt("musicVolume", volume);
     }
 
     public void MuteMusic()
     {
-        musicSource.volume = 0;
-        PlayerPrefs.SetInt("musicVolume", 0);
+        mixer.SetFloat("MusicVolume", -80);
+        PlayerPrefs.SetInt("musicVolume", -80);
     }
 
     public void UnMuteMusic()
     {
-        if (lastMusicVolume == 0) lastMusicVolume = 100;
+        if (lastMusicVolume == -80) lastMusicVolume = 0;
 
-        musicSource.volume = lastMusicVolume;
+        mixer.SetFloat("MusicVolume", lastMusicVolume);
         PlayerPrefs.SetInt("musicVolume", Mathf.RoundToInt(lastMusicVolume));
     }
 
     public void ChangeSFXVolume(int volume)
     {
-        sfxOneShotSource.volume = volume;
-        sfxContinuousSource.volume = volume;
+        volume = Mathf.Clamp(volume, -80, 0);
+        mixer.SetFloat("SFXVolume", volume);
         lastSFXVolume = volume;
         PlayerPrefs.SetInt("sfxVolume", volume);
     }
 
     public void MuteSFX()
     {
-        sfxOneShotSource.volume = 0;
-        sfxContinuousSource.volume = 0;
-        PlayerPrefs.SetInt("sfxVolume", 0);
+        mixer.SetFloat("SFXVolume", -80);
+        PlayerPrefs.SetInt("sfxVolume", -80);
     }
 
     public void UnMuteSFX()
     {
-        if (lastSFXVolume == 0) lastSFXVolume = 100;
+        if (lastSFXVolume == -80) lastSFXVolume = 0;
 
-        sfxOneShotSource.volume = lastSFXVolume;
-        sfxContinuousSource.volume = lastSFXVolume;
+        mixer.SetFloat("SFXVolume", lastSFXVolume);
         PlayerPrefs.SetInt("sfxVolume", Mathf.RoundToInt(lastSFXVolume));
     }
 
@@ -127,18 +167,25 @@ public class SoundController : Singleton<SoundController>
 
     public void PlayMusic(AudioClip clip)
     {
-        musicSource.Stop();
-        musicSource.clip = clip;
-        musicSource.Play();
+        musicSource[activeMusicSource].Stop();
+        musicSource[activeMusicSource].clip = clip;
+        musicSource[activeMusicSource].Play();
     }
 
     public void PlayMusicContinuously(AudioClip clip)
     {
-        if (musicSource.clip == clip && musicSource.isPlaying) return;
+        if (musicSource[activeMusicSource].clip == clip && musicSource[activeMusicSource].isPlaying) return;
 
-        musicSource.Stop();
-        musicSource.clip = clip;
-        musicSource.Play();
+        musicSource[activeMusicSource].Stop();
+        musicSource[activeMusicSource].clip = clip;
+        musicSource[activeMusicSource].Play();
+    }
+
+    public void PlayMusicTransition(AudioClip clip)
+    {
+        if (musicSource[activeMusicSource].clip == clip && musicSource[activeMusicSource].isPlaying) return;
+
+        StartCoroutine(Transition(20, clip));
     }
 
     public void PlaySingleSFXByFileName(string fileName, bool buffering)
@@ -160,20 +207,29 @@ public class SoundController : Singleton<SoundController>
 
     public void PlayMusicByFileName(string fileName, bool buffering)
     {
-        musicSource.Stop();
-        musicSource.clip = CreateAudioClip(fileName, buffering);
-        musicSource.Play();
+        musicSource[activeMusicSource].Stop();
+        musicSource[activeMusicSource].clip = CreateAudioClip(fileName, buffering);
+        musicSource[activeMusicSource].Play();
     }
 
     public void PlayMusicContinuouslyByFileName(string fileName, bool buffering)
     {
         AudioClip clip = CreateAudioClip(fileName, buffering);
 
-        if (musicSource.clip == clip && musicSource.isPlaying) return;
+        if (musicSource[activeMusicSource].clip == clip && musicSource[activeMusicSource].isPlaying) return;
 
-        musicSource.Stop();
-        musicSource.clip = clip;
-        musicSource.Play();
+        musicSource[activeMusicSource].Stop();
+        musicSource[activeMusicSource].clip = clip;
+        musicSource[activeMusicSource].Play();
+    }
+
+    public void PlayMusicTransitionByFileName(string fileName, bool buffering)
+    {
+        AudioClip clip = CreateAudioClip(fileName, buffering);
+
+        if (musicSource[activeMusicSource].clip == clip && musicSource[activeMusicSource].isPlaying) return;
+
+        StartCoroutine(Transition(20, clip));
     }
 
     public void PlayOnSourceByFileName(AudioSource source, string fileName, bool buffering)
@@ -213,7 +269,8 @@ public class SoundController : Singleton<SoundController>
 
         if (sfxOneShotSource.clip == clip && sfxOneShotSource.isPlaying) return true;
         else if (sfxContinuousSource.clip == clip && sfxContinuousSource.isPlaying) return true;
-        else if (musicSource.clip == clip && musicSource.isPlaying) return true;
+        else if (musicSource[0].clip == clip && musicSource[0].isPlaying) return true;
+        else if (musicSource[1].clip == clip && musicSource[1].isPlaying) return true;
 
         return false;
     }
@@ -230,5 +287,24 @@ public class SoundController : Singleton<SoundController>
         }
 
         return clip;
+    }
+
+    IEnumerator Transition(int duration, AudioClip clip)
+    {
+        int nextMusicSource = activeMusicSource == 0 ? 1 : 0;
+
+        musicSource[nextMusicSource].Stop();
+        musicSource[nextMusicSource].clip = clip;
+        musicSource[nextMusicSource].volume = 0;
+        musicSource[nextMusicSource].Play();
+
+        for (int i = 0; i <= duration; i++)
+        {
+            musicSource[activeMusicSource].volume -= 1f / (float)duration;
+            musicSource[nextMusicSource].volume += 1f / (float)duration;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        activeMusicSource = nextMusicSource;
     }
 }

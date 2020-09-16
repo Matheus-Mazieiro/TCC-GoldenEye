@@ -239,6 +239,11 @@ public class Movement : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
+    public void ReloadScene(int sceneIndex)
+    {
+        GameObject.FindObjectOfType<SceneFunctions>().GoToScene(sceneIndex);
+    }
+
     public void SetParentNull()
     {
         transform.parent = null;

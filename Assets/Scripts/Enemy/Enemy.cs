@@ -29,8 +29,14 @@ public class Enemy : MonoBehaviour
     public string playerTag { get; private set; }
 
     bool firstTimeSeeing = true;
-    string stepSoundPath = "Sounds/J2/passos inimigo/inimigo 1 andando";
-    string runningSoundPath = "Sounds/J2/passos inimigo/inimigo 1 correndo (baixinho)";
+
+    string stepSoundPath = "Sounds/Enemies/inimigo 1 andando";
+    string runningSoundPath = "Sounds/Enemies/inimigo 1 correndo (baixinho)";
+    string idleSoundPath = "Sounds/Enemies/inimigo 1 idle olhando";
+    string gritoSoundPath = "Sounds/Enemies/grito inimigo";
+    string procurandoSoundPath = "Sounds/Enemies/procurando";
+    string acertandoInimigoSoundPath = "Sounds/Enemies/acertando inimigo";
+    string batendoInimigoSoundPath = "Sounds/Enemies/batendo inimigo";
 
     SoundController soundController;
     AudioSource sfxSingle;
@@ -59,20 +65,22 @@ public class Enemy : MonoBehaviour
 
         if (stepSoundType == 1)
         {
-            stepSoundPath = "Sounds/J2/passos inimigo/inimigo 1 andando";
-            runningSoundPath = "Sounds/J2/passos inimigo/inimigo 1 correndo (baixinho)";
+            stepSoundPath = "Sounds/Enemies/inimigo 1 andando";
+            runningSoundPath = "Sounds/Enemies/inimigo 1 correndo (baixinho)";
+            idleSoundPath = "Sounds/Enemies/inimigo 1 idle olhando";
         }
 
         else if (stepSoundType == 2)
         {
-            stepSoundPath = "Sounds/J2/passos inimigo/inimigo 2 andando";
-            runningSoundPath = "Sounds/J2/passos inimigo/inimigo 2 correndo (alto)";
+            stepSoundPath = "Sounds/Enemies/inimigo 2 andando";
+            runningSoundPath = "Sounds/Enemies/inimigo 2 correndo (alto)";
+            idleSoundPath = "Sounds/Enemies/Inimigo 2 idle olhando";
         }
         
         else if (stepSoundType == 3)
         {
-            stepSoundPath = "Sounds/J2/passos inimigo/inimigo 3 andando (bruta monte)";
-            runningSoundPath = "Sounds/J2/passos inimigo/inimigo 2 correndo (alto)";
+            stepSoundPath = "Sounds/Enemies/inimigo 3 andando (bruta monte)";
+            runningSoundPath = "Sounds/Enemies/inimigo 2 correndo (alto)";
         }
     }
 
@@ -84,7 +92,7 @@ public class Enemy : MonoBehaviour
 
         else if (state == State.CHASE)
         {
-            if (firstTimeSeeing) soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/Grito inimigo/grito inimigo", true);
+            if (firstTimeSeeing) soundController.PlayOnSourceByFileName(sfxSingle, gritoSoundPath, true);
 
             firstTimeSeeing = false;
 
@@ -93,18 +101,18 @@ public class Enemy : MonoBehaviour
             playerSound.SetPerseguicao();
         }
 
-        else if (state == State.SEARCH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, "Sounds/J2/Procurando em Gavetas/procurando", true);
+        else if (state == State.SEARCH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, procurandoSoundPath, true);
 
         else if (state == State.STONE)
         {
-            soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/Batendo no inimigo (cenario)/batendo inimigo", true);
+            soundController.PlayOnSourceByFileName(sfxSingle, batendoInimigoSoundPath, true);
 
             state = State.STONED;
         }
 
         else if (state == State.PENDULUM)
         {
-            soundController.PlayOnSourceByFileName(sfxSingle, "Sounds/J2/inimigo sendo acertado (Pendulo)/Copia de inimigo acertado 1", true);
+            soundController.PlayOnSourceByFileName(sfxSingle, acertandoInimigoSoundPath, true);
 
             state = State.PENDULUMD;
         }
@@ -186,11 +194,12 @@ public class Enemy : MonoBehaviour
         sfxLoop.rolloffMode = AudioRolloffMode.Linear;
         sfxLoop.priority = 64;
 
-        soundController.AddToBuffer("Sounds/J2/passos inimigo/inimigo andando");
-        soundController.AddToBuffer("Sounds/J2/Grito inimigo/grito inimigo");
-        soundController.AddToBuffer("Sounds/J2/Procurando em Gavetas/procurando");
-        soundController.AddToBuffer("Sounds/J2/Batendo no inimigo (cenario)/batendo inimigo");
-        soundController.AddToBuffer("Sounds/J2/inimigo sendo acertado (Pendulo)/Copia de inimigo acertado 1");
+        soundController.AddToBuffer(stepSoundPath);
+        soundController.AddToBuffer(runningSoundPath);
+        soundController.AddToBuffer(gritoSoundPath);
+        soundController.AddToBuffer(procurandoSoundPath);
+        soundController.AddToBuffer(batendoInimigoSoundPath);
+        soundController.AddToBuffer(acertandoInimigoSoundPath);
     }
 
     public Transform[] GetNavPoints() => navPoints;

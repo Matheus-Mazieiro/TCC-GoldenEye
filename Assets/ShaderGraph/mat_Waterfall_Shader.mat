@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: mat_Waterfall_Shader
+  m_Shader: {fileID: -6465566751694194690, guid: 894678fe42ecf7a4bba354a0b8559b3f,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_776FC19B:
+        m_Texture: {fileID: 2800000, guid: 25667b6ad9654f04782101938aecc8f3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_E571FFAD:
+        m_Texture: {fileID: 2800000, guid: 814953caadd3d2043910e105a5fd2d8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_175B3298: 0.3
+    - Vector1_1DBD814: 0.5
+    - Vector1_280E8FA0: 1
+    - Vector1_4F971E22: 0.8
+    - Vector1_81EDC191: 20
+    - Vector1_BF62E459: -0.7
+    - Vector1_C04CF619: 1
+    - Vector1_CA99DBDE: 3
+    - Vector1_D4BC89C8: 0.45
+    - Vector1_FAB23005: 0.1
+    m_Colors:
+    - Color_A61E8349: {r: 1, g: 1, b: 1, a: 0}
+    - Vector4_4CCB7455: {r: 1, g: 1, b: 0, a: 0}

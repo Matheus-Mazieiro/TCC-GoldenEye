@@ -219,20 +219,6 @@ Transform:
   m_Father: {fileID: 5668870165212973617}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &9220347797741242744
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4971483804659035301}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!1 &1154211589497589056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,6 +1620,20 @@ Transform:
   m_Father: {fileID: 681028993865575338}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &9220347797741242744
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4971483804659035301}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!1 &5168274252351362771
 GameObject:
   m_ObjectHideFlags: 0
@@ -2393,15 +2393,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
       propertyPath: chaseSpeedMultiplier
-      value: 1.2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
       propertyPath: speed
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
       propertyPath: searchDelay
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
       propertyPath: stepSoundType
