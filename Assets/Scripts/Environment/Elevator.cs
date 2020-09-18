@@ -29,7 +29,7 @@ public class Elevator : MonoBehaviour
 
     public void GOUp(bool subir)
     {
-        transform.DOMove(initPos + moveTo * (subir ? 1 : 0), duration, false);
+        transform.DOMove(initPos + moveTo * (subir ? 1 : 0), duration, false).SetEase(Ease.InSine);
     }
     public void MoveGameObject(Transform whoMoves)
     {
