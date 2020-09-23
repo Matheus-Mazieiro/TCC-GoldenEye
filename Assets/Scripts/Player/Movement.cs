@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -48,6 +49,8 @@ public class Movement : MonoBehaviour
     AudioManager myAudioManager;
     int audioKit = 0;
 
+    [SerializeField] bool loadPlayerPos;
+
     //Pause - TEMP
     [Header("Pause")]
     [SerializeField] GameObject pause;
@@ -56,10 +59,12 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
-        PlayerData data = SaveSystem.LoadPlayer();
-        if (data != null)
-            transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
-
+        if (loadPlayerPos)
+        {
+            PlayerData data = SaveSystem.LoadPlayer();
+            if (data != null)
+                transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        }
     }
 
     // Start is called before the first frame update
@@ -113,7 +118,7 @@ public class Movement : MonoBehaviour
             m_timeToDie -= Time.deltaTime;
             if (m_timeToDie <= 0)
             {
-                GameObject.FindObjectOfType<SceneFunctions>().GoToScene(1);
+                GameObject.FindObjectOfType<SceneFunctions>().GoToScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
         else
