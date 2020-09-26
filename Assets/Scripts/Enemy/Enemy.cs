@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (!playerSound.IsCaverna()) playerSound.SetNormal();
+        if (!playerSound.IsMedoCaverna()) playerSound.SetMedoExploracao();
 
         if (state == State.PATH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, stepSoundPath, true);
 
@@ -98,7 +98,7 @@ public class Enemy : MonoBehaviour
 
             soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, runningSoundPath, true);
 
-            playerSound.SetPerseguicao();
+            playerSound.SetMedoPerseguicao();
         }
 
         else if (state == State.SEARCH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, procurandoSoundPath, true);
@@ -119,7 +119,7 @@ public class Enemy : MonoBehaviour
 
         if (Vector3.Distance(transform.position, player.position) < 30)
         {
-            playerSound.SetPerigo();
+            playerSound.SetMedoPerigo();
         }
 
         //Animation
@@ -231,7 +231,7 @@ public class Enemy : MonoBehaviour
     IEnumerator ApplyDistracted(int delay)
     {
         awakeChasing = false;
-        playerSound.SetNormal();
+        playerSound.SetMedoExploracao();
 
         yield return new WaitForSeconds(delay);
 
