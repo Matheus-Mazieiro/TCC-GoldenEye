@@ -152,6 +152,7 @@ public class SoundController : Singleton<SoundController>
 
     public void PlaySingleSFX(AudioClip clip)
     {
+        sfxOneShotSource.Stop();
         sfxOneShotSource.clip = clip;
         sfxOneShotSource.Play();
     }
@@ -190,6 +191,7 @@ public class SoundController : Singleton<SoundController>
 
     public void PlaySingleSFXByFileName(string fileName, bool buffering)
     {
+        sfxOneShotSource.Stop();
         sfxOneShotSource.clip = CreateAudioClip(fileName, buffering);
         sfxOneShotSource.Play();
     }
@@ -234,6 +236,7 @@ public class SoundController : Singleton<SoundController>
 
     public void PlayOnSourceByFileName(AudioSource source, string fileName, bool buffering)
     {
+        source.Stop();
         source.clip = CreateAudioClip(fileName, buffering);
         source.Play();
     }

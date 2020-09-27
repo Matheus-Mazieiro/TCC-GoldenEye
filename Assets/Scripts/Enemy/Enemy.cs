@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
     AudioSource sfxSingle;
     AudioSource sfxLoop;
 
-    PlayerSoundConfig playerSound;
+    Medo_Controller medoController;
 
     [Header("Animation")]
     [SerializeField] Transform animator;
@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        playerSound = FindObjectOfType<PlayerSoundConfig>();
+        medoController = FindObjectOfType<Medo_Controller>();
 
         Movement _player = FindObjectOfType<Movement>();
         if (_player) player = _player.transform;
@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour
             runningSoundPath = "Sounds/Enemies/inimigo 2 correndo (alto)";
             idleSoundPath = "Sounds/Enemies/Inimigo 2 idle olhando";
         }
-        
+
         else if (stepSoundType == 3)
         {
             stepSoundPath = "Sounds/Enemies/inimigo 3 andando (bruta monte)";
@@ -86,8 +86,6 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (!playerSound.IsMedoCaverna()) playerSound.SetMedoExploracao();
-
         if (state == State.PATH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, stepSoundPath, true);
 
         else if (state == State.CHASE)
@@ -98,7 +96,7 @@ public class Enemy : MonoBehaviour
 
             soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, runningSoundPath, true);
 
-            playerSound.SetMedoPerseguicao();
+            if (medoController) medoController.SetMedoPerseguicao();
         }
 
         else if (state == State.SEARCH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, procurandoSoundPath, true);
@@ -119,7 +117,7 @@ public class Enemy : MonoBehaviour
 
         if (Vector3.Distance(transform.position, player.position) < 30)
         {
-            playerSound.SetMedoPerigo();
+            if (medoController) medoController.SetMedoPerigo();
         }
 
         //Animation
@@ -231,7 +229,7 @@ public class Enemy : MonoBehaviour
     IEnumerator ApplyDistracted(int delay)
     {
         awakeChasing = false;
-        playerSound.SetMedoExploracao();
+        if (medoController) medoController.SetMedoExploracao();
 
         yield return new WaitForSeconds(delay);
 

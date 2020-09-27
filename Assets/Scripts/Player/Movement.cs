@@ -118,7 +118,8 @@ public class Movement : MonoBehaviour
             m_timeToDie -= Time.deltaTime;
             if (m_timeToDie <= 0)
             {
-                GameObject.FindObjectOfType<SceneFunctions>().GoToScene(SceneManager.GetActiveScene().buildIndex);
+                var scene = GameObject.FindObjectOfType<SceneFunctions>();
+                if (scene) scene.GoToScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
         else
