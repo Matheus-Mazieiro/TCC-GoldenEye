@@ -123,8 +123,6 @@ public class Enemy : MonoBehaviour
         //Animation
         if (animator)
         {
-            Debug.Log(state);
-
             if (state == State.PATH)
             {
                 if (animator.GetChild(0).gameObject.activeInHierarchy == false)

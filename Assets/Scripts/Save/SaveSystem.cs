@@ -15,6 +15,7 @@ public static class SaveSystem
 
         formatter.Serialize(stream, data);
 
+        Debug.Log("<b>[SaveSystem]</b> Game saved");
         stream.Close();
     }
 
@@ -26,11 +27,12 @@ public static class SaveSystem
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             PlayerData data = formatter.Deserialize(stream) as PlayerData;
+            Debug.Log("<b>[SaveSystem]</b> Game loaded");
             stream.Close();
             return data;
         } else
         {
-            Debug.LogError("File not found in " + path);
+            Debug.LogError("[SaveSystem] File not found in " + path);
             return null;
         }
     }

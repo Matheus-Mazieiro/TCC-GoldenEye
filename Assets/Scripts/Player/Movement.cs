@@ -118,8 +118,9 @@ public class Movement : MonoBehaviour
             m_timeToDie -= Time.deltaTime;
             if (m_timeToDie <= 0)
             {
-                var scene = GameObject.FindObjectOfType<SceneFunctions>();
-                if (scene) scene.GoToScene(SceneManager.GetActiveScene().buildIndex);
+                SceneFunctions scene = GameObject.FindObjectOfType<SceneFunctions>();
+                if (scene)
+                    scene.GoToScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
         else
@@ -266,7 +267,7 @@ public class Movement : MonoBehaviour
                 Debug.Log("Game saved");
             }
 
-            yield return new WaitForSeconds (3f);
+            yield return new WaitForSeconds(3f);
         }
     }
     public void SaveGame()
@@ -277,8 +278,6 @@ public class Movement : MonoBehaviour
     //Telepor player
     public void TeleportPlayerTo(Transform target)
     {
-        Debug.Log("Teleportou");
-
         Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Priority = 9;
         GameObject.Find("Camera").GetComponent<CinemachineVirtualCamera>().Priority = 10;
 

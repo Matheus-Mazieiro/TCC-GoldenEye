@@ -311,7 +311,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27123093}
-  m_LocalRotation: {x: 0.2817054, y: -0.000000012020756, z: -0.00000001044187, w: 0.95950097}
+  m_LocalRotation: {x: 0.28170544, y: 0.000000020998314, z: -0.000000020136092, w: 0.95950097}
   m_LocalPosition: {x: -63.81, y: 73.083, z: 14.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -737,7 +737,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76432629}
-  m_LocalRotation: {x: -0.09450275, y: 0.19380802, z: 0.018714394, w: 0.97629786}
+  m_LocalRotation: {x: -0.09450275, y: 0.193808, z: 0.018714393, w: 0.97629786}
   m_LocalPosition: {x: -44.3, y: -0.08, z: -17.23}
   m_LocalScale: {x: 1.2931592, y: 0.44151017, z: 1.2073697}
   m_Children:
@@ -1338,8 +1338,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 92854774}
-  m_LocalRotation: {x: -0.09450275, y: 0.19380802, z: 0.018714394, w: 0.97629786}
-  m_LocalPosition: {x: 43.56154, y: -18.553015, z: -13.169298}
+  m_LocalRotation: {x: 0.15723798, y: 0.0000000022240456, z: -0.0000000139685055,
+    w: 0.9875608}
+  m_LocalPosition: {x: -63.81, y: 71.001, z: 13.460001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -10314,7 +10315,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 766416676}
-  m_LocalRotation: {x: -0.26531813, y: -0.5577475, z: -0.1941704, w: 0.76211673}
+  m_LocalRotation: {x: -0.26531807, y: -0.5577474, z: -0.19417037, w: 0.76211685}
   m_LocalPosition: {x: 48.8, y: -25.5, z: -13.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -20410,6 +20411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveTo: {x: 5, y: 7, z: 0}
   duration: 1
+  initialSound: {fileID: 0}
 --- !u!65 &1408198862
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31395,6 +31397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveTo: {x: 0, y: 1, z: 0}
   duration: 2
+  initialSound: {fileID: 0}
 --- !u!65 &2073088233090120084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35351,6 +35354,11 @@ PrefabInstance:
     - target: {fileID: 4199969267530212727, guid: baf7a5cd4d6d2fd4a9234617f306cd32,
         type: 3}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199969267863359507, guid: baf7a5cd4d6d2fd4a9234617f306cd32,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
