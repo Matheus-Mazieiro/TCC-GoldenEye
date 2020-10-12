@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+
 using UnityEngine;
 
 public class EnemyView : MonoBehaviour
@@ -55,7 +57,13 @@ public class EnemyView : MonoBehaviour
         if (angle <= enemy.GetMaxAngle() && distance <= enemy.GetMaxDistance())
             if (Physics.Raycast(_transform.position, direction, out RaycastHit hit, enemy.GetMaxDistance(), layerMask))
                 if (hit.collider.CompareTag(enemy.playerTag))
+                {
+                    if (IsInvoking()) CancelInvoke();
+
                     enemy.SetState(Enemy.State.CHASE);
+
+                    Invoke("InvokePath", 2f);
+                }
     }
 
     void DrawFieldOfView()
@@ -85,7 +93,14 @@ public class EnemyView : MonoBehaviour
                     if (edges[0] != Vector3.zero) vertices.Add(_transform.InverseTransformPoint(edges[0]));
                     if (edges[1] != Vector3.zero) vertices.Add(_transform.InverseTransformPoint(edges[1]));
 
-                    if (tagHit) enemy.SetState(Enemy.State.CHASE);
+                    if (tagHit)
+                    {
+                        if (IsInvoking()) CancelInvoke();
+
+                        enemy.SetState(Enemy.State.CHASE);
+
+                        Invoke("InvokePath", 2f);
+                    }
                 }
 
                 else
@@ -114,6 +129,8 @@ public class EnemyView : MonoBehaviour
             fieldOfViewMesh.RecalculateNormals();
         }
     }
+
+    void InvokePath() => enemy.SetState(Enemy.State.PATH);
 }
 
 public class RaycastHitInfo

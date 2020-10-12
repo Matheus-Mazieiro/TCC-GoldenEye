@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
     public string playerTag { get; private set; }
 
     bool firstTimeSeeing = true;
+    bool setDanger = false;
+    bool setChase = false;
 
     string stepSoundPath = "Sounds/Enemies/inimigo 1 andando";
     string runningSoundPath = "Sounds/Enemies/inimigo 1 correndo (baixinho)";
@@ -38,7 +40,6 @@ public class Enemy : MonoBehaviour
     string acertandoInimigoSoundPath = "Sounds/Enemies/acertando inimigo";
     string batendoInimigoSoundPath = "Sounds/Enemies/batendo inimigo";
 
-    SoundController soundController;
     AudioSource sfxSingle;
     AudioSource sfxLoop;
 
@@ -86,38 +87,52 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (state == State.PATH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, stepSoundPath, true);
+        if (state == State.PATH) SoundController.Instance.PlayOnSourceContinuouslyByFileName(sfxLoop, stepSoundPath, true);
 
         else if (state == State.CHASE)
         {
-            if (firstTimeSeeing) soundController.PlayOnSourceByFileName(sfxSingle, gritoSoundPath, true);
+            if (firstTimeSeeing) SoundController.Instance.PlayOnSourceByFileName(sfxSingle, gritoSoundPath, true);
 
             firstTimeSeeing = false;
 
-            soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, runningSoundPath, true);
+            SoundController.Instance.PlayOnSourceContinuouslyByFileName(sfxLoop, runningSoundPath, true);
 
             if (medoController) medoController.SetMedoPerseguicao();
+            setChase = true;
         }
 
-        else if (state == State.SEARCH) soundController.PlayOnSourceContinuouslyByFileName(sfxLoop, procurandoSoundPath, true);
+        else if (state == State.SEARCH) SoundController.Instance.PlayOnSourceContinuouslyByFileName(sfxLoop, procurandoSoundPath, true);
 
         else if (state == State.STONE)
         {
-            soundController.PlayOnSourceByFileName(sfxSingle, batendoInimigoSoundPath, true);
+            SoundController.Instance.PlayOnSourceByFileName(sfxSingle, batendoInimigoSoundPath, true);
 
             state = State.STONED;
         }
 
         else if (state == State.PENDULUM)
         {
-            soundController.PlayOnSourceByFileName(sfxSingle, acertandoInimigoSoundPath, true);
+            SoundController.Instance.PlayOnSourceByFileName(sfxSingle, acertandoInimigoSoundPath, true);
 
             state = State.PENDULUMD;
+        }
+
+        if (state != State.CHASE && setChase && medoController)
+        {
+            medoController.SetMedoExploracao();
+            setChase = false;
         }
 
         if (Vector3.Distance(transform.position, player.position) < 30)
         {
             if (medoController) medoController.SetMedoPerigo();
+            setDanger = true;
+        }
+
+        else if (setDanger)
+        {
+            if (medoController) medoController.SetMedoExploracao();
+            setDanger = false;
         }
 
         //Animation
@@ -160,7 +175,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")) SceneManager.LoadScene(1);
+        if (collision.gameObject.CompareTag("Player")) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         else if (collision.gameObject.CompareTag("Obstacle")) Distract(0);
     }
@@ -172,8 +187,6 @@ public class Enemy : MonoBehaviour
 
     private void BufferSounds()
     {
-        soundController = SoundController.Instance;
-
         sfxSingle = gameObject.AddComponent<AudioSource>();
         sfxSingle.playOnAwake = false;
         sfxSingle.loop = false;
@@ -190,12 +203,12 @@ public class Enemy : MonoBehaviour
         sfxLoop.rolloffMode = AudioRolloffMode.Linear;
         sfxLoop.priority = 64;
 
-        soundController.AddToBuffer(stepSoundPath);
-        soundController.AddToBuffer(runningSoundPath);
-        soundController.AddToBuffer(gritoSoundPath);
-        soundController.AddToBuffer(procurandoSoundPath);
-        soundController.AddToBuffer(batendoInimigoSoundPath);
-        soundController.AddToBuffer(acertandoInimigoSoundPath);
+        SoundController.Instance.AddToBuffer(stepSoundPath);
+        SoundController.Instance.AddToBuffer(runningSoundPath);
+        SoundController.Instance.AddToBuffer(gritoSoundPath);
+        SoundController.Instance.AddToBuffer(procurandoSoundPath);
+        SoundController.Instance.AddToBuffer(batendoInimigoSoundPath);
+        SoundController.Instance.AddToBuffer(acertandoInimigoSoundPath);
     }
 
     public Transform[] GetNavPoints() => navPoints;
@@ -227,12 +240,12 @@ public class Enemy : MonoBehaviour
     IEnumerator ApplyDistracted(int delay)
     {
         awakeChasing = false;
-        if (medoController) medoController.SetMedoExploracao();
 
         yield return new WaitForSeconds(delay);
 
         state = State.PATH;
         distracted = true;
-        //player = null;
+
+        if (medoController) medoController.SetMedoPerigo();
     }
 }
