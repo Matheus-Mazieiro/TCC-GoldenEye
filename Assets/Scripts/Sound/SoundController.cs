@@ -18,6 +18,8 @@ public class SoundController : Singleton<SoundController>
 
     Dictionary<string, AudioClip> buffer;
 
+    Coroutine inTransition;
+
     private void Awake()
     {
         CreateAudioSources();
@@ -35,21 +37,15 @@ public class SoundController : Singleton<SoundController>
 
         if (musicSource == null) musicSource = new AudioSource[2];
 
-        if (musicSource[0] == null)
-        {
-            musicSource[0] = gameObject.AddComponent<AudioSource>();
-            musicSource[0].playOnAwake = false;
-            musicSource[0].loop = true;
-            musicSource[0].outputAudioMixerGroup = musicGroup;
-        }
+        musicSource[0] = gameObject.AddComponent<AudioSource>();
+        musicSource[0].playOnAwake = false;
+        musicSource[0].loop = true;
+        musicSource[0].outputAudioMixerGroup = musicGroup;
 
-        if (musicSource[1] == null)
-        {
-            musicSource[1] = gameObject.AddComponent<AudioSource>();
-            musicSource[1].playOnAwake = false;
-            musicSource[1].loop = true;
-            musicSource[1].outputAudioMixerGroup = musicGroup;
-        }
+        musicSource[1] = gameObject.AddComponent<AudioSource>();
+        musicSource[1].playOnAwake = false;
+        musicSource[1].loop = true;
+        musicSource[1].outputAudioMixerGroup = musicGroup;
 
         if (sfxOneShotSource == null)
         {
@@ -186,53 +182,20 @@ public class SoundController : Singleton<SoundController>
     {
         if (musicSource[activeMusicSource].clip == clip && musicSource[activeMusicSource].isPlaying) return;
 
-        StartCoroutine(Transition(20, clip));
+        if (inTransition != null) return;
+
+        inTransition = StartCoroutine(Transition(20, clip));
     }
 
-    public void PlaySingleSFXByFileName(string fileName, bool buffering)
-    {
-        sfxOneShotSource.Stop();
-        sfxOneShotSource.clip = CreateAudioClip(fileName, buffering);
-        sfxOneShotSource.Play();
-    }
+    public void PlaySingleSFXByFileName(string fileName, bool buffering) => PlaySingleSFX(CreateAudioClip(fileName, buffering));
 
-    public void PlaySFXContinuouslyByFileName(string fileName, bool buffering)
-    {
-        AudioClip clip = CreateAudioClip(fileName, buffering);
+    public void PlaySFXContinuouslyByFileName(string fileName, bool buffering) => PlaySFXContinuously(CreateAudioClip(fileName, buffering));
 
-        if (sfxContinuousSource.clip == clip && sfxContinuousSource.isPlaying) return;
+    public void PlayMusicByFileName(string fileName, bool buffering) => PlayMusic(CreateAudioClip(fileName, buffering));
 
-        sfxContinuousSource.Stop();
-        sfxContinuousSource.clip = clip;
-        sfxContinuousSource.Play();
-    }
+    public void PlayMusicContinuouslyByFileName(string fileName, bool buffering) => PlayMusicContinuously(CreateAudioClip(fileName, buffering));
 
-    public void PlayMusicByFileName(string fileName, bool buffering)
-    {
-        musicSource[activeMusicSource].Stop();
-        musicSource[activeMusicSource].clip = CreateAudioClip(fileName, buffering);
-        musicSource[activeMusicSource].Play();
-    }
-
-    public void PlayMusicContinuouslyByFileName(string fileName, bool buffering)
-    {
-        AudioClip clip = CreateAudioClip(fileName, buffering);
-
-        if (musicSource[activeMusicSource].clip == clip && musicSource[activeMusicSource].isPlaying) return;
-
-        musicSource[activeMusicSource].Stop();
-        musicSource[activeMusicSource].clip = clip;
-        musicSource[activeMusicSource].Play();
-    }
-
-    public void PlayMusicTransitionByFileName(string fileName, bool buffering)
-    {
-        AudioClip clip = CreateAudioClip(fileName, buffering);
-
-        if (musicSource[activeMusicSource].clip == clip && musicSource[activeMusicSource].isPlaying) return;
-
-        StartCoroutine(Transition(20, clip));
-    }
+    public void PlayMusicTransitionByFileName(string fileName, bool buffering) => PlayMusicTransition(CreateAudioClip(fileName, buffering));
 
     public void PlayOnSourceByFileName(AudioSource source, string fileName, bool buffering)
     {
@@ -294,6 +257,8 @@ public class SoundController : Singleton<SoundController>
 
     IEnumerator Transition(int duration, AudioClip clip)
     {
+        musicSource[activeMusicSource].volume = 1;
+
         int nextMusicSource = activeMusicSource == 0 ? 1 : 0;
 
         musicSource[nextMusicSource].Stop();
@@ -305,9 +270,16 @@ public class SoundController : Singleton<SoundController>
         {
             musicSource[activeMusicSource].volume -= 1f / (float)duration;
             musicSource[nextMusicSource].volume += 1f / (float)duration;
+
+            musicSource[activeMusicSource].volume = Mathf.Clamp01(musicSource[activeMusicSource].volume);
+            musicSource[nextMusicSource].volume = Mathf.Clamp01(musicSource[nextMusicSource].volume);
             yield return new WaitForSeconds(0.1f);
         }
 
+        musicSource[activeMusicSource].Stop();
+
         activeMusicSource = nextMusicSource;
+
+        inTransition = null;
     }
 }

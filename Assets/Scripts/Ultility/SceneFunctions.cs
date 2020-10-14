@@ -25,4 +25,9 @@ public class SceneFunctions : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void ReloadActiveScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

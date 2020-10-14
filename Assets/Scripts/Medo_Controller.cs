@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Medo_Controller : MonoBehaviour
 {
-    SoundController soundController;
-
     enum SoundState { MEDO_EXPLORACAO, MEDO_PERIGO, MEDO_PERSEGUICAO, MEDO_CAVERNA }
     SoundState state = SoundState.MEDO_EXPLORACAO;
 
@@ -25,7 +23,7 @@ public class Medo_Controller : MonoBehaviour
     {
         BufferSounds();
 
-        soundController.PlayMusicContinuouslyByFileName(musicaExploracaoSoundPath, true);
+        SoundController.Instance.PlayMusicByFileName(musicaExploracaoSoundPath, true);
     }
 
     void LateUpdate()
@@ -45,35 +43,31 @@ public class Medo_Controller : MonoBehaviour
                 PlaySomCavernaMedo();
                 break;
         }
-
-        if (!IsMedoCaverna()) SetMedoExploracao();
     }
 
     private void BufferSounds()
     {
-        soundController = SoundController.Instance;
-
         //Implementados
-        soundController.AddToBuffer(musicaExploracaoSoundPath);
-        soundController.AddToBuffer(musicaPerigoSoundPath);
-        soundController.AddToBuffer(musicaPerseguicaoSoundPath);
-        soundController.AddToBuffer(cavernaSoundPath);
-        soundController.AddToBuffer(goteiraSoundPath);
-        soundController.AddToBuffer(medoAlavancaSoundPath);
-        soundController.AddToBuffer(medoBondinhoSoundPath);
-        soundController.AddToBuffer(medoChaoQuebrandoSoundPath);
-        soundController.AddToBuffer(medoEstatuaQuebrandoSoundPath);
+        SoundController.Instance.AddToBuffer(musicaExploracaoSoundPath);
+        SoundController.Instance.AddToBuffer(musicaPerigoSoundPath);
+        SoundController.Instance.AddToBuffer(musicaPerseguicaoSoundPath);
+        SoundController.Instance.AddToBuffer(cavernaSoundPath);
+        SoundController.Instance.AddToBuffer(goteiraSoundPath);
+        SoundController.Instance.AddToBuffer(medoAlavancaSoundPath);
+        SoundController.Instance.AddToBuffer(medoBondinhoSoundPath);
+        SoundController.Instance.AddToBuffer(medoChaoQuebrandoSoundPath);
+        SoundController.Instance.AddToBuffer(medoEstatuaQuebrandoSoundPath);
     }
 
     //Medo
-    public void PlayAlavancaMedo() => soundController.PlaySingleSFXByFileName(medoAlavancaSoundPath, true);
-    public void PlayBondinhoMedo() => soundController.PlaySFXContinuouslyByFileName(medoBondinhoSoundPath, true);
-    public void PlayChaoQuebrandoMedo() => soundController.PlaySingleSFXByFileName(medoChaoQuebrandoSoundPath, true);
-    public void PlayDerrubarEstatuaMedo(AudioSource source) => soundController.PlayOnSourceByFileName(source, medoEstatuaQuebrandoSoundPath, true);
-    public void PlayMusicaExploracaoMedo() => soundController.PlayMusicTransitionByFileName(musicaExploracaoSoundPath, true);
-    public void PlayMusicaPerigoMedo() => soundController.PlayMusicTransitionByFileName(musicaPerigoSoundPath, true);
-    public void PlayMusicaPerseguicaoMedo() => soundController.PlayMusicTransitionByFileName(musicaPerseguicaoSoundPath, true);
-    public void PlaySomCavernaMedo() => soundController.PlayMusicTransitionByFileName(cavernaSoundPath, true);
+    public void PlayAlavancaMedo() => SoundController.Instance.PlaySingleSFXByFileName(medoAlavancaSoundPath, true);
+    public void PlayBondinhoMedo() => SoundController.Instance.PlaySFXContinuouslyByFileName(medoBondinhoSoundPath, true);
+    public void PlayChaoQuebrandoMedo(AudioSource source) => SoundController.Instance.PlayOnSourceByFileName(source, medoChaoQuebrandoSoundPath, true);
+    public void PlayDerrubarEstatuaMedo(AudioSource source) => SoundController.Instance.PlayOnSourceByFileName(source, medoEstatuaQuebrandoSoundPath, true);
+    public void PlayMusicaExploracaoMedo() => SoundController.Instance.PlayMusicTransitionByFileName(musicaExploracaoSoundPath, true);
+    public void PlayMusicaPerigoMedo() => SoundController.Instance.PlayMusicTransitionByFileName(musicaPerigoSoundPath, true);
+    public void PlayMusicaPerseguicaoMedo() => SoundController.Instance.PlayMusicTransitionByFileName(musicaPerseguicaoSoundPath, true);
+    public void PlaySomCavernaMedo() => SoundController.Instance.PlayMusicTransitionByFileName(cavernaSoundPath, true);
 
     public void SetMedoExploracao() => state = SoundState.MEDO_EXPLORACAO;
     public void SetMedoPerigo()
