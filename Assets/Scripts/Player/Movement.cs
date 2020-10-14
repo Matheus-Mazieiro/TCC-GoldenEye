@@ -152,7 +152,7 @@ public class Movement : MonoBehaviour
             audioKit = 2;
             m_isCrouching = true;
             myCC.height = .5f;
-            myCC.center = new Vector3(myCC.center.x, myCC.center.y - .5f, myCC.center.z);
+            myCC.center = new Vector3(myCC.center.x, myCC.center.y - .75f, myCC.center.z);
             speed = m_speed * crouchModifier;
         }
         if (Input.GetKeyUp(crouchKey))
@@ -160,53 +160,19 @@ public class Movement : MonoBehaviour
             audioKit = 0;
             m_isCrouching = false;
             myCC.height = 2;
-            myCC.center = new Vector3(myCC.center.x, myCC.center.y + .5f, myCC.center.z);
+            myCC.center = new Vector3(myCC.center.x, myCC.center.y + .75f, myCC.center.z);
             speed = m_speed;
         }
 
         //Interact
         if (Input.GetKeyDown(interactKey))
         {
-            /*if (!m_isCrouching && box)
-            {
-                audioKit = 3;
-                box.layer = 9;
-
-                m_isInteracting = true;
-                speed = m_speed * pushModifier;
-                box.transform.parent = this.transform;
-            }
-            else*/
             if (handle)
             {
                 handle.action.Invoke();
                 handle = null;
             }
         }
-        /*if (Input.GetKeyUp(interactKey))
-        {
-            audioKit = 0;
-            box.layer = 0;
-
-            m_isInteracting = false;
-            speed = m_speed;
-
-
-            foreach (Transform box in transform)
-            {
-                if (!box.CompareTag("Player"))
-                {
-                    foreach (BoxCollider item in box.GetComponents<BoxCollider>())
-                    {
-                        if (!item.isTrigger)
-                            item.enabled = true;
-                    }
-                    if (elevator)
-                        box.transform.parent = elevator;
-                    else box.transform.parent = null;
-                }
-            }
-        }*/
 
         myCC.Move(direction * Time.deltaTime);
         if (_horizontalRaw != 0 || _verticalRaw != 0)
