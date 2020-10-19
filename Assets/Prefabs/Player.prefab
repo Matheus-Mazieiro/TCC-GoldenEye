@@ -1,24 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!95 &260331591775292349
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8123665942874779446}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ff9fe33e584599041b913df79a618d12, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2712605887781424584
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,6 +66,7 @@ MonoBehaviour:
   box: {fileID: 0}
   handle: {fileID: 0}
   elevator: {fileID: 0}
+  loadPlayerPos: 0
   pause: {fileID: 0}
 --- !u!82 &260331592878471382
 AudioSource:
@@ -221,13 +203,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.23
+  m_Height: 1.83
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.06, y: -0.16, z: 0}
 --- !u!114 &260331592811680002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +234,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf7ccd76569ebe4290a4fe0990222ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &260331591775292349
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123665942874779446}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ff9fe33e584599041b913df79a618d12, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &260331591999567423
 PrefabInstance:
   m_ObjectHideFlags: 0
