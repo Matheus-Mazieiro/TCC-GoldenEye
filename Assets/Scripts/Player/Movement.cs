@@ -57,6 +57,8 @@ public class Movement : MonoBehaviour
 
     PlayerSoundConfig soundConfig;
 
+    Coroutine isTired;
+
     private void Awake()
     {
         if (loadPlayerPos)
@@ -175,6 +177,7 @@ public class Movement : MonoBehaviour
         }
 
         myCC.Move(direction * Time.deltaTime);
+
         if (_horizontalRaw != 0 || _verticalRaw != 0)
             transform.GetChild(0).LookAt(new Vector3(myCC.velocity.x + transform.position.x, transform.position.y - 1, myCC.velocity.z + transform.position.z));
 
@@ -183,14 +186,44 @@ public class Movement : MonoBehaviour
             if (myCC.velocity.x != 0 || myCC.velocity.z != 0) soundConfig.PlayPJAgachado();
             else soundConfig.PlayPJIdleAgachado();
         }
-        else if (m_isRunning) soundConfig.PlayPJCorrendo();
+
         else if (myCC.isGrounded)
         {
-            if (myCC.velocity.x != 0 || myCC.velocity.z != 0) soundConfig.PlayPJAndando();
+            if (myCC.velocity.x != 0 || myCC.velocity.z != 0)
+            {
+                if (m_isRunning)
+                {
+                    if (IsInvoking("CallTiredRunning")) CancelInvoke("CallTiredRunning");
 
-            else soundConfig.PlayPJIdle();
+                    soundConfig.PlayPJCorrendo();
+
+                    Invoke("CallTiredRunning", 0.5f);
+                }
+
+                else soundConfig.PlayPJAndando();
+            }
+
+            else soundConfig.StopSFX();
         }
+
         else soundConfig.StopSFX();
+    }
+
+    void CallTiredRunning()
+    {
+        if (isTired != null) StopCoroutine(isTired);
+
+        isTired = StartCoroutine(TiredRunning());
+    }
+
+    IEnumerator TiredRunning()
+    {
+        soundConfig.PlayPJIdle();
+
+        yield return new WaitForSeconds(4.5f);
+
+        soundConfig.StopPJIdle();
+        isTired = null;
     }
 
     //Pause - TEMP

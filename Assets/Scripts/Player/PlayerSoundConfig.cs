@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class PlayerSoundConfig : MonoBehaviour
@@ -47,7 +48,16 @@ public class PlayerSoundConfig : MonoBehaviour
     public void PlayPJIdle() => soundController.PlaySFXContinuouslyByFileName(melkiIdleSoundPath, true);
     public void PlayPJIdleAgachado() => soundController.PlaySFXContinuouslyByFileName(melkiIdleAgachadaSoundPath, true);
     public void PlayPJMorrendo() => soundController.PlaySFXContinuouslyByFileName(melkiMorrendoSoundPath, true);
-    public void StopSFX() => soundController.StopSFXExcept(melkiPulandoSoundPath);
+    public void StopSFX()
+    {
+        List<string> exceptions = new List<string>();
+
+        exceptions.Add(melkiPulandoSoundPath);
+        exceptions.Add(melkiIdleSoundPath);
+
+        soundController.StopSFXExcept(exceptions);
+    }
+    public void StopPJIdle() => soundController.StopSFXByFileName(melkiIdleSoundPath);
 
     public void PlaySomDeAcao(AudioSource source) => soundController.PlayOnSourceByFileName(source, acaoAghartaSoundPath, true);
 

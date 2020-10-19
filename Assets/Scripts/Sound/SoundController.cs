@@ -8,7 +8,7 @@ public class SoundController : Singleton<SoundController>
 {
     AudioMixer mixer;
 
-    AudioSource sfxOneShotSource, sfxContinuousSource;
+    AudioSource sfxOneShotSource, sfxContinuousSource, stepSource;
 
     AudioSource[] musicSource;
 
@@ -61,6 +61,14 @@ public class SoundController : Singleton<SoundController>
             sfxContinuousSource.playOnAwake = false;
             sfxContinuousSource.loop = true;
             sfxContinuousSource.outputAudioMixerGroup = sfxGroup;
+        }
+
+        if (stepSource == null)
+        {
+            stepSource = gameObject.AddComponent<AudioSource>();
+            stepSource.playOnAwake = false;
+            stepSource.loop = false;
+            stepSource.outputAudioMixerGroup = sfxGroup;
         }
     }
 
@@ -187,6 +195,18 @@ public class SoundController : Singleton<SoundController>
         inTransition = StartCoroutine(Transition(20, clip));
     }
 
+    public AudioClip PlaySteps(AudioClip clip)
+    {
+        float pitch = Random.Range(0.95f, 1.05f);
+
+        stepSource.Stop();
+        stepSource.clip = clip;
+        stepSource.pitch = pitch;
+        stepSource.Play();
+
+        return clip;
+    }
+
     public void PlaySingleSFXByFileName(string fileName, bool buffering) => PlaySingleSFX(CreateAudioClip(fileName, buffering));
 
     public void PlaySFXContinuouslyByFileName(string fileName, bool buffering) => PlaySFXContinuously(CreateAudioClip(fileName, buffering));
@@ -196,6 +216,8 @@ public class SoundController : Singleton<SoundController>
     public void PlayMusicContinuouslyByFileName(string fileName, bool buffering) => PlayMusicContinuously(CreateAudioClip(fileName, buffering));
 
     public void PlayMusicTransitionByFileName(string fileName, bool buffering) => PlayMusicTransition(CreateAudioClip(fileName, buffering));
+
+    public AudioClip PlayStepsByFileName(string fileName, bool buffering) => PlaySteps(CreateAudioClip(fileName, buffering));
 
     public void PlayOnSourceByFileName(AudioSource source, string fileName, bool buffering)
     {
@@ -219,14 +241,32 @@ public class SoundController : Singleton<SoundController>
     {
         sfxOneShotSource.Stop();
         sfxContinuousSource.Stop();
+        stepSource.Stop();
     }
 
-    public void StopSFXExcept(string exceptionFileName)
+    public void StopSFXExcept(List<string> exceptionFileNames)
     {
-        AudioClip clip = CreateAudioClip(exceptionFileName, false);
+        List<AudioClip> clips = new List<AudioClip>();
 
-        if (sfxOneShotSource.clip != clip) sfxOneShotSource.Stop();
-        if (sfxContinuousSource.clip != clip) sfxContinuousSource.Stop();
+        foreach (string file in exceptionFileNames) clips.Add(CreateAudioClip(file, false));
+
+        if (!clips.Contains(sfxOneShotSource.clip)) sfxOneShotSource.Stop();
+        if (!clips.Contains(sfxContinuousSource.clip)) sfxContinuousSource.Stop();
+        if (!clips.Contains(stepSource.clip)) stepSource.Stop();
+    }
+
+    public void StopSFXByFileName(string fileName)
+    {
+        AudioClip clip = CreateAudioClip(fileName, false);
+
+        if (sfxOneShotSource.clip == clip) sfxOneShotSource.Stop();
+        if (sfxContinuousSource.clip == clip) sfxContinuousSource.Stop();
+        if (stepSource.clip == clip) stepSource.Stop();
+    }
+
+    public void StopSteps()
+    {
+        stepSource.Stop();
     }
 
     public bool IsPlayingClipByFileName(string fileName)
@@ -237,6 +277,7 @@ public class SoundController : Singleton<SoundController>
         else if (sfxContinuousSource.clip == clip && sfxContinuousSource.isPlaying) return true;
         else if (musicSource[0].clip == clip && musicSource[0].isPlaying) return true;
         else if (musicSource[1].clip == clip && musicSource[1].isPlaying) return true;
+        else if (stepSource.clip == clip && stepSource.isPlaying) return true;
 
         return false;
     }
