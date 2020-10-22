@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Menu.unity
     guid: db6c6e6341f72024b8f22793da390ef2
   - enabled: 1
-    path: Assets/Scenes/Game/Medo.unity
-    guid: c9596978844839d478312fba2234c50e
-  - enabled: 0
     path: Assets/Scenes/Game/Solidao.unity
     guid: 0af82693dd82b75499362cf8106b9c4d
+  - enabled: 1
+    path: Assets/Scenes/Game/Medo.unity
+    guid: c9596978844839d478312fba2234c50e
+  - enabled: 1
+    path: Assets/Scenes/Game/Decepcao.unity
+    guid: 43d0204386cd0684fbeceec9068983e7
   m_configObjects: {}
