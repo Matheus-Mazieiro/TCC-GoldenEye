@@ -22,6 +22,8 @@ public class Solidao_Controller : MonoBehaviour
     string solidaoEngrenagem1SoundPath = "Sounds/Props/solidao-sfx-engrenagem1";
     string solidaoEngrenagem2SoundPath = "Sounds/Props/solidao-sfx-engrenagem2";
 
+    string solidaoPonteMadeiraSoundPath = "Sounds/Props/solidao3-sfx-ponte-de-madeira";
+
     void Start()
     {
         BufferSounds();
@@ -57,6 +59,8 @@ public class Solidao_Controller : MonoBehaviour
         soundController.AddToBuffer(solidaoCarrinhoSoundPath);
         soundController.AddToBuffer(solidaoEngrenagem1SoundPath);
         soundController.AddToBuffer(solidaoEngrenagem2SoundPath);
+
+        soundController.AddToBuffer(solidaoPonteMadeiraSoundPath);
     }
 
     //Solidão
@@ -70,6 +74,9 @@ public class Solidao_Controller : MonoBehaviour
     public void PlayChaoQuebrandoSolidao(AudioSource source) => soundController.PlayOnSourceByFileName(source, solidaoChaoQuebrandoSoundPath, true);
     public void PlayEngrenagem1Solidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoEngrenagem1SoundPath, true);
     public void PlayEngrenagem2Solidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoEngrenagem2SoundPath, true);
+
+    public void PlayPonteMadeiraSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoPonteMadeiraSoundPath, true);
+
     public void PlayMusicaAmbiente1Solidao() => soundController.PlayMusicTransitionByFileName(musicaSolidaoAmbiente1SoundPath, true);
     public void PlayMusicaAmbiente3Solidao() => soundController.PlayMusicTransitionByFileName(musicaSolidaoAmbiente3SoundPath, true);
 

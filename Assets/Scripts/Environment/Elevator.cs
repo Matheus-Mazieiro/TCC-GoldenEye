@@ -12,6 +12,7 @@ public class Elevator : MonoBehaviour
 
     Solidao_Controller solidaoController;
     AudioSource source;
+    public Animator manivela;
 
     private void Start()
     {
@@ -36,7 +37,14 @@ public class Elevator : MonoBehaviour
 
     public void GOUp(bool subir)
     {
+        if (manivela)
+        {
+            if (subir) manivela.SetTrigger("Start");
+            else manivela.SetTrigger("Reverse");
+        }
+
         if (initialSound) solidaoController.PlayRoldanaSolidao(initialSound);
+
         solidaoController.PlayEngrenagem2Solidao(source);
         transform.DOMove(initPos + moveTo * (subir ? 1 : 0), duration, false).SetEase(Ease.InSine);
         Invoke("StopAudioSource", duration);
@@ -49,5 +57,7 @@ public class Elevator : MonoBehaviour
     private void StopAudioSource()
     {
         source.Stop();
+
+        if (manivela) manivela.SetTrigger("Stop");
     }
 }

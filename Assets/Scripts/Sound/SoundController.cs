@@ -22,9 +22,9 @@ public class SoundController : Singleton<SoundController>
 
     private void Awake()
     {
+        CreateBuffer();
         CreateAudioSources();
         LoadPlayerPrefs();
-        CreateBuffer();
     }
 
     private void CreateAudioSources()
