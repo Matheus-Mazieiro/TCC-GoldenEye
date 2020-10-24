@@ -59,8 +59,12 @@ public class Movement : MonoBehaviour
 
     Coroutine isTired;
 
+    public bool locked;
+
     private void Awake()
     {
+        locked = false;
+
         if (loadPlayerPos)
         {
             PlayerData data = SaveSystem.LoadPlayer();
@@ -105,7 +109,7 @@ public class Movement : MonoBehaviour
         }
 
         //Jump
-        if (myCC.isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (myCC.isGrounded && Input.GetKeyDown(KeyCode.Space) && !locked)
         {
             direction.y = jump;
             soundConfig.PlayPJPulo();
@@ -176,6 +180,25 @@ public class Movement : MonoBehaviour
                 handle.action.Invoke();
                 handle = null;
             }
+        }
+
+        if (locked)
+        {
+            Vector3 _locked = Vector3.zero;
+
+            if (direction.y < 0) _locked.y = direction.y;
+
+            direction = _locked;
+
+            if (m_isCrouching)
+            {
+                audioKit = 0;
+                m_isCrouching = false;
+                myCC.height = 2;
+                myCC.center = new Vector3(myCC.center.x, myCC.center.y + .75f, myCC.center.z);
+            }
+
+            m_isRunning = false;
         }
 
         myCC.Move(direction * Time.deltaTime);
