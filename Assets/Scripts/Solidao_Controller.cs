@@ -23,6 +23,11 @@ public class Solidao_Controller : MonoBehaviour
     string solidaoEngrenagem2SoundPath = "Sounds/Props/solidao-sfx-engrenagem2";
 
     string solidaoPonteMadeiraSoundPath = "Sounds/Props/solidao3-sfx-ponte-de-madeira";
+    string solidaoEstatuaSoundPath = "Sounds/Props/solidao3-sfx-estatua-caindo";
+    string solidaoChaoPedraSoundPath = "Sounds/Props/solidao4-sfx-chao-pedra";
+    string solidaoChaoMadeiraSoundPath = "Sounds/Props/solidao4-sfx-chao-madeira";
+    string solidaoMadeiraMarteloSoundPath = "Sounds/Props/solidao3-sfx-madeira-e-martelo";
+    string solidaoMemoriasSoundPath = "Sounds/Props/solidao4-sfx-memoria-criancas";
 
     void Start()
     {
@@ -61,6 +66,12 @@ public class Solidao_Controller : MonoBehaviour
         soundController.AddToBuffer(solidaoEngrenagem2SoundPath);
 
         soundController.AddToBuffer(solidaoPonteMadeiraSoundPath);
+        soundController.AddToBuffer(solidaoEstatuaSoundPath);
+        soundController.AddToBuffer(solidaoChaoPedraSoundPath);
+        soundController.AddToBuffer(solidaoChaoMadeiraSoundPath);
+        soundController.AddToBuffer(solidaoChaoMadeiraSoundPath);
+        soundController.AddToBuffer(solidaoMadeiraMarteloSoundPath);
+        soundController.AddToBuffer(solidaoMemoriasSoundPath);
     }
 
     //Solidão
@@ -76,6 +87,11 @@ public class Solidao_Controller : MonoBehaviour
     public void PlayEngrenagem2Solidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoEngrenagem2SoundPath, true);
 
     public void PlayPonteMadeiraSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoPonteMadeiraSoundPath, true);
+    public void PlayEstatuaQuebrandoSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoEstatuaSoundPath, true);
+    public void PlayChaoPedraSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoChaoPedraSoundPath, true);
+    public void PlayChaoMadeiraSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoChaoMadeiraSoundPath, true);
+    public void PlayPlataformaMadeiraMarteloSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoMadeiraMarteloSoundPath, true);
+    public void PlayMemoriasSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoMemoriasSoundPath, true);
 
     public void PlayMusicaAmbiente1Solidao() => soundController.PlayMusicTransitionByFileName(musicaSolidaoAmbiente1SoundPath, true);
     public void PlayMusicaAmbiente3Solidao() => soundController.PlayMusicTransitionByFileName(musicaSolidaoAmbiente3SoundPath, true);

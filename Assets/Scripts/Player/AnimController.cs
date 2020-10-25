@@ -15,6 +15,10 @@ public class AnimController : MonoBehaviour
     public Animator mao_segura_Melki;
     public Animator mao_levanta_pedra;
 
+    public Solidao_Controller solidao;
+    public AudioSource porta_solidao;
+    public AudioSource cavalinho_solidao;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +45,15 @@ public class AnimController : MonoBehaviour
         anim.SetTrigger("pulo");
     }
 
+    public void PickUpHammer()
+    {
+        LockPlayer();
+
+        anim.SetTrigger("pega_item");
+
+        Invoke("UnlockPlayer", 1.15f);
+    }
+
     public void HitHammer()
     {
         LockPlayer();
@@ -56,6 +69,7 @@ public class AnimController : MonoBehaviour
         {
             porta_martelinho.Play("Take 001");
             if (martelinho) martelinho.BreakSelf();
+            if (solidao) solidao.PlayPortaSolidao(porta_solidao);
         }
 
         Invoke("UnlockPlayer", 1.15f);
@@ -76,6 +90,8 @@ public class AnimController : MonoBehaviour
     IEnumerator AnimacaoFinalSolidao()
     {
         LockPlayer();
+
+        if (solidao) solidao.PlayMemoriasSolidao(cavalinho_solidao);
 
         if (mao_segura_Melki) mao_segura_Melki.Play("Take 001");
 

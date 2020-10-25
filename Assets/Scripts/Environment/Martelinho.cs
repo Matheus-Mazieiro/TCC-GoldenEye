@@ -5,6 +5,7 @@ using UnityEngine.Animations;
 
 public class Martelinho : MonoBehaviour
 {
+    public AnimController player;
     ParentConstraint constraint;
 
     private void Awake()
@@ -13,6 +14,12 @@ public class Martelinho : MonoBehaviour
     }
 
     public void SetOnHand()
+    {
+        player.PickUpHammer();
+        Invoke("PickUp", 1f);
+    }
+
+    void PickUp()
     {
         constraint.constraintActive = true;
     }
