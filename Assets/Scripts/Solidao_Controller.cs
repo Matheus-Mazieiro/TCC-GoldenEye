@@ -28,6 +28,7 @@ public class Solidao_Controller : MonoBehaviour
     string solidaoChaoMadeiraSoundPath = "Sounds/Props/solidao4-sfx-chao-madeira";
     string solidaoMadeiraMarteloSoundPath = "Sounds/Props/solidao3-sfx-madeira-e-martelo";
     string solidaoMemoriasSoundPath = "Sounds/Props/solidao4-sfx-memoria-criancas";
+    string solidaoAghartaLevantaMelkiSoundPath = "Sounds/Props/Agharta-solidao4-levantando-Melki";
 
     void Start()
     {
@@ -72,6 +73,7 @@ public class Solidao_Controller : MonoBehaviour
         soundController.AddToBuffer(solidaoChaoMadeiraSoundPath);
         soundController.AddToBuffer(solidaoMadeiraMarteloSoundPath);
         soundController.AddToBuffer(solidaoMemoriasSoundPath);
+        soundController.AddToBuffer(solidaoAghartaLevantaMelkiSoundPath);
     }
 
     //Solidão
@@ -92,6 +94,7 @@ public class Solidao_Controller : MonoBehaviour
     public void PlayChaoMadeiraSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoChaoMadeiraSoundPath, true);
     public void PlayPlataformaMadeiraMarteloSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoMadeiraMarteloSoundPath, true);
     public void PlayMemoriasSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoMemoriasSoundPath, true);
+    public void PlayAghartaLevantaMelkiSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoAghartaLevantaMelkiSoundPath, true);
 
     public void PlayMusicaAmbiente1Solidao() => soundController.PlayMusicTransitionByFileName(musicaSolidaoAmbiente1SoundPath, true);
     public void PlayMusicaAmbiente3Solidao() => soundController.PlayMusicTransitionByFileName(musicaSolidaoAmbiente3SoundPath, true);
