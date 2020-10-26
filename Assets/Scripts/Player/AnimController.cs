@@ -46,6 +46,15 @@ public class AnimController : MonoBehaviour
         anim.SetTrigger("pulo");
     }
 
+    public void DerrubaPlataformaMadeira()
+    {
+        LockPlayer();
+
+        anim.SetTrigger("derruba_plataforma");
+
+        Invoke("UnlockPlayer", 3f);
+    }
+
     public void PickUpHammer()
     {
         LockPlayer();
@@ -61,7 +70,7 @@ public class AnimController : MonoBehaviour
 
         anim.SetTrigger("martelinho");
 
-        Invoke("BreakHammer", 0.9f);
+        Invoke("BreakHammer", 0.8f);
     }
 
     void BreakHammer()
@@ -73,7 +82,7 @@ public class AnimController : MonoBehaviour
             if (solidao) solidao.PlayPortaSolidao(porta_solidao);
         }
 
-        Invoke("UnlockPlayer", 1.15f);
+        Invoke("UnlockPlayer", 1.2f);
     }
 
     void LockPlayer()
