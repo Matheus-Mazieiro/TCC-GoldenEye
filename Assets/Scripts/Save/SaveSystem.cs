@@ -32,7 +32,7 @@ public static class SaveSystem
             return data;
         } else
         {
-            Debug.LogError("[SaveSystem] File not found in " + path);
+            Debug.LogWarning("[SaveSystem] File not found in " + path);
             return null;
         }
     }
