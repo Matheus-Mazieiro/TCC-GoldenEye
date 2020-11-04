@@ -10,6 +10,8 @@ public class EnemyBehaviour : MonoBehaviour
     Transform[] navPoints;
     bool increasingIndex = true;
 
+    Coroutine checking;
+
     void Awake()
     {
         enemy = GetComponent<Enemy>();
@@ -23,6 +25,18 @@ public class EnemyBehaviour : MonoBehaviour
         SetShorterPathIndex();
         StartCoroutine(Path());
         StartCoroutine(Chase());
+    }
+
+    public void GoCheck(Vector3 dest)
+    {
+        if (checking != null)
+        {
+            StopCoroutine(checking);
+            checking = null;
+        }
+
+        enemy.SetState(Enemy.State.CHECKING);
+        checking = StartCoroutine(Check(dest));
     }
 
     void GotoNextNavPoint()
@@ -166,5 +180,46 @@ public class EnemyBehaviour : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    IEnumerator Check(Vector3 dest)
+    {
+        Vector3 init = transform.position;
+
+        navAgent.isStopped = false;
+        navAgent.speed = enemy.GetSpeed();
+        navAgent.SetDestination(dest);
+
+        float distance = enemy.GetDistanceThreshold();
+
+        while (Vector3.Distance(transform.position, dest) > distance)
+        {
+            if (enemy.IsDistracted() || !enemy.CompareState(Enemy.State.CHECKING))
+            {
+                StopCoroutine(checking);
+                checking = null;
+                break;
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+
+        yield return new WaitForSeconds(enemy.GetSearchDelay());
+
+        navAgent.SetDestination(init);
+
+        while (Vector3.Distance(transform.position, init) > distance)
+        {
+            if (enemy.IsDistracted() || !enemy.CompareState(Enemy.State.CHECKING))
+            {
+                StopCoroutine(checking);
+                checking = null;
+                break;
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+
+        enemy.SetState(Enemy.State.PATH);
     }
 }

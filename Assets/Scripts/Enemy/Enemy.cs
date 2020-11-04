@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] float maxAudioDistance;
     [SerializeField] int stepSoundType;
 
-    public enum State { PATH, CHASE, SEARCH, STONE, STONED, PENDULUM, PENDULUMD }
+    public enum State { PATH, CHASE, SEARCH, STONE, STONED, PENDULUM, PENDULUMD, CHECKING }
     public State state { get; private set; }
     public Transform player { get; private set; }
     public string playerTag { get; private set; }
