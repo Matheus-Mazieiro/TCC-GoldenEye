@@ -45,9 +45,12 @@ public class Elevator : MonoBehaviour
 
         if (initialSound) solidaoController.PlayRoldanaSolidao(initialSound);
 
-        solidaoController.PlayEngrenagem2Solidao(source);
+        if (source)
+        {
+            solidaoController.PlayEngrenagem2Solidao(source);
+            Invoke("StopAudioSource", duration);
+        }
         transform.DOMove(initPos + moveTo * (subir ? 1 : 0), duration, false).SetEase(Ease.InSine);
-        Invoke("StopAudioSource", duration);
     }
     public void MoveGameObject(Transform whoMoves)
     {
