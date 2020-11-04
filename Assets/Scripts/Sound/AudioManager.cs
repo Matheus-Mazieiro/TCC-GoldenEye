@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,14 +11,31 @@ public class AudioManager : MonoBehaviour
     AudioSource myAudioSource;
     [SerializeField] AudiosHelper[] audios;
 
+    public Slider sfxSlider, musicSlider;
+
     private void Start()
     {
         myAudioSource = GetComponent<AudioSource>() ?? null;
+
+        sfxSlider.value = SoundController.Instance.SFXVolume();
+        musicSlider.value = SoundController.Instance.MusicVolume();
     }
 
     public void OnSFXValueChanged(float value)
     {
         mixerSFX.SetFloat("Volume", value);
+
+        SoundController.Instance.ChangeSFXVolume((int)value);
+    }
+
+    public void OnMusicValueChanged(float value)
+    {
+        SoundController.Instance.ChangeMusicVolume((int)value);
+    }
+
+    public void OnBrightValueChanged(float value)
+    {
+        Screen.brightness = value;
     }
 
     /// <summary>

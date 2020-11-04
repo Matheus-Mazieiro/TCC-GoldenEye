@@ -95,6 +95,9 @@ public class SoundController : Singleton<SoundController>
             buffer.Add(fileName, Resources.Load<AudioClip>(fileName));
     }
 
+    public float SFXVolume() => lastSFXVolume;
+    public float MusicVolume() => lastMusicVolume;
+
     public void MuteAll()
     {
         mixer.SetFloat("MasterVolume", -80);
