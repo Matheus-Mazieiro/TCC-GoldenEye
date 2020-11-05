@@ -27,7 +27,7 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(Chase());
     }
 
-    public void GoCheck(Vector3 dest)
+    public void GoCheck(Transform dest)
     {
         if (checking != null)
         {
@@ -36,12 +36,24 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         enemy.SetState(Enemy.State.CHECKING);
-        checking = StartCoroutine(Check(dest));
+        checking = StartCoroutine(Check(dest.position));
     }
 
     void GotoNextNavPoint()
     {
         if (navPoints.Length == 0) return;
+
+        int count = 0;
+
+        while (navPoints[myNavPoint] == null)
+        {
+            count++;
+            if (count >= navPoints.Length) return;
+
+            myNavPoint++;
+
+            if (myNavPoint >= navPoints.Length) myNavPoint = 0;
+        }
 
         navAgent.SetDestination(navPoints[myNavPoint].position);
         navAgent.isStopped = false;
@@ -84,6 +96,8 @@ public class EnemyBehaviour : MonoBehaviour
 
         for (int i = 0; i < navPoints.Length; i++)
         {
+            if (navPoints[i] == null) continue;
+
             NavMeshPath path = new NavMeshPath();
             navAgent.CalculatePath(navPoints[i].position, path);
 
