@@ -6,6 +6,8 @@ using Cinemachine;
 
 public class SceneFunctions : MonoBehaviour
 {
+    public KeyCode nextLevel;
+    public int nextIndex;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "Menu")
@@ -15,6 +17,13 @@ public class SceneFunctions : MonoBehaviour
             if(Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera != null)
                 Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Priority = 9;
             GameObject.Find("Camera").GetComponent<CinemachineVirtualCamera>().Priority = 10;
+        }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(nextLevel))
+        {
+            GoToScene(nextIndex);
         }
     }
     public void GoToScene(int sceneIndex)
