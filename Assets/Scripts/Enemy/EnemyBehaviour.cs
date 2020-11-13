@@ -199,7 +199,7 @@ public class EnemyBehaviour : MonoBehaviour
     IEnumerator Check(Vector3 dest)
     {
         Vector3 init = transform.position;
-
+        Debug.Log(init);
         navAgent.isStopped = false;
         navAgent.speed = enemy.GetSpeed();
         navAgent.SetDestination(dest);
@@ -208,6 +208,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         while (Vector3.Distance(transform.position, dest) > distance)
         {
+            Debug.Log(Vector3.Distance(transform.position, dest));
             if (enemy.IsDistracted() || !enemy.CompareState(Enemy.State.CHECKING))
             {
                 StopCoroutine(checking);
@@ -219,7 +220,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         yield return new WaitForSeconds(enemy.GetSearchDelay());
-
+        Debug.Log(init);
         navAgent.SetDestination(init);
 
         while (Vector3.Distance(transform.position, init) > distance)
@@ -235,5 +236,11 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         enemy.SetState(Enemy.State.PATH);
+        Invoke("LookAt", 1);
+    }
+
+    void LookAt()
+    {
+        enemy.LookAt();
     }
 }

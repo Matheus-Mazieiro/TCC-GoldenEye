@@ -17,8 +17,8 @@ public class AudioManager : MonoBehaviour
     {
         myAudioSource = GetComponent<AudioSource>() ?? null;
 
-        sfxSlider.value = SoundController.Instance.SFXVolume();
-        musicSlider.value = SoundController.Instance.MusicVolume();
+        if (sfxSlider) sfxSlider.value = SoundController.Instance.SFXVolume();
+        if (musicSlider) musicSlider.value = SoundController.Instance.MusicVolume();
     }
 
     public void OnSFXValueChanged(float value)

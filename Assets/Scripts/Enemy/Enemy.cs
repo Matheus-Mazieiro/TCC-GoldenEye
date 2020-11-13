@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] bool distracted;
     [SerializeField] bool turnBack;
     [SerializeField] float distanceThreshold, speed, chaseSpeedMultiplier, searchDelay;
+    [SerializeField] Transform lookAt;
 
     [Header("Field of View")]
     [SerializeField] float maxAngle;
@@ -229,6 +230,12 @@ public class Enemy : MonoBehaviour
     public void Distract(int delay) => StartCoroutine(ApplyDistracted(delay));
 
     public bool CompareState(State _state) => state == _state;
+
+    public void LookAt()
+    {
+        Debug.Log(!!lookAt);
+        if (lookAt) transform.LookAt(lookAt);
+    }
 
     IEnumerator RemoveDistracted(int delay)
     {
