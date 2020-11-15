@@ -150,6 +150,7 @@ Material:
     m_Floats:
     - Vector1_32F86F33: 8.61
     - Vector1_35C61A23: 1
+    - Vector1_40FE2809: 0.4
     - Vector1_4F2C09FC: 0.36
     - Vector1_5375E28F: 1
     - Vector1_65A9BFEE: 1
@@ -157,6 +158,8 @@ Material:
     - Vector1_BDE545E3: 1
     - Vector1_C2AC08C2: 1
     - Vector1_D054E552: 0.5
+    - Vector1_DC211CD5: 0.4
+    - Vector1_E0969E78: 1
     - Vector1_E367F627: 1
     - Vector1_F5798568: 10
     - _AORemapMax: 1
