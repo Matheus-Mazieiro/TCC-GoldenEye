@@ -309,4 +309,20 @@ public class Movement : MonoBehaviour
         transform.position = target.position;
         myCC.enabled = true;
     }
+
+    public void LockFor(float seconds)
+    {
+        Lock();
+
+        if (IsInvoking("Unlock")) CancelInvoke("Unlock");
+        Invoke("Unlock", seconds);
+    }
+    public void Lock()
+    {
+        locked = true;
+    }
+    public void Unlock()
+    {
+        locked = false;
+    }
 }

@@ -8379,7 +8379,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901580841}
-  m_LocalRotation: {x: -0.07145057, y: -0.67935735, z: -0.06674387, w: 0.7272645}
+  m_LocalRotation: {x: -0.07145048, y: -0.6793574, z: -0.06674386, w: 0.72726446}
   m_LocalPosition: {x: -36.7, y: -34.1, z: -151.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13496,7 +13496,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1526320822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.88, y: 1.91, z: -1.33}
+  m_LocalPosition: {x: -19.42, y: 1.91, z: -1.33}
   m_LocalScale: {x: 3.4312, y: 3.7751, z: 6.2865024}
   m_Children: []
   m_Father: {fileID: 801847155}
@@ -13536,6 +13536,17 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 135379488}
+        m_MethodName: LockFor
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

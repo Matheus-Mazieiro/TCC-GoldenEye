@@ -199,7 +199,7 @@ public class EnemyBehaviour : MonoBehaviour
     IEnumerator Check(Vector3 dest)
     {
         Vector3 init = transform.position;
-        Debug.Log(init);
+        
         navAgent.isStopped = false;
         navAgent.speed = enemy.GetSpeed();
         navAgent.SetDestination(dest);

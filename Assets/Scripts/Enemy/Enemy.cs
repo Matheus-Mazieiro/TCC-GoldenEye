@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
 
         state = State.PATH;
 
-        if (chaseSpeedMultiplier < 1) chaseSpeedMultiplier = 1;
+        if (chaseSpeedMultiplier < 1.1f) chaseSpeedMultiplier = 1.1f;
 
         playerTag = "Player";
 
@@ -154,6 +154,15 @@ public class Enemy : MonoBehaviour
                 {
                     animator.GetChild(0).gameObject.SetActive(false);
                     animator.GetChild(1).gameObject.SetActive(true);
+                    animator.GetChild(2).gameObject.SetActive(false);
+                }
+            }
+            else if (state == State.CHECKING)
+            {
+                if (animator.GetChild(0).gameObject.activeInHierarchy == false)
+                {
+                    animator.GetChild(0).gameObject.SetActive(true);
+                    animator.GetChild(1).gameObject.SetActive(false);
                     animator.GetChild(2).gameObject.SetActive(false);
                 }
             }
