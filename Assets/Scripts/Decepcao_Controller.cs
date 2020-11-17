@@ -18,6 +18,11 @@ public class Decepcao_Controller : MonoBehaviour
     string ponteQuebrandoSoundPath = "Sounds/Props/decepcao2-sfx-ponte-quebrando";
     string portaMadeiraSoundPath = "Sounds/Props/decepcao2-sfx-porta-madeira";
     string elevador3SoundPath = "Sounds/Props/decepcao3-sfx-elevador";
+    string empurrandoRochasSoundPath = "Sounds/Props/decepcao2-sfx-empurrando-rochas";
+    string memoriaCulto1SoundPath = "Sounds/Props/decepcao2-sfx-memoria-culto1";
+    string memoriaCulto2SoundPath = "Sounds/Props/decepcao2-sfx-memoria-culto2";
+    string chaveSoundPath = "Sounds/Props/Decepcao-sfx-pegando-chave";
+    string estatuaQuebrandoSoundPath = "Sounds/Props/decepcao3-sfx-quebrando-estatua";
 
     void Start()
     {
@@ -51,6 +56,11 @@ public class Decepcao_Controller : MonoBehaviour
         soundController.AddToBuffer(ponteQuebrandoSoundPath);
         soundController.AddToBuffer(portaMadeiraSoundPath);
         soundController.AddToBuffer(elevador3SoundPath);
+        soundController.AddToBuffer(empurrandoRochasSoundPath);
+        soundController.AddToBuffer(memoriaCulto1SoundPath);
+        soundController.AddToBuffer(memoriaCulto2SoundPath);
+        soundController.AddToBuffer(chaveSoundPath);
+        soundController.AddToBuffer(estatuaQuebrandoSoundPath);
     }
 
     //Solidão
@@ -60,6 +70,11 @@ public class Decepcao_Controller : MonoBehaviour
     public void PlayPonteQuebrando(AudioSource source) => soundController.PlayOnSourceByFileName(source, ponteQuebrandoSoundPath, true);
     public void PlayPortaMadeira(AudioSource source) => soundController.PlayOnSourceByFileName(source, portaMadeiraSoundPath, true);
     public void PlayElevador3(AudioSource source) => soundController.PlayOnSourceByFileName(source, elevador3SoundPath, true);
+    public void PlayEmpurrandoRochas(AudioSource source) => soundController.PlayOnSourceByFileName(source, empurrandoRochasSoundPath, true);
+    public void PlayMemoriaCulto1(AudioSource source) => soundController.PlayOnSourceByFileName(source, memoriaCulto1SoundPath, true);
+    public void PlayMemoriaCulto2(AudioSource source) => soundController.PlayOnSourceByFileName(source, memoriaCulto2SoundPath, true);
+    public void PlayChave(AudioSource source) => soundController.PlayOnSourceByFileName(source, chaveSoundPath, true);
+    public void PlayEstatuaQuebrando(AudioSource source) => soundController.PlayOnSourceByFileName(source, estatuaQuebrandoSoundPath, true);
 
     public void PlayMusica() => soundController.PlayMusicTransitionByFileName(musicaSoundPath, true);
 }

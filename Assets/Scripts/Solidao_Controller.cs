@@ -29,6 +29,8 @@ public class Solidao_Controller : MonoBehaviour
     string solidaoMadeiraMarteloSoundPath = "Sounds/Props/solidao3-sfx-madeira-e-martelo";
     string solidaoMemoriasSoundPath = "Sounds/Props/solidao4-sfx-memoria-criancas";
     string solidaoAghartaLevantaMelkiSoundPath = "Sounds/Props/Agharta-solidao4-levantando-Melki";
+    string solidaoImpactoMarteloSoundPath = "Sounds/Props/soidao3-sfx-impacto-martelo";
+    string solidaoBotaoElevadorSoundPath = "Sounds/Props/solidao1-sfx-botao-puzzle-elevador";
 
     void Start()
     {
@@ -74,6 +76,8 @@ public class Solidao_Controller : MonoBehaviour
         soundController.AddToBuffer(solidaoMadeiraMarteloSoundPath);
         soundController.AddToBuffer(solidaoMemoriasSoundPath);
         soundController.AddToBuffer(solidaoAghartaLevantaMelkiSoundPath);
+        soundController.AddToBuffer(solidaoImpactoMarteloSoundPath);
+        soundController.AddToBuffer(solidaoBotaoElevadorSoundPath);
     }
 
     //Solidão
@@ -95,6 +99,8 @@ public class Solidao_Controller : MonoBehaviour
     public void PlayPlataformaMadeiraMarteloSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoMadeiraMarteloSoundPath, true);
     public void PlayMemoriasSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoMemoriasSoundPath, true);
     public void PlayAghartaLevantaMelkiSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoAghartaLevantaMelkiSoundPath, true);
+    public void PlayImpactoMarteloSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoImpactoMarteloSoundPath, true);
+    public void PlayBotaoElevadorSolidao(AudioSource source) => soundController.PlayOnSourceContinuouslyByFileName(source, solidaoBotaoElevadorSoundPath, true);
 
     public void PlayMusicaAmbiente1Solidao() => soundController.PlayMusicTransitionByFileName(musicaSolidaoAmbiente1SoundPath, true);
     public void PlayMusicaAmbiente3Solidao() => soundController.PlayMusicTransitionByFileName(musicaSolidaoAmbiente3SoundPath, true);
