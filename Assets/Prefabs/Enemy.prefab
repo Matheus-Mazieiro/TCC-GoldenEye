@@ -155,8 +155,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 8
+  m_Acceleration: 12
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0.5
@@ -179,20 +179,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e80b3f9fabceab43ae42753432d6b10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navPoints: []
-  randomizeNavPoints: 1
+  navPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  randomizeNavPoints: 0
   awakeChasing: 0
   distracted: 0
-  turnBack: 0
+  turnBack: 1
   distanceThreshold: 0.5
-  speed: 3.5
-  chaseSpeedMultiplier: 1.2
-  searchDelay: 2
+  speed: 4
+  chaseSpeedMultiplier: 1.5
+  searchDelay: 2.5
+  lookAt: {fileID: 0}
   maxAngle: 45
   maxDistance: 10
   rayCount: 12
   edgeIteration: 4
-  maxAudioDistance: 0
+  maxAudioDistance: 30
+  stepSoundType: 2
+  animator: {fileID: 0}
 --- !u!114 &6571892570167784500
 MonoBehaviour:
   m_ObjectHideFlags: 0
