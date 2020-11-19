@@ -112,10 +112,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
-      propertyPath: navPoints.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
       propertyPath: navPoints.Array.data[0]
       value: 
       objectReference: {fileID: 0}
@@ -134,34 +130,6 @@ PrefabInstance:
     - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
       propertyPath: navPoints.Array.data[4]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
-      propertyPath: searchDelay
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
-      propertyPath: randomizeNavPoints
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
-      propertyPath: awakeChasing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
-      propertyPath: chaseSpeedMultiplier
-      value: 1.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
-      propertyPath: maxAudioDistance
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
-      propertyPath: speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
-      propertyPath: stepSoundType
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3410752, guid: d9b671174d3e913418f7f8cd458023ec, type: 3}
       propertyPath: animator
