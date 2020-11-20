@@ -6,11 +6,12 @@ using UnityEngine.Animations;
 public class Martelinho : MonoBehaviour
 {
     public AnimController player;
-    ParentConstraint constraint;
+    [SerializeField] ParentConstraint constraint;
 
     private void Awake()
     {
-        constraint = GetComponent<ParentConstraint>();
+        if(constraint == null)
+            constraint = GetComponent<ParentConstraint>();
     }
 
     public void SetOnHand()
