@@ -16,13 +16,7 @@ public class Epilogue : MonoBehaviour
     [SerializeField] Image thanks;
     int idx = 0;
 
-    private IEnumerator Start()
-    {
-        yield return new WaitForSeconds(1f);
-        EndGameMethod();
-    }
-
-    void EndGameMethod()
+    public void EndGameMethod()
     {
         StartCoroutine(EndGame());
     }
