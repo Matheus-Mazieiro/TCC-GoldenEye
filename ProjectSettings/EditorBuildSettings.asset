@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/Medo.unity
     guid: c9596978844839d478312fba2234c50e
+  - enabled: 1
+    path: Assets/Scenes/Game/Intro.unity
+    guid: 8f72bd5bb9dcbd742b09eb1bed6cea3e
   m_configObjects: {}

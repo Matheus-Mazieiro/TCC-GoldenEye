@@ -11,7 +11,7 @@ public class Prelogue : MonoBehaviour
     [SerializeField] UnityEvent action;
     [SerializeField] UnityEvent cmAction;
     [SerializeField] Image blackScreen;
-    [SerializeField] Text yearsAfter;
+    [SerializeField] Image yearsAfter;
     [SerializeField] AudioSource heartBeat;
 
     IEnumerator Start()
